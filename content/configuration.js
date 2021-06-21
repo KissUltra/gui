@@ -205,6 +205,9 @@ CONTENT.configuration.initialize = function (callback) {
             document.getElementById('rxsbusfast').style.display = "inline";
 
         }
+        
+        // temp
+        document.getElementById('rxghost').style.display = "inline";
 
         if (data['ver'] < 117) {
             $("select[name='outputMode'] option[value='8']").remove();

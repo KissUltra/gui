@@ -234,6 +234,7 @@
     "rx-type.18": "FrSky F-Port",
     "rx-type.19": "FrSky F-Port (inverted)",
     "rx-type.20": "Futaba FAST S-BUS / DJI",
+    "rx-type.21": "IRC GHOST",
     "rx-type.2": "PPM:Thr.,Roll,Pitch,Yaw",
     "rx-type.3": "PPM:Pitch,Thr.,Roll,Yaw",
     "rx-type.4": "PPM:Thr.,Pitch,Yaw,Roll",

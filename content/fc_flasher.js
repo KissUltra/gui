@@ -79,10 +79,16 @@ CONTENT.fc_flasher.initialize = function (callback) {
     }
 
     function alignHexBlocks(hex, blockSize) {
+    	console.log("AP1");
         var ret = [];
         if (hex.data.length > 0) {
             for (var block = 0; block < hex.data.length; block++) {
+            	console.log("AP2 " + block);
                 var tailBytes = 0;
+                
+            	console.log("AP3 " +  hex.data[block].address + "  " +  hex.data[block].data.length);
+               
+                
                 if ((hex.data.length > 0) && ((block + 1) < hex.data.length)) tailBytes = hex.data[block + 1].address - hex.data[block].address - hex.data[block].data.length;
                 ret.push.apply(ret, hex.data[block].data);
                 for (var i = 0; i < tailBytes; i++) ret.push(0xff);
@@ -97,9 +103,12 @@ CONTENT.fc_flasher.initialize = function (callback) {
     }
 
     function parsePages(hex, blockSize) {
+    	console.log("CP3");
         self.pages = []
         var data = alignHexBlocks(self.parsed_hex, blockSize);
+        console.log("CP4");
         for (var page = 0; page < (data.length / blockSize); page++) {
+        	 console.log("CP5 " + page);
             var flashBlock = []
             flashBlock.push(80);
             flashBlock.push((page & 0xff));
@@ -140,7 +149,7 @@ CONTENT.fc_flasher.initialize = function (callback) {
                 } else {
                     self.WritePage();
                 }
-            }, self.curPage == (self.pages.length - 1) ? 5000 : 2000);
+            }, self.curPage == (self.pages.length - 1) ? 15000 : 5000);
         }
     }
 
@@ -307,8 +316,10 @@ CONTENT.fc_flasher.initialize = function (callback) {
 
                 self.flashing = false;
 
+                console.log("CP 1");
                 // prepare data to flash 
                 parsePages(self.parsed_hex, BLOCK_SIZE);
+                console.log("CP 2");
 
                 console.log(self.pages);
 

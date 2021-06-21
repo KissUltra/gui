@@ -1,3 +1,5 @@
+@import "variables";
+
 * {
 	margin: 0;
 	padding: 0;
@@ -14,8 +16,11 @@ html, body {
 body {
 	font-family: sans-serif;
 	font-size: 12px;
-	color: white;
-	background-color: #1e1e1e;
+	color: $text-color;
+	background-color: $background-color;
+/*	background-image: url("images/ultra_gold.png");
+	background-repeat: no-repeat;
+  	background-size: cover;*/
 }
 
 a {
@@ -92,7 +97,8 @@ input[type="number"]::-webkit-inner-spin-button {
 	margin: 0 0 10px 0;
 	padding: 0 5px 0 0;
 	height: 30px;
-	border-bottom: 2px solid #ad0d0d;
+	border-bottom: 2px solid #756c0a;
+	/*#ad0d0d*/
 	z-index: 1000;
 	/* overflow: hidden; */
     position: fixed; /* Set the navbar to fixed position */
@@ -107,7 +113,7 @@ input[type="number"]::-webkit-inner-spin-button {
 	width: 150px;
 	height: 20px;
 	line-height: 20px;
-	border: 1px solid #ad0d0d;
+	border: 1px solid #756c0a;
 }
 
 #portArea .connect {
@@ -117,14 +123,15 @@ input[type="number"]::-webkit-inner-spin-button {
 	line-height: 18px;
 	width: 90px;
 	font-weight: bold;
-	color: #f2ffff;
+	color:  $button-text-normal;
 	text-align: center;
-	border: 1px solid #ad0d0d;
-	background-color: #ad0d0d;
+    border: 1px solid  $button-border-normal;
+    background-color: $button-background-normal;
+    text-shadow: 1px 1px 0 #444;
 }
 
 #portArea .connect:hover {
-	background-color: #d01414;
+	background-color: $button-bakground-hover;
 }
 
 #navigation {
@@ -139,25 +146,23 @@ input[type="number"]::-webkit-inner-spin-button {
 	line-height: 20px;
 	padding: 0 10px 0 10px;
 	text-align: center;
-	
-	background-color: #430505;
-    color: #888;
+	background-color: #756c0a;
+    color: #969a54;
 }
 
 #navigation li.unlocked.selected {
-	background-color: #d01414;
+	background-color: #cec12f;
 } 
 
 #navigation li.unlocked {
 	cursor: pointer;
-	background-color: #830a0a;
 	color: #fff;
 }
 
 
 #navigation li.unlocked:hover {
 	cursor: pointer;
-	background-color: #d01414;
+	background-color: #cec12f;
 	color: #fff;
 }
 
@@ -362,7 +367,7 @@ input[type="number"]::-webkit-inner-spin-button {
 	left: 0px;
 	width: 100%;
 	height: calc(100% - 30px);
-	background-image: url("../images/warning_stripe.png");
+	background-image: url("images/warning_stripe.png");
 }
 
 .warning-disclaimer-inner {
@@ -371,32 +376,32 @@ input[type="number"]::-webkit-inner-spin-button {
 	margin: 25px;
 	background-color: black;
     text-align: center;
-}
 
-.warning-disclaimer-inner .warning1 {
-    font-size: 30px;
-    color: #d01414;
-    padding-top: 30px;
-    text-align: center;
-}
-
-.warning-disclaimer-inner .warning2 {
-    font-size: 20px;
-    color: #ffffff;
-    padding-top: 30px;
-    text-align: center;
-}
-
-.warning-disclaimer-inner .warning-button {
-  	margin: 40px 0 0 0;
-    color: white;
-    padding: 10px 10px 10px 10px;
-    height: 24px;
-    line-height: 24px;
-    background-color: #830a0a;
-    font-size: 16px;
-}
-
-.warning-disclaimer-inner .warning-button:hover {
-    background-color: #d01414;
+	.warning1 {
+	    font-size: 30px;
+	    color: #d01414;
+	    padding-top: 30px;
+	    text-align: center;
+	}
+	
+	.warning2 {
+	    font-size: 20px;
+	    color: #ffffff;
+	    padding-top: 30px;
+	    text-align: center;
+	}
+	
+	.warning-button {
+	  	margin: 40px 0 0 0;
+	    color: white;
+	    padding: 10px 10px 10px 10px;
+	    height: 24px;
+	    line-height: 24px;
+	    background-color: $background-color;
+	    font-size: 16px;
+	}
+	
+	.warning-button:hover {
+	    background-color: #d01414;
+	}
 }

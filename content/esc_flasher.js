@@ -215,6 +215,7 @@ CONTENT.esc_flasher.initialize = function (callback) {
                         if (escDetected != "" && board != escDetected) add = false;
                         var escBoardNames = {
                             'KISS32A': "Kiss Racing 32A ESC",
+                            'ULTRA45A': "Kiss ULTRA 45A ESC",
                             'KISS24A': "Kiss Racing 24A ESC",
                             'KISS16A': "Kiss AIOv2 ESC",
                             'KISS8A': "Kiss AIOv1 ESC",

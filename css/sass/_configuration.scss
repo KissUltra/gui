@@ -1,0 +1,178 @@
+@import "variables";
+
+
+.configuration {
+
+ 	padding-bottom: 50px;
+ 
+	.mixer {
+	    float: left;
+	}
+	
+	.mixerPreview {
+	    margin-left: 140px;
+	    width: 150px;
+	    height: 100px;
+	}
+	
+	select {
+	    height: 22px;
+	    border: 1px solid silver;
+	}
+	
+	input[type="text"] {
+	    width: 70px;
+	    height: 20px;
+	    line-height: 20px;
+	    text-align: right;
+	    border: 1px solid silver;
+	}
+	
+	input[type="number"] {
+	    width: 70px;
+	    height: 20px;
+	    line-height: 20px;
+	    text-align: right;
+	    border: 1px solid silver;
+	}
+	
+	dl.general-settings {
+	    margin-bottom: 10px;
+	}
+	
+	dt {
+	    float: left;
+	    width: 100px;
+	    height: 27px;
+	    line-height: 24px;
+	}
+	
+	dd {
+	    margin-left: 100px;
+	    height: 27px;
+	}
+	
+	dd input[type="checkbox"] {
+	    position: relative;
+	    top: 3px;
+	    margin-left: 30px;
+	}
+	
+	.pid_rates {
+	    border-collapse: collapse;
+	    
+	    tr {
+	    	height: 25px;
+		}
+		
+		th {
+	    	width: 60px;
+	    	padding-right: 5px;
+	    	text-align: center;
+		}
+		
+		td {
+	    	width: 60px;
+		}
+		
+		input {
+	    	width: 60px;
+		}
+		
+		.name {
+	    	width: 40px;
+		}
+	}
+
+	.aux_setting {
+	 	dt {
+	    	width: 60px;
+		}
+	
+		dd {
+	    	margin-left: 60px;
+		}
+	}
+	
+	
+	
+	.rates {
+		tr>*:nth-child(1) {
+	    	display: none;
+	    	width: 50px;
+		}
+	}
+	
+	
+	.pids { 
+		tr>*:nth-child(1) {
+	    	width: 50px;
+		}
+	}
+	
+	.levels {
+		tr>*:nth-child(1) {
+	    	width: 50px;
+		}
+	}
+	
+	
+	dt.ssid-title {
+	    width: 140px;
+	}
+ 
+}
+
+
+
+#shareButton {
+    width: 78px;
+    text-align: center;
+    cursor: pointer;
+    display: inline-block;
+    background-color: #333;
+    height: 18px;
+    padding-top: 4px;
+}
+
+#userSel {
+    display: none;
+}
+
+.external_link_button {
+    margin: 40px 0 0 0;
+    color: white;
+    padding: 10px 10px 10px 10px;
+    height: 24px;
+    line-height: 24px;
+    background-color: $background-color;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+#save.saveAct {
+    background-color: $background-color;
+}
+
+#BoardRotation {
+    width: 72px;
+    height: 22px;
+}
+
+.minicolors input[type=hidden]+.minicolors-swatch {
+    position: relative;
+    cursor: pointer;
+    top: -1px;
+    width: 18px;
+    height: 18px;
+}
+
+#userSel {
+    width: 200px;
+}
+
+.tricopter {
+    display: none;
+}
+
+
