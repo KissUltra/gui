@@ -1,8 +1,8 @@
 {
-  "name": "kiss-gui",
+  "name": "kissultra-gui",
   "main": "start.js",
   "version": "2.0.27",
-  "description": "KISSFC Configuration tool",
+  "description": "KISS ULTRA FCFC Configuration tool",
   "single-instance": true,
   "scripts": {
     "start": "node node_modules/gulp/bin/gulp.js debug",
@@ -12,7 +12,7 @@
     "build_all": "node node_modules/gulp/bin/gulp.js release --osx64 --win32 --win64 --linux64 --chromeos"
   },
   "window": {
-    "title": "KISS GUI",
+    "title": "KISS ULTRA FCFC GUI",
     "icon": "images/icon_128.png",
     "min_width": 900,
     "min_height": 600,
@@ -27,7 +27,7 @@
   },
   "author": "Flyduino, Alexander Fedorov & Carsten Wache",
   "license": "GPL-3.0",
-  "chromium-args": "--child-clean-exit --enable-webgl --ignore-gpu-blacklist --disable-pinch",
+  "chromium-args": "--disable-features=nw2 --child-clean-exit --enable-webgl --ignore-gpu-blacklist --disable-pinch",
   "webkit": {
     "plugin": true
   },
@@ -47,6 +47,7 @@
     "gulp-zip": "^4.2.0",
     "makensis": "^0.18.1",
     "nw": "^0.37.4",
+    "nw-dialog": "^1.0.7",
     "nw-builder": "^3.5.7",
     "os": "^0.1.1",
     "platform-dependent-modules": "0.0.14",

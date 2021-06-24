@@ -18,9 +18,6 @@ body {
 	font-size: 12px;
 	color: $text-color;
 	background-color: $background-color;
-/*	background-image: url("images/ultra_gold.png");
-	background-repeat: no-repeat;
-  	background-size: cover;*/
 }
 
 a {
@@ -96,15 +93,19 @@ input[type="number"]::-webkit-inner-spin-button {
 #portArea {
 	margin: 0 0 10px 0;
 	padding: 0 5px 0 0;
-	height: 30px;
-	border-bottom: 2px solid #756c0a;
+
+	//border-bottom: 2px solid #756c0a; 
 	/*#ad0d0d*/
 	z-index: 1000;
+	
 	/* overflow: hidden; */
     position: fixed; /* Set the navbar to fixed position */
     top: 0; /* Position the navbar at the top of the page */
     width: 100%; /* Full width */
-    background-color: #1e1e1e;
+    background-color: #000;
+     display: flex;
+     justify-content:  space-between;
+     flex-wrap: nowrap;
 }
 
 #portArea #port {
@@ -175,10 +176,7 @@ input[type="number"]::-webkit-inner-spin-button {
 	margin: 0 0 0 10px;
 	width: calc(100% - 40px);
 	height: calc(100% - 70px);
-	/*
-    border: 2px solid #ad0d0d;
-    */
-    margin-top: 30px;
+    margin-top: 50px;
     overflow-x: hidden;
     overflow-y: scroll;
 }
@@ -211,24 +209,6 @@ input[type="number"]::-webkit-inner-spin-button {
 	height: 20px;
 	bottom: 25px;
 	padding: 0px;
-}
-
-.navigation-menu-button  {
-	float: right;
-	margin: 5px 0 0 5px;
-	height: 18px;
-	line-height: 18px;
-	font-weight: bold;
-	width: 90px;
-	color: #f2ffff;
-	text-align: center;
-	border: 1px solid #ad0d0d;
-	background-color: #ad0d0d;
-	display: none;
-}
-
-.navigation-menu-button:hover {
-	background-color: #d01414;
 }
 
 .wrapper-wide {
@@ -404,4 +384,39 @@ input[type="number"]::-webkit-inner-spin-button {
 	.warning-button:hover {
 	    background-color: #d01414;
 	}
+}
+
+
+.navigation-menu-button {
+  background-color: #151515;
+  border-bottom: 1px solid #756c0a;
+  border-top: 1px solid #151515;
+  // border-left: 1px solid #151515;
+   // border-right: 1px solid #151515;
+  color: #888;
+  float: left;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 14px;
+  font-size: 14px;
+  margin: 0px;
+  transition: 0.25s background ease;
+  &.active-menu {
+    background-color: $background-color;
+    color: #fff;
+    border: 1px solid #756c0a;
+  	border-bottom: 1px solid transparent;
+  }
+}
+
+.navigation-menu-button:hover {
+  background-color: #777;
+}
+
+
+.portSelector {
+ 	border-bottom: 1px solid #756c0a;
+ 	flex-grow: 10;
+ 	padding-top: 10px;
+    padding-left: 20px;
 }

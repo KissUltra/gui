@@ -12,12 +12,6 @@ $(document).ready(function () {
 
         if (selectedPort != '0') {
 
-            if (selectedPort == KISSFC_WIFI) {
-                $("li[data-name='wifi']").show();
-            } else {
-                $("li[data-name='wifi']").hide();
-            }
-
             if (GUI.state == "CONNECT") {
                 GUI.switchToConnecting();
                 console.log('Connecting to: ' + selectedPort);

@@ -143,9 +143,10 @@ GUI.contentSwitchCleanup = function (callback) {
 GUI.switchContent = function (newContent, callback) {
     if (GUI.activeContent != newContent) {
         console.log('Switching content to ' + newContent);
+        
+        $("#navigation button").removeClass("active-menu");
 
-        $('#navigation li').removeClass('selected');
-        $("#navigation li[data-name='" + newContent + "']").addClass('selected')
+        $("#navigation button[data-name='" + newContent + "']").addClass('active-menu')
 
         GUI.activeContent = newContent;
         kissProtocol.clearPendingRequests(function () {
@@ -173,7 +174,7 @@ GUI.switchToConnect = function () {
     $('#port').prop('disabled', false);
     $('a.connect').text($.i18n('menu.connect'));
     $('a.connect').removeClass('active');
-    $('#navigation li:not([data-name="welcome"])').removeClass('unlocked');
+    $('#navigation button:not([data-name="welcome"])').removeClass('unlocked');
     $('#navigation').show();
     GUI.state = "CONNECT";
 }
@@ -188,6 +189,6 @@ GUI.switchToConnecting = function () {
 GUI.switchToDisconnect = function () {
     // set button to disconnect
     $('a.connect').text($.i18n("menu.disconnect")).addClass('active');
-    $('#navigation li').addClass('unlocked');
+    $('#navigation button').addClass('unlocked');
     GUI.state = "DISCONNECT";
 }

@@ -30,8 +30,8 @@ var nwBuilderOptions = {
   files: "./dist/**/*",
   macIcns: './images/icon_128.icns',
   macPlist: {
-    CFBundleDisplayName: "KISS GUI",
-    CFBundleIdentifier: "com.flyduino.kissgui"
+    CFBundleDisplayName: "KISS ULTRA FCFC GUI",
+    CFBundleIdentifier: "org.anuta.kissultragui"
   },
   //    winIco: './images/icon_128.ico',
   zip: false
@@ -243,14 +243,7 @@ function clean_cache() {
 function dist_src() {
   var distSources = [
     // CSS files
-    './main.css',
-    './js/libraries/jquery.minicolors.css',
-    './js/libraries/jquery-ui.css',
-    './js/libraries/jquery-ui.structure.min.css',
-    './js/libraries/jquery-ui.theme.min.css',   
-    './js/plugins/jquery.kiss.aux.css',
-    './js/plugins/jquery.kiss.warning.css',
-    './content/*.css',
+    './css/css/style.css',
 
     // JavaScript
     './js/libraries/github.js',
@@ -265,7 +258,6 @@ function dist_src() {
     './js/libraries/three.min.js',
     './js/libraries/i18n/*.js',
     './js/plugins/jquery.kiss.*.js',
-    './js/android_otg_serial.js',
     './js/chrome_serial.js',
     './js/connection_handler.js',
     './js/gui.js',
@@ -274,7 +266,6 @@ function dist_src() {
     './js/protocol.js',
     './js/serial.js',
     './js/startup.js',
-    './js/websocket_serial.js',
 
     // Tabs
     './start.js',

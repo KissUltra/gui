@@ -57,6 +57,8 @@ var kissProtocol = {
 	SET_RTH_SETTINGS: 0x71,
 
 	GET_HOME_INFO: 0x72,
+	
+	GET_OSD: 0x7F,
 
     block: false,
     ready: false,
@@ -88,7 +90,7 @@ kissProtocol.read = function (readInfo) {
             switch (this.state) {
                 case 0:
                     // wait for start byte
-                    if ((data[i] == 5) || (data[i] == kissProtocol.GET_GPS) || (data[i] == kissProtocol.GET_HOME_INFO)) this.state++;
+                    if ((data[i] == 5) || (data[i] == kissProtocol.GET_GPS) || (data[i] == kissProtocol.GET_HOME_INFO) || (data[i] == kissProtocol.GET_OSD)) this.state++;
                     else this.state = 0;
                     this.errCase++;
                     if (this.errCase > 3) {
@@ -699,6 +701,9 @@ kissProtocol.processPacket = function (code, obj) {
         	
         case this.SCHEDULE_REQUEST:
         	break;
+        	
+        case this.GET_OSD:
+        	break;
 
         default:
             console.log('Unknown code received: ' + code);
@@ -717,6 +722,14 @@ kissProtocol.preparePacket = function (code, obj) {
     var crcCounter = 0;
 
     switch (code) {
+    
+    	case this.GET_OSD:
+    		data.setUint16(0, obj.address, 0);
+    		data.setUint16(2, obj.chunkSize, 0);
+    		blen = 4;
+    	break;
+
+  
         case this.SET_SETTINGS:
 
 
@@ -940,7 +953,7 @@ kissProtocol.preparePacket = function (code, obj) {
     outputU8[2] = blen;
 
     var ver = +kissProtocol.data[kissProtocol.GET_SETTINGS].ver;
-    console.log("using version: " + ver);
+    //console.log("using version: " + ver);
 
     for (var i = 0; i < blen; i++) {
         outputU8[i + 3] = bufferU8[i];

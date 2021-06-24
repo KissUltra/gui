@@ -70,32 +70,33 @@ $(document).ready(function () {
     changeLanguage();
 
     // Check for update
-    checkGithubRelease(chrome.runtime.getManifest().version);
+    //checkGithubRelease(chrome.runtime.getManifest().version);
 
     PortHandler.initialize();
     CONTENT.welcome.initialize();
-    $('#navigation li.external').hide();
-    $('#navigation li:not(.external)').click(function () {
+
+
+    $(".navigation-menu-button").on("click", function () {
+    	
         var self = this;
         var content = $(self).attr('data-name');
-
-        $("#navigation").removeClass("active-menu");
-
+        
         function content_ready() {
             GUI.contentSwitchInProgress = false;
         }
 
+        $("#navigation button").removeClass("active-menu");
+      
+        
         if ($(self).hasClass('unlocked') && GUI.activeContent != content) {
+        	$(self).addClass("active-menu");
             GUI.contentSwitchInProgress = true;
             GUI.contentSwitchCleanup(function () {
                 CONTENT[content].initialize();
             });
         }
+    	  
 
-    });
-
-    $(".navigation-menu-button").on("click", function () {
-        $("#navigation").toggleClass("active-menu");
     });
 });
 
