@@ -1,7 +1,7 @@
 {
   "name": "kissultra-gui",
   "main": "start.js",
-  "version": "2.0.27",
+  "version": "3.0.0",
   "description": "KISS ULTRA FCFC Configuration tool",
   "single-instance": true,
   "scripts": {
@@ -46,7 +46,7 @@
     "gulp-yarn": "^2.0.0",
     "gulp-zip": "^4.2.0",
     "makensis": "^0.18.1",
-    "nw": "^0.37.4",
+    "nw": "^0.54.0",
     "nw-dialog": "^1.0.7",
     "nw-builder": "^3.5.7",
     "os": "^0.1.1",
@@ -61,5 +61,8 @@
         "appdmg@0.6.0"
       ]
     }
+  },
+  "dependencies": {
+    "appdmg": "^0.6.0"
   }
 }

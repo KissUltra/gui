@@ -26,25 +26,25 @@ const DEBUG_DIR = "./debug/";
 const RELEASE_DIR = "./release/";
 
 var nwBuilderOptions = {
-  version: "0.36.4",
+  version: "0.54.0",
   files: "./dist/**/*",
   macIcns: './images/icon_128.icns',
   macPlist: {
-    CFBundleDisplayName: "KISS ULTRA FCFC GUI",
+    CFBundleDisplayName: "KISS ULTRA GUI",
     CFBundleIdentifier: "org.anuta.kissultragui"
   },
-  //    winIco: './images/icon_128.ico',
+  // winIco: './images/icon_128.ico',
   zip: false
 };
 
-//-----------------
-//Pre tasks operations
-//-----------------
+// -----------------
+// Pre tasks operations
+// -----------------
 const SELECTED_PLATFORMS = getInputPlatforms();
 
-//-----------------
-//Tasks
-//-----------------
+// -----------------
+// Tasks
+// -----------------
 
 gulp.task(
   "clean",
@@ -94,7 +94,8 @@ gulp.task("default", debugBuild);
 
 // Get platform from commandline args
 // #
-// # gulp <task> [<platform>]+        Run only for platform(s) (with <platform> one of --linux64, --linux32, --osx64, --win32, --win64, or --chromeos)
+// # gulp <task> [<platform>]+ Run only for platform(s) (with <platform> one of
+// --linux64, --linux32, --osx64, --win32, --win64, or --chromeos)
 // #
 function getInputPlatforms() {
   var supportedPlatforms = [
@@ -205,13 +206,13 @@ function getRunDebugAppCommand(arch) {
 function getReleaseFilename(platform, ext) {
   return (
     pkg.name +
-    "_" +
+    "-" +
     pkg.version +
     "-" +
-    git.branch() +
-    "_" +
-    git.short() +
-    "-" +
+//    git.branch() +
+//    "_" +
+//    git.short() +
+//    "-" +
     platform +
     "." +
     ext
@@ -254,8 +255,8 @@ function dist_src() {
     './js/libraries/jquery-ui.min.js',
     './js/libraries/semver.js',       
     './js/libraries/stm32usbdfu.js',
-    './js/libraries/three.js',
     './js/libraries/three.min.js',
+    './js/libraries/lz4.js',
     './js/libraries/i18n/*.js',
     './js/plugins/jquery.kiss.*.js',
     './js/chrome_serial.js',
@@ -273,6 +274,7 @@ function dist_src() {
     './content/*.js',
 
     // everything else
+    './css/css/images/*.*',
     './eventPage.js',
     './cordova.js', // For cordova
     './*.html',
@@ -428,14 +430,14 @@ function compressFiles(srcPath, basePath, outputFile, zipFolder) {
 
 // Create distribution package for macOS platform
 function osx64_sign(done) {
-  if (commandExistsSync("tmp/codesign.sh")) {
+  if (commandExistsSync("sign/codesign.sh")) {
     console.log("Codesign activity...");
-    execSync("tmp/codesign.sh", function(error, stdOut, stdErr) {
+    execSync("sign/codesign.sh", function(error, stdOut, stdErr) {
     });
   } else {
     console.log("No valid script for codesign");
   }
-  //release_zip("osx64",done);
+  // release_zip("osx64",done);
   release_osx64(done);
   return done();
 }
@@ -448,7 +450,7 @@ function release_osx64(done) {
     target: path.join(RELEASE_DIR, getReleaseFilename("macOS", "dmg")),
     basepath: path.join(APPS_DIR, pkg.name, "osx64"),
     specification: {
-      title: "KISS GUI",
+      title: "KISS ULTRA GUI",
       contents: [
         { x: 370, y: 170, type: "link", path: "/Applications" },
         {
@@ -456,7 +458,7 @@ function release_osx64(done) {
           y: 170,
           type: "file",
           path: pkg.name + ".app",
-          name: "KISS GUI.app"
+          name: "KISS ULTRA GUI.app"
         }
       ],
       icon: path.join(__dirname, 'images/icon_128.icns'),
