@@ -146,7 +146,7 @@ kissProtocol.read = function (readInfo) {
                     } else {
                         this.receiving = false;
                         this.state = 0;
-                        //console.log('kissProtocol: CRC Failed for last operation');
+                        console.log('kissProtocol: CRC Failed for last operation');
                         return;
                     }
 

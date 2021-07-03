@@ -231,8 +231,9 @@ function clean_debug() {
   return del([DEBUG_DIR + "**"], { force: true });
 }
 
-function clean_release() {
-  return del([RELEASE_DIR + "**"], { force: true });
+function clean_release(done) {
+  //return del([RELEASE_DIR + "**"], { force: true });
+    done();
 }
 
 function clean_cache() {
@@ -402,7 +403,7 @@ function release_zip(arch) {
   var output = getReleaseFilename(arch, "zip");
   var base = path.join(APPS_DIR, pkg.name, arch);
 
-  return compressFiles(src, base, output, "KISS GUI");
+  return compressFiles(src, base, output, "KISS ULTRA GUI");
 }
 
 // Create distribution package for chromeos platform
@@ -437,6 +438,7 @@ function osx64_sign(done) {
   } else {
     console.log("No valid script for codesign");
   }
+
   // release_zip("osx64",done);
   release_osx64(done);
   return done();

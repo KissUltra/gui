@@ -9,9 +9,12 @@ CONTENT.osd.initialize = function (callback) {
 
     self.startedUIupdate = 0;
     self.updateTimeout;
+    self.interval;
     self.frame = 0;
     self.address = 0xffff;
     self.chunkSize = 240;
+    self.flags = 0;
+    self.nvcounter = 0;
    
 	var Buffer = require('buffer').Buffer
 	self.compressedBuffer = Buffer.alloc(128*288); // max osd in bytes
@@ -21,6 +24,9 @@ CONTENT.osd.initialize = function (callback) {
 			htmlLoaded({});
 		});
 	});
+	
+
+	self.interval = window.setInterval(function() { self.nvcounter = 1 - self.nvcounter }, 500);
 
 
 	function htmlLoaded(data) {
@@ -47,6 +53,12 @@ CONTENT.osd.initialize = function (callback) {
 					// get thew rest of the data here
 					//console.log("Got INFO frame. Packet contains " + len + " bytes");
 					self.address = 0;
+					
+					self.flags  = lineData[16];
+					
+//					for (var i=0; i<17; i++) {
+//						console.log("var["+i+"]="+lineData[i]);
+//					}
 				} else {
 					if (len == 0) {
 						
@@ -54,7 +66,12 @@ CONTENT.osd.initialize = function (callback) {
 						
 						var LZ4 = require('lz4');
 						var uncompressedBuffer = Buffer.alloc(128*288);
-						var decoded = LZ4.decodeBlock(self.compressedBuffer, uncompressedBuffer);
+						var decoded = LZ4.decodeBlock(self.compressedBuffer, uncompressedBuffer, 0, self.compressedSize);
+						
+						if (decoded >0) {
+							
+							
+						
 						var c = document.getElementById("osd");
 						var ctx = c.getContext("2d");
 
@@ -90,8 +107,20 @@ CONTENT.osd.initialize = function (callback) {
 								}
 							}
 						}
-
-						ctx.putImageData(p, 0, 0);
+						
+						ctx.putImageData(p, -36, 3);
+					
+						if ((self.flags & 0x2) == 0) { // updateTimeout
+							
+							ctx.font="20px Monaco";
+							ctx.fillStyle = "lime";
+							ctx.textAlign = "center";
+							ctx.globalAlpha = 0.4;
+							ctx.fillText("NO VIDEO", 180, 270);
+						}
+						
+					}
+						
 					} else {
 						for (var i=0; i<len; i++) {
 							self.compressedBuffer.writeUInt8(lineData[i + 4], addr + i );
@@ -147,5 +176,8 @@ CONTENT.osd.resizeOSD = function () {
 CONTENT.osd.cleanup = function (callback) {
   //  $(window).off('resize', this.osdResize);
     window.clearTimeout(this.updateTimeout);
+	window.clearInterval(this.interval);
     if (callback) callback();
+    
+    
 };
