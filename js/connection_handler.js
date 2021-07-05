@@ -42,6 +42,7 @@ $(document).ready(function () {
     });
 
     function connected(openInfo) {
+    	console.log(openInfo);
         if (openInfo) {
             // update connectedTo
             GUI.connectedTo = GUI.connectingTo;

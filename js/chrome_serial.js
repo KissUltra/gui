@@ -88,7 +88,7 @@ var chromeSerial = {
                             }
                             break;
                         case 'timeout':
-                            // TODO
+                        	// TODO
                             break;
                         case 'device_lost':
                             // TODO
@@ -280,7 +280,7 @@ var chromeSerial = {
         return this.byteToHex(byte >> 8 & 0xff) + this.byteToHex(byte & 0xff);
     },
     dump: function (direction, data) {
-      /*  var view = new Uint8Array(data);
+       /* var view = new Uint8Array(data);
         var line = '';
         for (var i = 0; i < view.length; i++) {
             if (i%16==0) {
@@ -289,6 +289,20 @@ var chromeSerial = {
             }
             line +=  this.byteToHex(view[i]) + ' ';
          }
-        console.log(line);*/
+        console.log(line); */
+    },
+    reconnect: function(timeout, callback) {
+    	  var self = this;
+    	  var path = self.request.path;
+    	  var options = self.request.options;
+    	  console.log("Reconnecting: " + self.connectionId + " new path " + path + " options " + JSON.stringify(options));
+    	  self.disconnect(function (result) {
+    		  window.setTimeout(function() {
+    			  self.connect(path, options, function (connectionInfo) {
+        			  console.log("Reconnect: Connected");
+        			  callback(connectionInfo);
+        		  });
+    		  }, timeout);
+    	  });
     }
 };

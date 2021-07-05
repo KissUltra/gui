@@ -48,6 +48,19 @@ var fcFlasherReadHandler = function (info) {
     }
 }
 
+
+var fcFlasherReadErrorHandler = function (info) {
+	var self = CONTENT.fc_flasher;
+	if (info.error == "device_lost") {
+		console.log("Serial port lost during flashing, Ultra went to bootloader mode. Reconnecting...");
+		serialDevice.reconnect(2000, function(connectionInfo) {
+			serialDevice.onReceive.addListener(fcFlasherReadHandler);
+			console.log("Reconnected...");
+			self.reconnected = true;
+		});
+	}
+}
+
 CONTENT.fc_flasher.initialize = function (callback) {
     var self = this;
     self.receiveBuffer = [];
@@ -79,16 +92,10 @@ CONTENT.fc_flasher.initialize = function (callback) {
     }
 
     function alignHexBlocks(hex, blockSize) {
-    	console.log("AP1");
         var ret = [];
         if (hex.data.length > 0) {
             for (var block = 0; block < hex.data.length; block++) {
-            	console.log("AP2 " + block);
                 var tailBytes = 0;
-                
-            	console.log("AP3 " +  hex.data[block].address + "  " +  hex.data[block].data.length);
-               
-                
                 if ((hex.data.length > 0) && ((block + 1) < hex.data.length)) tailBytes = hex.data[block + 1].address - hex.data[block].address - hex.data[block].data.length;
                 ret.push.apply(ret, hex.data[block].data);
                 for (var i = 0; i < tailBytes; i++) ret.push(0xff);
@@ -103,12 +110,9 @@ CONTENT.fc_flasher.initialize = function (callback) {
     }
 
     function parsePages(hex, blockSize) {
-    	console.log("CP3");
         self.pages = []
         var data = alignHexBlocks(self.parsed_hex, blockSize);
-        console.log("CP4");
         for (var page = 0; page < (data.length / blockSize); page++) {
-        	 console.log("CP5 " + page);
             var flashBlock = []
             flashBlock.push(80);
             flashBlock.push((page & 0xff));
@@ -125,15 +129,19 @@ CONTENT.fc_flasher.initialize = function (callback) {
             self.flashing = false;
             console.log('Done.');
             $("#status").html($.i18n("text.fc-flasher-success"));
-            setTimeout(function () {
-                $("#portArea").children().removeClass('flashing-in-progress');
-                $("#menu").show();
-                $(".navigation-menu-button").css('display', '');
-                $("li[data-name='configuration']").click();
-            }, 3000);
+
+            setTimeout(function() {
+            	$("#portArea").show();
+            	GUI.switchToConnect();
+            	CONTENT.welcome.initialize(function() {});
+            }, 2000);
+     
             return;
         } else {
             self.receiveBuffer = [];
+            if (!self.flashing) {
+            	serialDevice.onReceiveError.removeListener(fcFlasherReadErrorHandler);
+            }
             self.flashing = true;
             var percentage = 100 - 100 * (self.curPage / self.pages.length);
             $("#status").html($.i18n("text.fc-flasher-progress", Math.floor(percentage + 0.5)));
@@ -164,6 +172,9 @@ CONTENT.fc_flasher.initialize = function (callback) {
 
         serialDevice.onReceive.removeListener(fcFlasherReadHandler);
         serialDevice.onReceive.addListener(fcFlasherReadHandler);
+        serialDevice.onReceiveError.removeListener(fcFlasherReadErrorHandler);
+        serialDevice.onReceiveError.addListener(fcFlasherReadErrorHandler);
+        
 
         var selectedPort = String($('#port').val());
 
@@ -202,7 +213,7 @@ CONTENT.fc_flasher.initialize = function (callback) {
             $("#status").hide();
 
             $.get(url, function (intel_hex) {
-                console.log("Loaded FC v2 hex file");
+                console.log("Loaded ULTRA hex file");
                 self.parsed_hex = read_hex_file(intel_hex);
 
                 $("#loader2").hide();
@@ -224,7 +235,7 @@ CONTENT.fc_flasher.initialize = function (callback) {
             fcFirmwares2 = [];
             $("#remote_fw").hide();
             $("#loader1").show();
-            loadGithubReleases("https://api.github.com/repos/flyduino/kissfcv2-firmware/releases", function (data) {
+            loadGithubReleases("https://api.github.com/repos/KissUltra/firmware/releases", function (data) {
                 $("#loader1").hide();
                 console.log("DONE");
                 console.log(data);
@@ -255,8 +266,7 @@ CONTENT.fc_flasher.initialize = function (callback) {
                     $("#fc_type").empty();
                     $("#fw_version").empty();
                     var fc2BoardNames = {
-                        'KISSFCV2F7': "Kiss FC v2 F7",
-                        'FETTEC_KISSFC': "FETtec KISS FC"
+                        'KISS_ULTRA': "FCFC_ULTRA"
                     };
                     $.each(fcFirmwareMap2, function (board, assets) {
                         var add = true;
@@ -278,7 +288,7 @@ CONTENT.fc_flasher.initialize = function (callback) {
                     }
 
                     chrome.fileSystem.getDisplayPath(fileEntry, function (path) {
-                        console.log('Loading fc v2 firmware from: ' + path);
+                        console.log('Loading ultra firmware from: ' + path);
                         fileEntry.file(function (file) {
                             var reader = new FileReader();
                             reader.onprogress = function (e) {
@@ -316,11 +326,8 @@ CONTENT.fc_flasher.initialize = function (callback) {
 
                 self.flashing = false;
 
-                console.log("CP 1");
                 // prepare data to flash 
                 parsePages(self.parsed_hex, BLOCK_SIZE);
-                console.log("CP 2");
-
                 console.log(self.pages);
 
                 $("#status").show().html("");
@@ -330,29 +337,47 @@ CONTENT.fc_flasher.initialize = function (callback) {
                 $("#download_url").addClass('disabled');
 
                 self.flasherAvailable = false;
-
+            	self.reconnected = false;
+            	
                 console.log('Resetting FC...');
                 self.Write([79, 72, 82, 69, 83, 69, 84], 0); // reset fc
 
                 self.rxState = 0;
                 console.log('Checking bootloader...');
+                
+                self.intcnt = 20;
+                
+                
                 self.Write([81, 255, 255, 125, 0], 0);       // check bootloader
-
-                console.log('Waiting for bootloader response');
-                setTimeout(function () {
-                    if (self.flasherAvailable) {
-                        console.log("Bootloader available, lets flash");
-                        $("#portArea").children().addClass('flashing-in-progress');
-                        $("#menu").hide();
-                        $(".navigation-menu-button").hide(); // hide menu during flashing
-                        self.retryCount = 0;
-                        self.curPage = self.pages.length - 1;
-                        self.WritePage();
-                    } else {
-                        console.log('got no answer. check your com port selection and see if you have the fc with bootloader.');
+                
+                self.interval = setInterval(function() {
+                	var self = CONTENT.fc_flasher;
+                	console.log('Waiting for bootloader response ' + self.intcnt);
+                	self.intcnt--;
+                	if (self.intcnt < 0) {
+                		clearInterval(self.interval);
+                		console.log('got no answer. check your com port selection and see if you have the fc with bootloader.');
                         $("#status").html("FAILURE: No response from bootloader!");
-                    }
-                }, 2000); // wait for 2 sec
+                	} else {
+                		 if (self.flasherAvailable) {
+                			 clearInterval(self.interval);
+                             console.log("Bootloader available, lets flash");
+                             $("#portArea").hide();
+                             //$("#menu").hide();
+                            // $(".navigation-menu-button").hide(); // hide menu during flashing
+                             self.retryCount = 0;
+                             self.curPage = self.pages.length - 1;
+                             self.WritePage();
+                         } else {
+                        	 if (self.reconnected) {
+                        		 console.log("Retry bootloader");
+                        		 self.Write([81, 255, 255, 125, 0], 0);       // check bootloader
+                        	 } else {
+                        		 console.log("Not yet reconnected");
+                        	 }
+                		 }	
+                	}
+                }, 500);
             }
         });
     };
@@ -361,5 +386,6 @@ CONTENT.fc_flasher.initialize = function (callback) {
 CONTENT.fc_flasher.cleanup = function (callback) {
     console.log("cleanup flasher");
     serialDevice.onReceive.removeListener(fcFlasherReadHandler);
+    serialDevice.onReceiveError.removeListener(fcFlasherReadErrorHandler);    
     if (callback) callback();
 };

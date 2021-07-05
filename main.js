@@ -1,6 +1,6 @@
 'use strict';
 
-const MIN_CONFIG_VERSION = 108; // this gui can manage versions in this range
+const MIN_CONFIG_VERSION = 126; // this gui can manage versions in this range
 const MAX_CONFIG_VERSION = 126;
 
 function getLanguage(callback) {
@@ -48,19 +48,20 @@ function changeLanguage() {
 }
 
 function checkGithubRelease(currVersion) {
-
-    $.get('https://api.github.com/repos/flyduino/kiss-gui/releases', function (releaseData) {
-        console.log('Loaded release information from GitHub.');
-        console.log('Latest release found: ' + releaseData[0].tag_name, ' parameter: ' + currVersion);
-        if (semver.gt(releaseData[0].tag_name, currVersion)) {
-            console.log('New version aviable!');
-            $("#dialogGUIupdate").dialog();
-
-        } else {
-            $("#dialogGUIupdate").hide();
-            console.log('Latest version!');
-        }
-    });
+    $("#dialogGUIupdate").hide();
+    // TODO: Point in the right direction
+//    $.get('https://api.github.com/repos/flyduino/kiss-gui/releases', function (releaseData) {
+//        console.log('Loaded release information from GitHub.');
+//        console.log('Latest release found: ' + releaseData[0].tag_name, ' parameter: ' + currVersion);
+//        if (semver.gt(releaseData[0].tag_name, currVersion)) {
+//            console.log('New version aviable!');
+//            $("#dialogGUIupdate").dialog();
+//
+//        } else {
+//            $("#dialogGUIupdate").hide();
+//            console.log('Latest version!');
+//        }
+//    });
 };
 
 $(document).ready(function () {
@@ -70,7 +71,7 @@ $(document).ready(function () {
     changeLanguage();
 
     // Check for update
-    //checkGithubRelease(chrome.runtime.getManifest().version);
+    checkGithubRelease(chrome.runtime.getManifest().version);
 
     PortHandler.initialize();
     CONTENT.welcome.initialize();
