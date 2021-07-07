@@ -127,7 +127,7 @@ CONTENT.esc_flasher.initialize = function (callback) {
             var asset = escFirmwareMap[$("#fc_type").val()][$(this).val()];
             $("#fw_notes").text(asset.info);
             $("#file_info").html("");
-            $("#flash").hide();
+            $("#flashp").hide();
             $("#status").hide();
         });
 
@@ -142,7 +142,7 @@ CONTENT.esc_flasher.initialize = function (callback) {
                 });
                 $("#fw_version").trigger("change");
                 $("#file_info").html("");
-                $("#flash").hide();
+                $("#flashp").hide();
                 $("#status").hide();
             };
         });
@@ -153,7 +153,7 @@ CONTENT.esc_flasher.initialize = function (callback) {
             var url = asset.url;
             console.log("Loading " + url);
             $("#file_info").html("");
-            $("#flash").hide();
+            $("#flashp").hide();
             $("#status").hide();
 
             $.get(url, function (intel_hex) {
@@ -165,18 +165,18 @@ CONTENT.esc_flasher.initialize = function (callback) {
                 if (self.pages !== undefined) {
                     console.log("HEX OS OK " + self.pages.length + " blocks loaded");
                     $("#file_info").html($.i18n("text.esc-flasher-loaded", self.pages.length, url));
-                    $("#flash").show();
+                    $("#flashp").show();
                 } else {
                     console.log("Corrupted esc firmware file");
                     $("#file_info").html($.i18n("text.esc-flasher-invalid-firmware"));
-                    $("#flash").hide();
+                    $("#flashp").hide();
                 }
             });
         });
 
         $("#download_file").on("click", function () {
             $("#file_info").html("");
-            $("#flash").hide();
+            $("#flashp").hide();
             escFirmwares = [];
             $("#remote_fw").hide();
             $("#loader1").show();
@@ -259,11 +259,11 @@ CONTENT.esc_flasher.initialize = function (callback) {
                                     if (self.pages !== undefined) {
                                         console.log("HEX OS OK " + self.pages.length + " blocks loaded");
                                         $("#file_info").html($.i18n("text.esc-flasher-loaded", self.pages.length, path));
-                                        $("#flash").show();
+                                        $("#flashp").show();
                                     } else {
                                         console.log("Corrupted esc firmware file");
                                         $("#file_info").html($.i18n("text.esc-flasher-invalid-firmware"));
-                                        $("#flash").hide();
+                                        $("#flashp").hide();
                                     }
                                 }
                             };

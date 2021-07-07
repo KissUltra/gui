@@ -61,7 +61,7 @@ CONTENT.flasher.initialize = function (callback) {
             var asset = firmwareMap[$("#fc_type").val()][$(this).val()];
             $("#fw_notes").text(asset.info);
             $("#file_info").html("");
-            $("#flash").hide();
+            $("#flashp").hide();
             $("#status").hide();
         });
 
@@ -75,7 +75,7 @@ CONTENT.flasher.initialize = function (callback) {
             $("#fcimage").attr("src", "images/"+$(this).val()+".png");
             $("#fw_version").trigger("change");
             $("#file_info").html("");
-            $("#flash").hide();
+            $("#flashp").hide();
             $("#status").hide();
         });
 
@@ -85,7 +85,7 @@ CONTENT.flasher.initialize = function (callback) {
             var url = asset.url;
             console.log("Loading " + url);
             $("#file_info").html("");
-            $("#flash").hide();
+            $("#flashp").hide();
             $("#status").hide();
 
             $.get(url, function (intel_hex) {
@@ -95,18 +95,18 @@ CONTENT.flasher.initialize = function (callback) {
                 if (self.parsed_hex) {
                     console.log("HEX OS OK " + self.parsed_hex.bytes_total + " bytes");
                     $("#file_info").html($.i18n("text.fc-flasher-loaded", self.parsed_hex.bytes_total, url));
-                    $("#flash").show();
+                    $("#flashp").show();
                 } else {
                     console.log("Corrupted firmware file");
                     $("#file_info").html($.i18n("text.fc-flasher-invalid-firmware"));
-                    $("#flash").hide();
+                    $("#flashp").hide();
                 }
             });
         });
 
         $("#download_file").on("click", function () {
             $("#file_info").html("");
-            $("#flash").hide();
+            $("#flashp").hide();
             firmwares = [];
             $("#remote_fw").hide();
             $("#loader1").show();
@@ -152,7 +152,7 @@ CONTENT.flasher.initialize = function (callback) {
         $("#select_file").on("click", function () {
             $("#remote_fw").hide();
             $("#file_info").html("");
-            $("#flash").hide();
+            $("#flashp").hide();
             if (!$(this).hasClass("disabled")) {
                 $("#status").html("");
                 chrome.fileSystem.chooseEntry({
@@ -185,11 +185,11 @@ CONTENT.flasher.initialize = function (callback) {
                                     if (self.parsed_hex) {
                                         console.log("HEX OS OK " + self.parsed_hex.bytes_total + " bytes");
                                         $("#file_info").html($.i18n("text.fc-flasher-loaded", self.parsed_hex.bytes_total, path));
-                                        $("#flash").show();
+                                        $("#flashp").show();
                                     } else {
                                         console.log("Corrupted firmware file");
                                         $("#file_info").html($.i18n("text.fc-flasher-invalid-firmware"));
-                                        $("#flash").hide();
+                                        $("#flashp").hide();
                                     }
                                 }
                             };

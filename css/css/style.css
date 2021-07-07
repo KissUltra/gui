@@ -2,6 +2,23 @@
 .data_output {
   margin-bottom: 50px;
 }
+/* line 5, ../sass/_data_output.scss */
+.data_output .other {
+  	/*a {
+      	margin: 10px 0 0 0;
+      	display: block;
+      	color: white;
+      	padding: 0 10px 0 10px;
+      	height: 20px;
+      	line-height: 20px;
+      	background-color: #756c0a;
+      	text-align: center;
+  	}
+  
+  	a:hover {
+      	background-color: #cec12f;
+  	}*/
+}
 /* line 6, ../sass/_data_output.scss */
 .data_output .other dl dt {
   float: left;
@@ -14,21 +31,6 @@
   margin-left: 55px;
   line-height: 20px;
   font-weight: bold;
-}
-/* line 19, ../sass/_data_output.scss */
-.data_output .other a {
-  margin: 10px 0 0 0;
-  display: block;
-  color: white;
-  padding: 0 10px 0 10px;
-  height: 20px;
-  line-height: 20px;
-  background-color: #756c0a;
-  text-align: center;
-}
-/* line 30, ../sass/_data_output.scss */
-.data_output .other a:hover {
-  background-color: #cec12f;
 }
 /* line 36, ../sass/_data_output.scss */
 .data_output .bars {
@@ -147,22 +149,19 @@
   margin-left: 10px;
 }
 
-/* line 155, ../sass/_data_output.scss */
-.motor-test-button {
-  margin: 10px 0 0 0;
-  color: white;
-  padding: 2px 10px 0 10px;
-  height: 24px;
-  line-height: 20px;
-  background-color: #756c0a;
-  font-size: 16px;
-}
-
-/* line 165, ../sass/_data_output.scss */
-.motor-test-button a:hover {
-  background-color: #d01414;
-}
-
+/*	.motor-test-button {
+	    margin: 10px 0 0 0;
+	    color: white;
+	    padding: 2px 10px 0 10px;
+	    height: 24px;
+	    line-height: 20px;
+	    background-color: #756c0a;
+	    font-size: 16px;
+	}
+	
+	.motor-test-button a:hover {
+	    background-color: #d01414;
+	} */
 /* line 169, ../sass/_data_output.scss */
 .otherValues {
   width: 100%;
@@ -1067,33 +1066,7 @@ input[type="number"]::-webkit-inner-spin-button {
   color: #e09338;
 }
 
-/* line 191, ../sass/_main.scss */
-.config_button {
-  margin: 0 0 0 2px;
-  color: white;
-  height: 20px;
-  line-height: 20px;
-  background-color: #339933;
-  text-align: center;
-  padding: 2px 10px 3px 10px;
-  white-space: nowrap;
-}
-
-/* line 202, ../sass/_main.scss */
-.config_button:hover {
-  background-color: #d01414;
-}
-
-/* line 206, ../sass/_main.scss */
-.config_buttons {
-  position: fixed;
-  right: 10px;
-  height: 20px;
-  bottom: 25px;
-  padding: 0px;
-}
-
-/* line 214, ../sass/_main.scss */
+/* line 194, ../sass/_main.scss */
 .wrapper-wide {
   float: left;
   width: 65%;
@@ -1101,7 +1074,7 @@ input[type="number"]::-webkit-inner-spin-button {
   padding-left: 2px;
 }
 
-/* line 221, ../sass/_main.scss */
+/* line 201, ../sass/_main.scss */
 .wrapper-narrow {
   float: left;
   width: calc(33% - 20px);
@@ -1109,7 +1082,7 @@ input[type="number"]::-webkit-inner-spin-button {
   padding-left: 2px;
 }
 
-/* line 228, ../sass/_main.scss */
+/* line 208, ../sass/_main.scss */
 .wrapper-half {
   float: left;
   width: calc(50% - 10px);
@@ -1117,7 +1090,7 @@ input[type="number"]::-webkit-inner-spin-button {
   padding-left: 2px;
 }
 
-/* line 235, ../sass/_main.scss */
+/* line 215, ../sass/_main.scss */
 .wrapper-full {
   width: 100%;
   padding: 5px;
@@ -1127,7 +1100,7 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 @media (max-width: 824px) {
-  /* line 244, ../sass/_main.scss */
+  /* line 224, ../sass/_main.scss */
   .wrapper-wide {
     width: 100%;
     padding: 5px;
@@ -1135,7 +1108,7 @@ input[type="number"]::-webkit-inner-spin-button {
     clear: both;
   }
 
-  /* line 250, ../sass/_main.scss */
+  /* line 230, ../sass/_main.scss */
   .wrapper-narrow {
     width: 100%;
     padding: 5px;
@@ -1143,7 +1116,7 @@ input[type="number"]::-webkit-inner-spin-button {
     clear: both;
   }
 
-  /* line 256, ../sass/_main.scss */
+  /* line 236, ../sass/_main.scss */
   .wrapper-half {
     width: 100%;
     padding: 5px;
@@ -1151,17 +1124,17 @@ input[type="number"]::-webkit-inner-spin-button {
     clear: both;
   }
 
-  /* line 262, ../sass/_main.scss */
+  /* line 242, ../sass/_main.scss */
   .wrapper-full {
     margin-bottom: 10px;
   }
 
-  /* line 265, ../sass/_main.scss */
+  /* line 245, ../sass/_main.scss */
   .navigation-menu-button {
     display: inline-block;
   }
 
-  /* line 268, ../sass/_main.scss */
+  /* line 248, ../sass/_main.scss */
   #navigation {
     display: none;
     position: fixed;
@@ -1170,7 +1143,7 @@ input[type="number"]::-webkit-inner-spin-button {
     right: 0px;
   }
 
-  /* line 275, ../sass/_main.scss */
+  /* line 255, ../sass/_main.scss */
   #navigation.active-menu {
     display: inline;
     z-index: 100;
@@ -1179,7 +1152,7 @@ input[type="number"]::-webkit-inner-spin-button {
     right: 0px;
   }
 
-  /* line 282, ../sass/_main.scss */
+  /* line 262, ../sass/_main.scss */
   #navigation li {
     margin: 0px;
     float: none;
@@ -1189,7 +1162,7 @@ input[type="number"]::-webkit-inner-spin-button {
     width: 120px;
   }
 
-  /* line 291, ../sass/_main.scss */
+  /* line 271, ../sass/_main.scss */
   #menu {
     background-color: black;
     padding-left: 3px;
@@ -1197,24 +1170,24 @@ input[type="number"]::-webkit-inner-spin-button {
     padding-bottom: 1px;
   }
 
-  /* line 298, ../sass/_main.scss */
+  /* line 278, ../sass/_main.scss */
   .configuration .rates tr > *:nth-child(1) {
     display: inline;
   }
 
-  /* line 302, ../sass/_main.scss */
+  /* line 282, ../sass/_main.scss */
   #portArea #port {
     width: 90px;
   }
 
-  /* line 306, ../sass/_main.scss */
+  /* line 286, ../sass/_main.scss */
   .mixer-image {
     width: 200px;
     left: 125px;
     top: 15px;
   }
 
-  /* line 313, ../sass/_main.scss */
+  /* line 293, ../sass/_main.scss */
   .groupTitle {
     padding: 0 0 2px 0;
     margin: 0 0 2px 0;
@@ -1222,33 +1195,33 @@ input[type="number"]::-webkit-inner-spin-button {
     color: #e09338;
   }
 
-  /* line 320, ../sass/_main.scss */
+  /* line 300, ../sass/_main.scss */
   #userSel {
     width: 50px;
   }
 
-  /* line 324, ../sass/_main.scss */
+  /* line 304, ../sass/_main.scss */
   #presetSel {
     width: 50px;
   }
 
-  /* line 328, ../sass/_main.scss */
+  /* line 308, ../sass/_main.scss */
   #lapTimerTypeAndInterface {
     width: 90px;
   }
 }
-/* line 334, ../sass/_main.scss */
+/* line 314, ../sass/_main.scss */
 #wifi {
   text-decoration: none;
   color: inherit;
 }
 
-/* line 339, ../sass/_main.scss */
+/* line 319, ../sass/_main.scss */
 ::-webkit-scrollbar {
   display: none;
 }
 
-/* line 343, ../sass/_main.scss */
+/* line 323, ../sass/_main.scss */
 .warning-disclaimer {
   display: none;
   position: absolute;
@@ -1259,7 +1232,7 @@ input[type="number"]::-webkit-inner-spin-button {
   background-image: url("images/warning_stripe.png");
 }
 
-/* line 353, ../sass/_main.scss */
+/* line 333, ../sass/_main.scss */
 .warning-disclaimer-inner {
   width: calc(100% - 50px);
   height: calc(100% - 50px);
@@ -1267,21 +1240,21 @@ input[type="number"]::-webkit-inner-spin-button {
   background-color: black;
   text-align: center;
 }
-/* line 360, ../sass/_main.scss */
+/* line 340, ../sass/_main.scss */
 .warning-disclaimer-inner .warning1 {
   font-size: 30px;
   color: #d01414;
   padding-top: 30px;
   text-align: center;
 }
-/* line 367, ../sass/_main.scss */
+/* line 347, ../sass/_main.scss */
 .warning-disclaimer-inner .warning2 {
   font-size: 20px;
   color: #ffffff;
   padding-top: 30px;
   text-align: center;
 }
-/* line 374, ../sass/_main.scss */
+/* line 354, ../sass/_main.scss */
 .warning-disclaimer-inner .warning-button {
   margin: 40px 0 0 0;
   color: white;
@@ -1291,12 +1264,12 @@ input[type="number"]::-webkit-inner-spin-button {
   background-color: #1d1d1d;
   font-size: 16px;
 }
-/* line 384, ../sass/_main.scss */
+/* line 364, ../sass/_main.scss */
 .warning-disclaimer-inner .warning-button:hover {
   background-color: #d01414;
 }
 
-/* line 390, ../sass/_main.scss */
+/* line 370, ../sass/_main.scss */
 .navigation-menu-button {
   background-color: #151515;
   border-bottom: 1px solid #756c0a;
@@ -1310,7 +1283,7 @@ input[type="number"]::-webkit-inner-spin-button {
   margin: 0px;
   transition: 0.25s background ease;
 }
-/* line 404, ../sass/_main.scss */
+/* line 384, ../sass/_main.scss */
 .navigation-menu-button.active-menu {
   background-color: #1d1d1d;
   color: #fff;
@@ -1318,17 +1291,46 @@ input[type="number"]::-webkit-inner-spin-button {
   border-bottom: 1px solid transparent;
 }
 
-/* line 412, ../sass/_main.scss */
+/* line 392, ../sass/_main.scss */
 .navigation-menu-button:hover {
   background-color: #777;
 }
 
-/* line 417, ../sass/_main.scss */
+/* line 397, ../sass/_main.scss */
 .portSelector {
   border-bottom: 1px solid #756c0a;
   flex-grow: 10;
   padding-top: 10px;
   padding-left: 20px;
+}
+
+/* line 404, ../sass/_main.scss */
+.u-button {
+  margin: 10px 0 0 0;
+  display: inline-block;
+  color: white;
+  padding: 0 10px 0 10px;
+  height: 20px;
+  line-height: 20px;
+  background-color: #756c0a;
+  text-align: center;
+  min-width: 50px;
+}
+
+/* line 416, ../sass/_main.scss */
+.u-button:hover {
+  background-color: #cec12f;
+}
+
+/* line 422, ../sass/_main.scss */
+.config_buttons {
+  position: fixed;
+  right: 10px;
+  height: 20px;
+  bottom: 25px;
+  padding: 0px;
+  width: 250px;
+  text-align: right;
 }
 
 /* line 4, ../sass/_welcome.scss */

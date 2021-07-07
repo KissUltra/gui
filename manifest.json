@@ -3,8 +3,8 @@
     "minimum_chrome_version": "38",
     "version": "3.0.0",
     "author": "Flyduino & Alexander Fedorov & Carsten Wache",
-    "name": "KISS GUI",
-    "short_name": "KISSGUI",
+    "name": "KISS ULTRA GUI",
+    "short_name": "KISSULTRAGUI",
     "description": "",
     "offline_enabled": true,
     "app": {

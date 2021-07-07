@@ -7,7 +7,7 @@ function startApplication() {
         id: 'main-window',
         frame: 'chrome',
         innerBounds: {
-            minWidth: 850,
+            minWidth: 1000,
             minHeight: 650
         }
     }, function (createdWindow) {
