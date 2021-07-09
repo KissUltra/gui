@@ -30,6 +30,17 @@ CONTENT.osd.initialize = function (callback) {
 
 
 	function htmlLoaded(data) {
+		
+		self.video = new BackgroundVideo({
+			container: "osdframe",
+		    video: [
+		        {
+		        	file: "images/osd_background.mp4"
+		        }
+		    ]
+		});
+		
+		self.playing = true;
 
 		self.startedUIupdate = 0;
 		window.clearTimeout(self.updateTimeout);
@@ -44,9 +55,6 @@ CONTENT.osd.initialize = function (callback) {
 				var lineData = new Uint8Array(osd.buffer);
 				var addr = 256*lineData[0] + lineData[1];
 				var len  = 256*lineData[2] + lineData[3];
-
-				//console.log("addr= " + addr + " len= " + len);
-				
 				
 				if (addr == 0xffff) {
 					self.compressedSize = len;
@@ -56,9 +64,6 @@ CONTENT.osd.initialize = function (callback) {
 					
 					self.flags  = lineData[16];
 					
-//					for (var i=0; i<17; i++) {
-//						console.log("var["+i+"]="+lineData[i]);
-//					}
 				} else {
 					if (len == 0) {
 						
@@ -70,8 +75,6 @@ CONTENT.osd.initialize = function (callback) {
 						
 						if (decoded >0) {
 							
-							
-						
 						var c = document.getElementById("osd");
 						var ctx = c.getContext("2d");
 
@@ -116,7 +119,21 @@ CONTENT.osd.initialize = function (callback) {
 							ctx.fillStyle = "lime";
 							ctx.textAlign = "center";
 							ctx.globalAlpha = 0.4;
-							ctx.fillText("NO VIDEO", 180, 270);
+							ctx.fillText("NO VIDEO", 185, 270);
+						}
+						
+						var inFlight = true;
+						if ((self.flags & 0x4) == 0x4) { // menu
+							inFlight = false;
+						}
+						
+						if (inFlight != self.playing) {
+							self.playing = inFlight;
+							if (self.playing) {
+								self.video.play();
+							} else {
+								self.video.pause();
+							}
 						}
 						
 					}
@@ -168,9 +185,7 @@ CONTENT.osd.initialize = function (callback) {
 
 
 CONTENT.osd.resizeOSD = function () {
-//    var wrapper = $('#charts');
-//    console.log("resize chart");
-////    $('#tpa_chart').kissTPAChart('resize', { width: wrapper.width() });
+
 }
 
 CONTENT.osd.cleanup = function (callback) {

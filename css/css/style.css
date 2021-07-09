@@ -1351,3 +1351,27 @@ input[type="number"]::-webkit-inner-spin-button {
 #language {
   width: 100px;
 }
+
+/* line 3, ../sass/_osd.scss */
+.flexible {
+  position: absolute;
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  z-index: -999;
+  top: 0;
+  left: 0;
+}
+
+/* line 13, ../sass/_osd.scss */
+.bgv-overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  display: block;
+  background-image: none;
+  background-repeat: repeat;
+  z-index: -998;
+}
