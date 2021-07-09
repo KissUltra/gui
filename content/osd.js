@@ -119,7 +119,7 @@ CONTENT.osd.initialize = function (callback) {
 							ctx.fillStyle = "lime";
 							ctx.textAlign = "center";
 							ctx.globalAlpha = 0.4;
-							ctx.fillText("NO VIDEO", 185, 270);
+							ctx.fillText("NO SIGNAL", 185, 270);
 						}
 						
 						var inFlight = true;

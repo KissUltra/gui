@@ -257,6 +257,7 @@ function dist_src() {
     './js/libraries/semver.js',       
     './js/libraries/stm32usbdfu.js',
     './js/libraries/three.min.js',
+    './js/libraries/background-video.js',
     './js/libraries/lz4.js',
     './js/libraries/i18n/*.js',
     './js/plugins/jquery.kiss.*.js',
