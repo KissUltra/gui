@@ -1,0 +1,96 @@
+
+.flex-container {
+    width: 100%;
+    display: flex;
+}
+
+.column {
+	width: 50%;
+
+
+	.block {
+
+		width: 100%;
+    	padding: 0px;
+    	margin-bottom: 5px;
+
+    	border: 1px solid #333;
+    	background-color: #222;
+
+		.title {
+			padding: 0 0 0 5px;
+			margin: 0 0 5px 0;
+			font-size: 16px;
+			color: #e09338;
+			font-weight: 600;
+		}
+
+		.body {
+
+			display: block;
+			padding: 0 0 0 5px;
+			
+			input[type="checkbox"] {
+    			position: relative;
+    			top: 1px;
+			}
+			
+			table {
+				border: 0px;
+				margin-bottom: 10px;
+			}
+		
+	 		select {
+  				height: 22px;
+  				border: 1px solid silver;
+			}
+			
+			input[type="text"] {
+  				width: 70px;
+  				height: 20px;
+  				line-height: 20px;
+  				text-align: right;
+  				border: 1px solid silver;
+			}
+
+			input[type="number"] {
+  				width: 70px;
+  				height: 20px;
+  				line-height: 20px;
+  				text-align: right;
+  				border: 1px solid silver;
+			}
+
+			dl {
+  				margin-bottom: 10px;
+			}
+
+			dt {
+  				//float: left;
+  				//width: 100px;
+  				display: inline-block;
+  				width: 40%;
+  				height: 27px;
+  				line-height: 24px;
+			}
+			
+			dt.wide {
+  				width: 100%;
+			}
+
+			dd {
+  				height: 27px;
+  				display: inline-block;
+  				
+  				.minicolors {
+  					position: relative;
+    				top: -2px;
+    			}
+  			}
+		}
+	}
+}
+
+.column-left {
+	padding-right: 10px;
+}

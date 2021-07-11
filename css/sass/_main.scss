@@ -14,8 +14,12 @@ html, body {
 }
 
 body {
-	font-family: sans-serif;
-	font-size: 12px;
+	//font-family: sans-serif;
+
+	font-family: $default_font;
+  	font-style: normal;
+  	font-weight: 300;
+	font-size: 14px;
 	color: $text-color;
 	background-color: $background-color;
 }
@@ -176,10 +180,11 @@ input[type="number"]::-webkit-inner-spin-button {
 	margin: 0 0 0 10px;
 	width: calc(100% - 40px);
 	height: calc(100% - 70px);
-    margin-top: 50px;
+    margin-top: 60px;
     overflow-x: hidden;
     overflow-y: scroll;
 }
+
 
 .groupTitle {
 	padding: 0 0 5px 0;
@@ -187,9 +192,6 @@ input[type="number"]::-webkit-inner-spin-button {
 	font-size: 16px;
 	color: #e09338;
 }
-
-
-
 
 .wrapper-wide {
 	float: left;
@@ -213,11 +215,13 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 .wrapper-full {
-		width: 100%;
-		padding: 5px;
-		margin-bottom: 10px;
-		clear: both;
-		padding-left: 2px;
+	width: 100%;
+    padding: 0px;
+    margin-bottom: 5px;
+    /* clear: both; */
+    padding-left: 2px;
+    border: 1px solid #333;
+    background-color: #222;
 }
 
 @media ( max-width : 824px) {
@@ -366,6 +370,11 @@ input[type="number"]::-webkit-inner-spin-button {
 	}
 }
 
+select, button, input, textarea {
+	font-family: $default_font;
+  	font-style: normal;
+  	font-weight: 300;
+ }
 
 .navigation-menu-button {
   background-color: #151515;
@@ -378,12 +387,17 @@ input[type="number"]::-webkit-inner-spin-button {
   outline: none;
   cursor: pointer;
   padding: 14px 14px;
-  font-size: 14px;
+  
+
+  	font-weight: 300;
+	font-size: 16px;
+	
   margin: 0px;
   transition: 0.25s background ease;
   &.active-menu {
     background-color: $background-color;
     color: #fff;
+      	font-weight: 600;
     border: 1px solid #756c0a;
   	border-bottom: 1px solid transparent;
   }
