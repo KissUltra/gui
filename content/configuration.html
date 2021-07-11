@@ -45,9 +45,225 @@
                     </select>
 			</div>
 		</div>
+
+
+		<div class="block">
+			<div class="title" data-i18n="title.receiver">Receiver</div>
+			<div class="body">
+				<dl>
+					<dt>Type:</dt>
+					<dd>
+
+						<select class="rxType unsafe">
+							<option value="6" style="display: none" data-i18n="rx-type.6"
+								id="rxdsm1">Spekt. Sat. DSM2</option>
+							<option value="7" style="display: none" data-i18n="rx-type.7"
+								id="rxdsm2">Spekt. Sat. DSMX</option>
+							<option value="8" style="display: none" data-i18n="rx-type.8"
+								id="rxsbus1">FrSky S-BUS</option>
+							<option value="15" style="display: none" data-i18n="rx-type.15"
+								id="rxsbus2">FrSky S-BUS (not inverted)</option>
+							<option value="11" style="display: none" data-i18n="rx-type.11"
+								id="rxsbus3">Futaba S-BUS</option>
+							<option value="9" style="display: none" data-i18n="rx-type.9"
+								id="rxsumd1">Gr. SUMD</option>
+							<option value="10" style="display: none" data-i18n="rx-type.10"
+								id="rxexbus1">Jeti EX Bus</option>
+							<option value="14" style="display: none" data-i18n="rx-type.14"
+								id="rxsrxl1">Multiplex SRXL</option>
+							<option value="16" style="display: none" data-i18n="rx-type.16"
+								id="rxxbusb1">JR XBus Mode B</option>
+							<option value="17" style="display: none" data-i18n="rx-type.17"
+								id="rxcrsf1">TBS CRSF</option>
+							<option value="18" style="display: none" data-i18n="rx-type.18"
+								id="rxfport1">FrSky Fport</option>
+							<option value="19" style="display: none" data-i18n="rx-type.19"
+								id="rxfport2">FrSky Fport (inverted)</option>
+							<option value="20" style="display: none" data-i18n="rx-type.20"
+								id="rxsbusfast">Futaba FAST S-BUS / DJI</option>
+							<option value="21" style="display: none" data-i18n="rx-type.21"
+								id="rxghost">IRC GHOST</option>
+						</select>
+					</dd>
+				</dl>
+				<dl>
+					<dt data-i18n="text.fs-mode-sec">FS. levelmode Sec.:</dt>
+					<dd>
+						<input type="number" lang="en-150" step="1" name="failsaveseconds"
+							style="width: 40px;" data-step="1" min="0" max="20"
+							class="unsafe" />
+					</dd>
+				</dl>
+
+			</div>
+		</div>
 		
 		
+		<div class="block">
+		    <div class="title" data-i18n="title.pids-and-rates">PID &amp; Rates</div>
+			<div class="body">
+				  <table class="pids">
+                <tr>
+                    <th class="name" style="width:50px"></th>
+                    <th class="p" data-i18n="column.p">P</th>
+                    <th class="i" data-i18n="column.i">I</th>
+                    <th class="d" data-i18n="column.d">D</th>
+                    <th>&nbsp;</th>
+                    <th class="rate" data-i18n="column.rc-rate">RC Rate</th>
+                    <th class="expo" data-i18n="column.rc-expo">Rate</th>
+                    <th class="curve" data-i18n="column.rc-curve">RC Curve</th>
+                </tr>
+                <tr class="roll">
+                    <td data-i18n="column.roll">Roll</td>
+                    <td>
+                        <input type="number" lang="en-150" step="0.01" min="0" max="65" data-step="0.01" data-precision="2" />
+                    </td>
+                    
+                    <td>
+                        <input type="number" lang="en-150" step="0.001" min="0" max="65" data-step="0.001"
+                            data-precision="3" />
+                    </td>
+                    
+                    <td>
+                        <input type="number" lang="en-150" step="0.01" min="0" max="65" data-step="0.01" data-precision="2" />
+                    </td>
+                    
+                    <td></td>
+                    
+                    <td>
+                        <input type="number" lang="en-150" step="0.01" min="0" max="65" data-step="0.01" data-precision="2" />
+                    </td>
+                    
+                    <td>
+                        <input type="number" lang="en-150" step="0.01" min="0" max="65" data-step="0.01" data-precision="2" />
+                    </td>
+                    
+                    <td>
+                        <input type="number" lang="en-150" step="0.01" min="0" max="65" data-step="0.01" data-precision="2" />
+                    </td>
+                    
+                </tr>
+                <tr class="pitch">
+                    <td data-i18n="column.pitch">Pitch</td>
+                    <td>
+                        <input type="number" lang="en-150" step="0.01" min="0" max="65" data-step="0.01" data-precision="2" />
+                    </td>
+                    <td>
+                        <input type="number" lang="en-150" step="0.001" min="0" max="65" data-step="0.001"
+                            data-precision="3" />
+                    </td>
+                    <td>
+                        <input type="number" lang="en-150" step="0.01" min="0" max="65" data-step="0.01" data-precision="2" />
+                    </td>
+                    
+                    <td></td>
+                    
+                    <td>
+                        <input type="number" lang="en-150" step="0.01" min="0" max="65" data-step="0.01" data-precision="2" />
+                    </td>
+                    
+                    <td>
+                        <input type="number" lang="en-150" step="0.01" min="0" max="65" data-step="0.01" data-precision="2" />
+                    </td>
+                    
+                    <td>
+                        <input type="number" lang="en-150" step="0.01" min="0" max="65" data-step="0.01" data-precision="2" />
+                    </td>
+                </tr>
+                <tr class="yaw">
+                    <td data-i18n="column.yaw">Yaw</td>
+                    <td>
+                        <input type="number" lang="en-150" step="0.01" min="0" max="65" data-step="0.01" data-precision="2" />
+                    </td>
+                    <td>
+                        <input type="number" lang="en-150" step="0.001" min="0" max="65" data-step="0.001"
+                            data-precision="3" />
+                    </td>
+                    <td>
+                        <input type="number" lang="en-150" step="0.01" min="0" max="65" data-step="0.01" data-precision="2" />
+                    </td>
+                    
+                    <td></td>
+                    
+                    <td>
+                        <input type="number" lang="en-150" step="0.01" min="0" max="65" data-step="0.01" data-precision="2" />
+                    </td>
+                    
+                    <td>
+                        <input type="number" lang="en-150" step="0.01" min="0" max="65" data-step="0.01" data-precision="2" />
+                    </td>
+                    
+                    <td>
+                        <input type="number" lang="en-150" step="0.01" min="0" max="65" data-step="0.01" data-precision="2" />
+                    </td>
+                    
+                    
+                </tr>
+                <tr class="TPA">
+                    <td data-i18n="column.tpa">TPA</td>
+                    <td>
+                        <input type="number" lang="en-150" step="0.01" min="0" max="0.9" data-step="0.01"
+                            data-precision="2" />
+                    </td>
+                    <td>
+                        <input type="number" lang="en-150" step="0.01" min="0" max="0.9" data-step="0.01"
+                            data-precision="2" />
+                    </td>
+                    <td>
+                        <input type="number" lang="en-150" step="0.01" min="0" max="0.9" data-step="0.01"
+                            data-precision="2" />
+                    </td>
+                    
+                    <td colspan="4"></td>
+                </tr>
+                
+                <tr class="level">
+                  <td data-i18n="column.level">Level</td>
+                    <td>
+                        <input type="number" lang="en-150" step="0.01" min="0" max="65" data-step="0.01" data-precision="2" />
+                    </td>
+                    <td>
+                        <input type="number" lang="en-150" step="0.001" min="0" max="65" data-step="0.001"
+                            data-precision="3" />
+                    </td>
+                    <td>
+                        <input type="number" lang="en-150" step="0.01" min="0" max="65" data-step="0.01" data-precision="2" />
+                    </td>
+                    <td colspan="2"></td>
+                    
+                    <td data-i18n="[column.level-max]">Max&deg;</td>
+                    <td>
+                        <input type="number" lang="en-150" step="1" min="0" max="60" data-step="1" data-precision="0" />
+                    </td>
+                    
+                </tr>
+            </table>
+			
+			</div>
+		</div>
 		
+		<div class="block">
+            <div class="title" data-i18n="title.presets">Presets</div>
+            <div class="body">
+            <select id="prePID">
+                <option value="preset" selected="selected" data-i18n="option.preset">Preset</option>
+                <option value="user" data-i18n="option.user">User</option>
+            </select>
+            <select id="presetSel">
+                <option value="Preset1" selected="selected" data-i18n="option.custom">custom</option>
+            </select>
+            <select id="userSel">
+            </select>
+            <span id="shareButton" data-i18n="button.share">Share</span>
+            </body>
+        </div>
+		
+		
+		</div>
+		
+
+
+
 		<div class="block">
 			<div class="title">General information</div>
 			<div class="body">
@@ -203,9 +419,6 @@
 
 		</div>
 
-
-
-
 	</div>
 </div>
 
@@ -216,198 +429,7 @@
 	
    
 
-        <div class="groupTitle" data-i18n="title.receiver">Receiver</div>
-        <select class="rxType unsafe">
-            <option value="6" style="display:none" data-i18n="rx-type.6" id="rxdsm1">Spekt. Sat. DSM2</option>
-            <option value="7" style="display:none" data-i18n="rx-type.7" id="rxdsm2">Spekt. Sat. DSMX</option>
-            <option value="8" style="display:none" data-i18n="rx-type.8" id="rxsbus1">FrSky S-BUS</option>
-            <option value="15" style="display:none" data-i18n="rx-type.15" id="rxsbus2">FrSky S-BUS (not inverted)</option>
-            <option value="11" style="display:none" data-i18n="rx-type.11" id="rxsbus3">Futaba S-BUS</option>
-            <option value="9" style="display:none" data-i18n="rx-type.9" id="rxsumd1">Gr. SUMD</option>
-            <option value="10" style="display:none" data-i18n="rx-type.10" id="rxexbus1">Jeti EX Bus</option>
-            <option value="14" style="display:none" data-i18n="rx-type.14" id="rxsrxl1">Multiplex SRXL</option>
-            <option value="16" style="display:none" data-i18n="rx-type.16" id="rxxbusb1">JR XBus Mode B</option>
-            <option value="17" style="display:none" data-i18n="rx-type.17" id="rxcrsf1">TBS CRSF</option>
-            <option value="18" style="display:none" data-i18n="rx-type.18" id="rxfport1">FrSky Fport</option>
-            <option value="19" style="display:none" data-i18n="rx-type.19" id="rxfport2">FrSky Fport (inverted)</option>
-            <option value="20" style="display:none" data-i18n="rx-type.20" id="rxsbusfast">Futaba FAST S-BUS / DJI</option>
-            <option value="21" style="display:none" data-i18n="rx-type.21" id="rxghost">IRC GHOST</option>
-        </select>
-        <dl class="general_settings">
-            <dt style="min-width:130px;" data-i18n="text.fs-mode-sec">FS. levelmode Sec.: </dt>
-            <dd>
-                <input type="number" lang="en-150" step="1" name="failsaveseconds" style="width:40px;" data-step="1"
-                    min="0" max="20" class="unsafe" />
-            </dd>
-        </dl>
-
-
-    </div>
-
-    <div class="wrapper-wide">
-
-        <div class="wrapper-full">
-            <div class="groupTitle" data-i18n="title.presets">Presets</div>
-            <select id="prePID">
-                <option value="preset" selected="selected" data-i18n="option.preset">Preset</option>
-                <option value="user" data-i18n="option.user">User</option>
-            </select>
-            <select id="presetSel">
-                <option value="Preset1" selected="selected" data-i18n="option.custom">custom</option>
-            </select>
-            <select id="userSel">
-            </select>
-            <span id="shareButton" data-i18n="button.share">Share</span>
-        </div>
-
-        <div class="groupTitle" data-i18n="title.pids-and-rates">PID &amp; Rates</div>
-
-        <div class="wrapper-half" style="max-width: 245px">
-            <table class="pids">
-                <tr>
-                    <th class="name"></th>
-                    <th class="p" data-i18n="column.p">P</th>
-                    <th class="i" data-i18n="column.i">I</th>
-                    <th class="d" data-i18n="column.d">D</th>
-                </tr>
-                <tr class="roll">
-                    <td data-i18n="column.roll">Roll</td>
-                    <td>
-                        <input type="number" lang="en-150" step="0.01" min="0" max="65" data-step="0.01" data-precision="2" />
-                    </td>
-                    <td>
-                        <input type="number" lang="en-150" step="0.001" min="0" max="65" data-step="0.001"
-                            data-precision="3" />
-                    </td>
-                    <td>
-                        <input type="number" lang="en-150" step="0.01" min="0" max="65" data-step="0.01" data-precision="2" />
-                    </td>
-                </tr>
-                <tr class="pitch">
-                    <td data-i18n="column.pitch">Pitch</td>
-                    <td>
-                        <input type="number" lang="en-150" step="0.01" min="0" max="65" data-step="0.01" data-precision="2" />
-                    </td>
-                    <td>
-                        <input type="number" lang="en-150" step="0.001" min="0" max="65" data-step="0.001"
-                            data-precision="3" />
-                    </td>
-                    <td>
-                        <input type="number" lang="en-150" step="0.01" min="0" max="65" data-step="0.01" data-precision="2" />
-                    </td>
-                </tr>
-                <tr class="yaw">
-                    <td data-i18n="column.yaw">Yaw</td>
-                    <td>
-                        <input type="number" lang="en-150" step="0.01" min="0" max="65" data-step="0.01" data-precision="2" />
-                    </td>
-                    <td>
-                        <input type="number" lang="en-150" step="0.001" min="0" max="65" data-step="0.001"
-                            data-precision="3" />
-                    </td>
-                    <td>
-                        <input type="number" lang="en-150" step="0.01" min="0" max="65" data-step="0.01" data-precision="2" />
-                    </td>
-                </tr>
-                <tr class="TPA">
-                    <td data-i18n="column.tpa">TPA</td>
-                    <td>
-                        <input type="number" lang="en-150" step="0.01" min="0" max="0.9" data-step="0.01"
-                            data-precision="2" />
-                    </td>
-                    <td>
-                        <input type="number" lang="en-150" step="0.01" min="0" max="0.9" data-step="0.01"
-                            data-precision="2" />
-                    </td>
-                    <td>
-                        <input type="number" lang="en-150" step="0.01" min="0" max="0.9" data-step="0.01"
-                            data-precision="2" />
-                    </td>
-                </tr>
-            </table>
-        </div>
-
-        <div class="wrapper-half">
-
-            <table class="rates">
-                <tr>
-                    <th class="name"></th>
-                    <th class="rate" data-i18n="column.rc-rate">RC Rate</th>
-                    <th class="expo" data-i18n="column.rc-expo">Rate</th>
-                    <th class="curve" data-i18n="column.rc-curve">RC Curve</th>
-                </tr>
-                <tr class="roll">
-                    <td data-i18n="column.roll">Roll</td>
-                    <td>
-                        <input type="number" lang="en-150" step="0.01" min="0" max="65" data-step="0.01" data-precision="2" />
-                    </td>
-                    <td>
-                        <input type="number" lang="en-150" step="0.01" min="0" max="65" data-step="0.01" data-precision="2" />
-                    </td>
-                    <td>
-                        <input type="number" lang="en-150" step="0.01" min="0" max="65" data-step="0.01" data-precision="2" />
-                    </td>
-                </tr>
-                <tr class="pitch">
-                    <td data-i18n="column.pitch">Pitch</td>
-                    <td>
-                        <input type="number" lang="en-150" step="0.01" min="0" max="65" data-step="0.01" data-precision="2" />
-                    </td>
-                    <td>
-                        <input type="number" lang="en-150" step="0.01" min="0" max="65" data-step="0.01" data-precision="2" />
-                    </td>
-                    <td>
-                        <input type="number" lang="en-150" step="0.01" min="0" max="65" data-step="0.01" data-precision="2" />
-                    </td>
-                </tr>
-                <tr class="yaw">
-                    <td data-i18n="column.yaw">Yaw</td>
-                    <td>
-                        <input type="number" lang="en-150" step="0.01" min="0" max="65" data-step="0.01" data-precision="2" />
-                    </td>
-                    <td>
-                        <input type="number" lang="en-150" step="0.01" min="0" max="65" data-step="0.01" data-precision="2" />
-                    </td>
-                    <td>
-                        <input type="number" lang="en-150" step="0.01" min="0" max="65" data-step="0.01" data-precision="2" />
-                    </td>
-                </tr>
-            </table>
-        </div>
-
-        <div class="wrapper-full">
-            <table class="levels">
-                <tr>
-                    <th></th>
-                    <th data-i18n="column.p">P</th>
-                    <th data-i18n="column.i">I</th>
-                    <th data-i18n="column.d">D</th>
-                </tr>
-                <tr class="level">
-                    <td data-i18n="column.level">Level</td>
-                    <td>
-                        <input type="number" lang="en-150" step="0.01" min="0" max="65" data-step="0.01" data-precision="2" />
-                    </td>
-                    <td>
-                        <input type="number" lang="en-150" step="0.001" min="0" max="65" data-step="0.001"
-                            data-precision="3" />
-                    </td>
-                    <td>
-                        <input type="number" lang="en-150" step="0.01" min="0" max="65" data-step="0.01" data-precision="2" />
-                    </td>
-                </tr>
-                <tr class="level">
-                    <td data-i18n="[column.level-max]">Max&deg;</td>
-                    <td>
-                        <input type="number" lang="en-150" step="1" min="0" max="60" data-step="1" data-precision="0" />
-                    </td>
-                </tr>
-            </table>
-        </div>
-
-   
-    </div>
-
+      
 
 
 

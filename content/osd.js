@@ -58,12 +58,8 @@ CONTENT.osd.initialize = function (callback) {
 				
 				if (addr == 0xffff) {
 					self.compressedSize = len;
-					// get thew rest of the data here
-					//console.log("Got INFO frame. Packet contains " + len + " bytes");
 					self.address = 0;
-					
 					self.flags  = lineData[16];
-					
 				} else {
 					if (len == 0) {
 						
@@ -85,9 +81,7 @@ CONTENT.osd.initialize = function (callback) {
 						for (var y=0; y<288; y++) {
 							for (var x=0; x<512; x++) {
 								var pixaddr = y*128 + (x >> 2);
-
 								var dstaddr = 4* (y*512 + x);
-
 								var c = scr[pixaddr];
 								c <<= (2*(x & 3));
 								var col = c & 0xc0;
@@ -135,7 +129,6 @@ CONTENT.osd.initialize = function (callback) {
 								self.video.pause();
 							}
 						}
-						
 					}
 						
 					} else {
@@ -152,16 +145,14 @@ CONTENT.osd.initialize = function (callback) {
 		$(window).on('resize', self.resizeCanvas).resize();
 
 		function fastDataPoll() {
-			//console.log("FDP");
 			self.updateTimeout = window.setTimeout(function () {
 				fastDataPoll();
 			}, 50); // Just restart if needed
-			
-			 var tmp = {
+			var tmp = {
 					 'buffer': new ArrayBuffer(3),
 	                 'address': self.address,
 	                 'chunkSize': self.chunkSize
-	         };
+	        };
 	             
 			kissProtocol.send(kissProtocol.GET_OSD, kissProtocol.preparePacket(kissProtocol.GET_OSD, tmp), function () {
 				if (GUI.activeContent == 'osd') {
@@ -175,7 +166,6 @@ CONTENT.osd.initialize = function (callback) {
 				}
 			});
 		}
-
 
 		$(window).on('resize', self.resizeOSD).resize();
 
