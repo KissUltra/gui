@@ -4,9 +4,9 @@
             return obj.data(PLUGIN_NAME);
         };
     var
-        ARM_LENGTH = 1,
-        HUB_RADIUS = ARM_LENGTH * 0.2,
-        CRAFT_DEPTH = ARM_LENGTH * 0.03,
+        ARM_LENGTH = 1.0,
+        HUB_RADIUS = 0.2,
+        CRAFT_DEPTH = 0.03,
         AXIS = {
             roll: new THREE.Vector3(1, 0, 0),
             pitch: new THREE.Vector3(0, 1, 0),
@@ -69,7 +69,8 @@
             name: 'Octo Flat',
             arms: 8,
             rotation: -Math.PI / 8,
-            colors: [0, 0, 1, 1, 1, 1, 1, 1]
+            colors: [0, 0, 1, 1, 1, 1, 1, 1],
+            armLength: 1.22
         }, {
             name: 'Octo X',
             arms: 4,
@@ -127,6 +128,11 @@
             var data = pluginData(self);
             data.mixerData = MIXER_LIST[data.mixer];
             data.scene = new THREE.Scene();
+            
+            var al = ARM_LENGTH;
+            if (data.mixerData.armLength) {
+            	al = data.mixerData.armLength;
+            }
 
             privateMethods.initCamera(self);
             privateMethods.initRenderer(self);
@@ -182,8 +188,8 @@
                         width: 1
                     }];
 
-                armVectorX *= ARM_LENGTH;
-                armVectorY *= ARM_LENGTH;
+                armVectorX *= al;
+                armVectorY *= al;
 
                 for (var j = 0; j < armPoints.length; j++) {
                     var point = armPoints[j];

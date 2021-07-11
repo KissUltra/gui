@@ -467,6 +467,7 @@
 	"column.rth.return.speed": "Return speed (km/h)",
     "column.rth.home.action": "Home action",
     "column.rth.failsafe.action": "RTH on Failsafe",
-	"title.osd-mirror": "OSD Mirror"
+	"title.osd-mirror": "OSD Mirror",
+	"text.hardware-version": "Hardware version:"
 			
 }

@@ -1,14 +1,29 @@
-<div class="configuration">
-    <div class="wrapper-wide">
-        <table style="border: 0px;">
-            <tr>
-                <td width="20%">
-                    <div class="groupTitle" data-i18n="title.uav-type">UAV Type</div>
-                    <select class="mixer unsafe" name="mixer">
-                        <!-- auto generated -->
-                    </select>
-                </td>
-                <td width="40%">
+<div class="flex-container">
+	<div class="column column-left column-67">
+		<div class="block" style="height:230px">
+
+
+                    <div class="title" data-i18n="title.uav-type">UAV Type</div>
+                    
+                    <div class="body">
+
+				<div class="mixerPreview" style="float: right">
+					<img class="mixer-image" src="./images/mixer/0.png" />
+					<div id="pentaNoteFC"
+						style="display: none; margin-left: 60px; margin-top: -40px; position: absolute; color: #FF4444;">
+						NOTE: <br />On the KISSFC v1 PWM5 is mapped <br />on PWM6 when
+						Dshot is active!
+					</div>
+					<div id="pentaNoteCC"
+						style="display: none; margin-left: 60px; margin-top: -40px; position: absolute; color: #FF4444;">
+						NOTE: <br />On the KISSCC PWM5 is on SPI Pin MO if Dshot is used
+						<br />else its on SPI MI
+					</div>
+				</div>
+
+				<select class="mixer unsafe" name="mixer" />
+					
+
                     <div class="groupTitle" data-i18n="title.custom-esc-orientation">ESC orientation</div>
                     <select class="unsafe" disabled="disabled" name="ESCOutputLayout" id="ESCOutputLayout">
                         <option value="0" data-i18n="escOrientation.0">Default</option>
@@ -28,30 +43,181 @@
                         <option value="14" data-i18n="escOrientation.14">BF Upside-Down 90° CCW</option>
                         <option value="15" data-i18n="escOrientation.15">BF Upside-Down 180° CW/CCW</option>
                     </select>
-                </td>
-            </tr>
-        </table>
+			</div>
+		</div>
+		
+		
+		
+		<div class="block">
+			<div class="title">General information</div>
+			<div class="body">
+			
+				<span data-i18n="text.hardware-version"></span>
+            	<span id="hwversion">ULTRA v1.04</span>
+            	
+            	<br />
+		   
+            	<span data-i18n="text.firmware-version">Firmware Version:</span>
+            	<span id="version"></span>
+            	
+            	<br />
+            	
+            	<span data-i18n="text.sn">Serial Number:</span>
+            	<span id="SN" class="uuid"></span>
+            	
+            	<br />
+            
+            	<span data-i18n="text.eeprom-version">EEPROM:</span>
+            	<span id="eeprom1" class "uuid"></span>
+			</div>
+		</div>
+		
+		
+		
+	</div>
 
-        <div class="mixerPreview">
-            <img class="mixer-image" src="./images/mixer/0.png" />
-            <div id="pentaNoteFC" style="display:none; margin-left:60px; margin-top:-40px; position:absolute;color:#FF4444;">NOTE:
-                <br />On the KISSFC v1 PWM5 is mapped
-                <br />on PWM6 when Dshot is active!</div>
-            <div id="pentaNoteCC" style="display:none; margin-left:60px; margin-top:-40px; position:absolute;color:#FF4444;">NOTE:
-                <br />On the KISSCC PWM5 is on SPI Pin MO if Dshot is used
-                <br />else its on SPI MI</div>
-        </div>
+	<div class="column column-33">
+		<div class="block">
+			<div class="title" data-i18n="title.general-settings">General
+				Settings</div>
+			<div class="body">
+				<dl>
+					<dt title="the minimum throttle for the motors"
+						data-i18n="column.min-throttle">Min. Throttle</dt>
+					<dd>
+						<input class="unsafe" type="number" lang="en-150" step="1"
+							name="minThrottle" data-step="1" min="0" max="2200" />
+					</dd>
+				</dl>
+				<dl>
+					<dt title="the maximum throttle for the motors"
+						data-i18n="column.max-throttle">Max. Throttle</dt>
+					<dd>
+						<input class="unsafe" type="number" lang="en-150" step="1"
+							name="maxThrottle" data-step="1" min="0" max="2200" />
+					</dd>
+				</dl>
+				<dl>
+					<dt
+						title="the throttle value where the PID controller starts acting"
+						data-i18n="column.min-command">Min. Command</dt>
+					<dd>
+						<input class="unsafe" type="number" lang="en-150" step="1"
+							name="minCommand" data-step="1" min="0" max="2200" />
+					</dd>
+				</dl>
+				<dl>
+					<dt title="the ESC's middle command for 3D mode use"
+						data-i18n="column.mid-command">Mid. Command</dt>
+					<dd>
+						<input class="unsafe" type="number" lang="en-150" step="1"
+							name="midCommand" data-step="1" min="0" max="2200" />
+					</dd>
+				</dl>
+				<dl>
+					<dt class="tricopter" data-i18n="column.tri-yaw-mid">Tri Yaw
+						Mid.</dt>
+					<dd class="tricopter">
+						<input class="unsafe" type="number" lang="en-150" step="1"
+							name="TYmid" data-step="1" min="0" max="2200" />
+					</dd>
+				</dl>
+				<dl>
+					<dt class="tricopter" data-i18n="column.tri-yaw-invert">Tri
+						Yaw Invert</dt>
+					<dd class="tricopter">
+						<input class="unsafe" type="checkbox" name="TYinv" />
+					</dd>
+				</dl>
+				<dl>
+					<dt>
+						<span title="ESC Mode" data-i18n="column.esc-mode">ESC Mode</span>
+					</dt>
+					<dd>
+						<select class="unsafe" name="outputMode" id="outputMode">
+							<option value="8" data-i18n="output.8">FETtec OneWire</option>
+							<option value="7" data-i18n="output.7">Dshot 2400</option>
+							<option value="6" data-i18n="output.6">Dshot 1200</option>
+							<option value="5" data-i18n="output.5">Dshot 600</option>
+							<option value="4" data-i18n="output.4">Dshot 300</option>
+							<option value="3" data-i18n="output.3">Dshot 150</option>
+						<!-- 	<option value="2" data-i18n="output.2">OneShot 42</option>
+							<option value="1" data-i18n="output.1" selected>OneShot
+								125</option>
+							<option value="0" data-i18n="output.0">PWM</option> -->
+						</select>
+					</dd>
+				</dl>
+				<dl>
+					<dt data-i18n="column.3d-mode">3D Mode</dt>
+					<dd>
+						<input class="unsafe" type="checkbox" disabled="true"
+							name="3dMode" />
+					</dd>
+				</dl>
+			</div>
+		</div>
+
+
+		<div class="block">
+			<div class="title" data-i18n="title.aux-functions">AUX
+				Functions</div>
+			<div class="body">
+				<dl id="aux11"></dl>
+				<dl id="aux0"></dl>
+				<dl id="aux1"></dl>
+				<dl id="aux4"></dl>
+				<dl id="aux2"></dl>
+				<dl id="aux3"></dl>
+				<dl id="aux10"></dl>
+				<dl id="aux5"></dl>
+				<dl id="aux6"></dl>
+				<dl id="aux7"></dl>
+				<dl id="aux8"></dl>
+				<dl id="aux9"></dl>
+				<dl id="aux12"></dl>
+				<dl id="aux13"></dl>
+			</div>
+		</div>
+
+
+		<div class="block">
+			<div class="title" data-i18n="title.filter">Filter</div>
+			<div class="body">
+			<dl>
+				<dt data-i18n="column.lpf-frequency">LPF FRQ</dt>
+				<dd>
+					<select name="lpf">
+						<option value="0" data-i18n="filter.0">Off</option>
+						<option value="1" data-i18n="filter.1">High</option>
+						<option value="2" data-i18n="filter.2">Medium High</option>
+						<option value="3" data-i18n="filter.3">Medium</option>
+						<option value="4" data-i18n="filter.4">Medium Low</option>
+						<option value="5" data-i18n="filter.5">Low</option>
+						<option value="6" data-i18n="filter.6">Very Low</option>
+						<option value="7" data-i18n="filter.7">Advanced Settings</option>
+					</select>
+				</dd>
+			</dl>
+			</div>
+
+		</div>
+
+
+
+
+	</div>
+</div>
+
+
+
+
+
+	
+   
 
         <div class="groupTitle" data-i18n="title.receiver">Receiver</div>
         <select class="rxType unsafe">
-            <option value="0" style="display:none" data-i18n="rx-type.0" id="rxauto">Autodetect</option>
-            <option value="1" style="display:none" data-i18n="rx-type.1" id="rxpwm1">4-6 single Channel</option>
-            <option value="2" style="display:none" data-i18n="rx-type.2" id="rxppm1">PPM:Thr.,Roll,Pitch,Yaw</option>
-            <option value="3" style="display:none" data-i18n="rx-type.3" id="rxppm2">PPM:Pitch,Thr.,Roll,Yaw</option>
-            <option value="4" style="display:none" data-i18n="rx-type.4" id="rxppm3">PPM:Thr.,Pitch,Yaw,Roll</option>
-            <option value="5" style="display:none" data-i18n="rx-type.5" id="rxppm4">PPM:Roll,Pitch,Yaw,Thr.</option>
-            <option value="12" style="display:none" data-i18n="rx-type.12" id="rxppm5">PPM:Pitch,Roll,Thr.,Yaw</option>
-            <option value="13" style="display:none" data-i18n="rx-type.13" id="rxppm6">PPM:Roll,Pitch,Thr.,Yaw</option>
             <option value="6" style="display:none" data-i18n="rx-type.6" id="rxdsm1">Spekt. Sat. DSM2</option>
             <option value="7" style="display:none" data-i18n="rx-type.7" id="rxdsm2">Spekt. Sat. DSMX</option>
             <option value="8" style="display:none" data-i18n="rx-type.8" id="rxsbus1">FrSky S-BUS</option>
@@ -68,7 +234,6 @@
             <option value="21" style="display:none" data-i18n="rx-type.21" id="rxghost">IRC GHOST</option>
         </select>
         <dl class="general_settings">
-            <br />
             <dt style="min-width:130px;" data-i18n="text.fs-mode-sec">FS. levelmode Sec.: </dt>
             <dd>
                 <input type="number" lang="en-150" step="1" name="failsaveseconds" style="width:40px;" data-step="1"
@@ -77,56 +242,6 @@
         </dl>
 
 
-    </div>
-    <div class="wrapper-narrow">
-        <div class="groupTitle" data-i18n="title.general-settings">General Settings</div>
-        <dl class="general_settings">
-            <dt title="the minimum throttle for the motors" data-i18n="column.min-throttle">Min. Throttle</dt>
-            <dd>
-                <input class="unsafe" type="number" lang="en-150" step="1" name="minThrottle" data-step="1" min="0" max="2200" />
-            </dd>
-            <dt title="the maximum throttle for the motors" data-i18n="column.max-throttle">Max. Throttle</dt>
-            <dd>
-                <input class="unsafe" type="number" lang="en-150" step="1" name="maxThrottle" data-step="1" min="0" max="2200" />
-            </dd>
-            <dt title="the throttle value where the PID controller starts acting" data-i18n="column.min-command">Min.
-                Command</dt>
-            <dd>
-                <input class="unsafe" type="number" lang="en-150" step="1" name="minCommand" data-step="1" min="0" max="2200" />
-            </dd>
-            <dt title="the ESC's middle command for 3D mode use" data-i18n="column.mid-command">Mid. Command</dt>
-            <dd>
-                <input class="unsafe" type="number" lang="en-150" step="1" name="midCommand" data-step="1" min="0" max="2200" />
-            </dd>
-            <dt class="tricopter" data-i18n="column.tri-yaw-mid">Tri Yaw Mid.</dt>
-            <dd class="tricopter">
-                <input class="unsafe" type="number" lang="en-150" step="1" name="TYmid" data-step="1" min="0" max="2200" />
-            </dd>
-            <dt class="tricopter" data-i18n="column.tri-yaw-invert">Tri Yaw Invert</dt>
-            <dd class="tricopter">
-                <input class="unsafe" type="checkbox" name="TYinv" />
-            </dd>
-            <dt>
-                <span title="ESC Mode" data-i18n="column.esc-mode">ESC Mode</span>
-            </dt>
-            <dd>
-                <select class="unsafe" name="outputMode" id="outputMode">
-                    <option value="8" data-i18n="output.8">FETtec OneWire</option>
-                    <option value="7" data-i18n="output.7">Dshot 2400</option>
-                    <option value="6" data-i18n="output.6">Dshot 1200</option>
-                    <option value="5" data-i18n="output.5">Dshot 600</option>
-                    <option value="4" data-i18n="output.4">Dshot 300</option>
-                    <option value="3" data-i18n="output.3">Dshot 150</option>
-                    <option value="2" data-i18n="output.2">OneShot 42</option>
-                    <option value="1" data-i18n="output.1" selected>OneShot 125</option>
-                    <option value="0" data-i18n="output.0">PWM</option>
-                </select>
-            </dd>
-            <dt data-i18n="column.3d-mode">3D Mode</dt>
-            <dd>
-                <input class="unsafe" type="checkbox" disabled="true" name="3dMode" />
-            </dd>
-        </dl>
     </div>
 
     <div class="wrapper-wide">
@@ -290,63 +405,11 @@
             </table>
         </div>
 
-        <div class="general_settings" style="margin-top:20px;">
-            <span data-i18n="text.firmware-version">Firmware Version:</span>
-            <span id="version"></span>
-            <br />
-            <span data-i18n="text.sn">Serial Number:</span>
-            <span id="SN" class="uuid"></span>
-            <br />
-            <span data-i18n="text.eeprom-version">EEPROM:</span>
-            <span id="eeprom1" class "uuid"></span>
-<!--
-            <br />
-            <span data-i18n="text.debug">DEBUG:</span>
-            <span id="debug" class "uuid"></span>
-            <br />
-            <span data-i18n="text.debug">DEBUG2:</span>
-            <span id="debug2" class "uuid"></span>
-            <br />
--->
-        </div>
+   
     </div>
 
-    <div class="wrapper-narrow">
-        <div class="groupTitle" data-i18n="title.aux-functions">AUX Functions</div>
-        <dl id="aux11"></dl>
-        <dl id="aux0"></dl>
-        <dl id="aux1"></dl>
-        <dl id="aux4"></dl>
-        <dl id="aux2"></dl>
-        <dl id="aux3"></dl>
-        <dl id="aux10"></dl>
-        <dl id="aux5"></dl>
-        <dl id="aux6"></dl>
-        <dl id="aux7"></dl>
-        <dl id="aux8"></dl>
-        <dl id="aux9"></dl>
-        <dl id="aux12"></dl>
-        <dl id="aux13"></dl>
-    </div>
 
-    <div class="wrapper-narrow">
-        <div class="groupTitle" data-i18n="title.filter" style="margin-top:20px;">Filter</div>
-        <dl>
-            <dt data-i18n="column.lpf-frequency">LPF FRQ</dt>
-            <dd>
-                <select name="lpf">
-                    <option value="0" data-i18n="filter.0">Off</option>
-                    <option value="1" data-i18n="filter.1">High</option>
-                    <option value="2" data-i18n="filter.2">Medium High</option>
-                    <option value="3" data-i18n="filter.3">Medium</option>
-                    <option value="4" data-i18n="filter.4">Medium Low</option>
-                    <option value="5" data-i18n="filter.5">Low</option>
-                    <option value="6" data-i18n="filter.6">Very Low</option>
-                    <option value="7" data-i18n="filter.7">Advanced Settings</option>
-                </select>
-            </dd>
-        </dl>
-    </div>
+
 
     <div class="config_buttons">
 		<a id="backup" 	class="u-button" href="#" title="Backup to file" data-i18n="button.backup">Backup</a>

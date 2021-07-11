@@ -81,7 +81,7 @@ CONTENT.data_output.initialize = function (callback) {
 
     function htmlLoaded() {
         // generate receiver bars
-        var receiverNames = [$.i18n('column.throttle'), $.i18n('column.roll'), $.i18n('column.pitch'), $.i18n('column.yaw'), 'Aux 1', 'Aux 2', 'Aux 3', 'Aux 4', 'Aux 5', 'Aux 6', 'Aux 7'];
+        var receiverNames = [$.i18n('column.throttle'), $.i18n('column.roll'), $.i18n('column.pitch'), $.i18n('column.yaw'), 'AUX1', 'AUX2', 'AUX3', 'AUX4', 'AUX5', 'AUX6', 'AUX7'];
         var receiverContainer = $('.data_output .receiver .bars');
         var receiverFillArray = [];
         var receiverLabelArray = [];
@@ -127,9 +127,9 @@ CONTENT.data_output.initialize = function (callback) {
         var octoCotperType = [9,10];
         // generate motor bars
         if (data['ver'] >= 123 && octoCotperType.indexOf(data['CopterType']) !== -1) {
-            var motorNames = ['PWM 1', 'PWM 2', 'PWM 3', 'PWM 4', 'PWM 5', 'PWM 6', 'PWM 7', 'PWM 8'];
+            var motorNames = ['M1', 'M2', 'M3', 'M4', 'M5', 'M6', 'M7', 'M8'];
         } else {
-            var motorNames = ['PWM 1', 'PWM 2', 'PWM 3', 'PWM 4', 'PWM 5', 'PWM 6'];
+            var motorNames = ['M1', 'M2', 'M3', 'M4', 'M5', 'M6'];
         }
         var motorContainer = $('.data_output .motors .bars');
         var motorFillArray = [];

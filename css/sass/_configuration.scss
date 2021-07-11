@@ -36,28 +36,7 @@
 	    border: 1px solid silver;
 	}
 	
-	dl.general-settings {
-	    margin-bottom: 10px;
-	}
-	
-	dt {
-	    float: left;
-	    width: 100px;
-	    height: 27px;
-	    line-height: 24px;
-	}
-	
-	dd {
-	    margin-left: 100px;
-	    height: 27px;
-	}
-	
-	dd input[type="checkbox"] {
-	    position: relative;
-	    top: 3px;
-	    margin-left: 30px;
-	}
-	
+
 	.pid_rates {
 	    border-collapse: collapse;
 	    
@@ -175,4 +154,7 @@
     display: none;
 }
 
-
+.mixer-image {
+	position: relative;
+	top: -15px;
+}

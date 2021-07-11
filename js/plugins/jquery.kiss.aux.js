@@ -9,7 +9,7 @@
             var data = pluginData(self);
             var c = "";
             c += '<dt class="kiss-aux-function">' + data.name + '</dt>';
-            c += '<dd class="kiss-aux-function"><select class="kiss-aux-channel unsafe">';
+            c += '<dd><select class="kiss-aux-channel unsafe">';
             c += '<option value="0">--</option>';
             c += '<option value="1">AUX1</option>';
             c += '<option value="2">AUX2</option>';

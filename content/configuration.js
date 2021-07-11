@@ -174,15 +174,15 @@ CONTENT.configuration.initialize = function (callback) {
 
 
         // Begin show available RX protocol
-        if (data['ver'] < 109) { //TODO - Check version
-            document.getElementById('rxpwm1').style.display = "inline";
-        }
-        document.getElementById('rxppm1').style.display = "inline";
-        document.getElementById('rxppm2').style.display = "inline";
-        document.getElementById('rxppm3').style.display = "inline";
-        document.getElementById('rxppm4').style.display = "inline";
-        document.getElementById('rxppm5').style.display = "inline";
-        document.getElementById('rxppm6').style.display = "inline";
+//        if (data['ver'] < 109) { //TODO - Check version
+//            document.getElementById('rxpwm1').style.display = "inline";
+//        }
+//        document.getElementById('rxppm1').style.display = "inline";
+//        document.getElementById('rxppm2').style.display = "inline";
+//        document.getElementById('rxppm3').style.display = "inline";
+//        document.getElementById('rxppm4').style.display = "inline";
+//        document.getElementById('rxppm5').style.display = "inline";
+//        document.getElementById('rxppm6').style.display = "inline";
         document.getElementById('rxdsm1').style.display = "inline";
         document.getElementById('rxdsm2').style.display = "inline";
         document.getElementById('rxsbus1').style.display = "inline";
@@ -375,11 +375,12 @@ CONTENT.configuration.initialize = function (callback) {
 
         var outputMode = data['ESConeshot125'];
 
-        if (outputMode != 8) {
-            // disable octo for non OneWire due to missing outputs           
-            $("select[name='mixer'] option[value='9']").prop("disabled", true);
-            $("select[name='mixer'] option[value='10']").prop("disabled", true);
-        }
+       // if (outputMode != 8) {
+            // disable octo for non OneWire due to missing outputs    
+// TODO: Remove for Ultra MINI   only   
+          //  $("select[name='mixer'] option[value='9']").prop("disabled", true);
+          //  $("select[name='mixer'] option[value='10']").prop("disabled", true);
+       // }
 
         $("#outputMode").val(outputMode);
         $("#outputMode").on('change', function () {
