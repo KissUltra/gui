@@ -21,3 +21,19 @@
     background-repeat: repeat;
     z-index: -998;
 }
+
+ul.osd-backgrounds-thimbnails {
+  li {
+    display: inline-block;
+    margin-right: 3px;
+    margin-bottom: 3px;
+
+    img {
+      border: 1px solid #333;
+    }
+    
+    img.active {
+      border: 1px solid #756c0a;
+    }
+  }
+}

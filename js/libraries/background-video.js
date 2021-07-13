@@ -4,7 +4,13 @@ function BackgroundVideo(options) {
     } else {
         this.container = document.getElementById(options.container);
 		this.container.style.position = "relative";
+		
+		 if (options.zIndex !== undefined) {
+			 this.container = document.getElementById(options.container);
+			 this.container.style.zIndex = options.zIndex;
+		 }
     }
+    
     this.currentItem = -1;
     this.videoCounter = 0;
     this.videos = new Array();
@@ -138,7 +144,7 @@ BackgroundVideo.prototype = {
             document.getElementById(this.videos[this.currentItem].id).style.display = "";
         }
     }
-
+    
 }
 
 /**

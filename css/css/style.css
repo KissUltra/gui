@@ -698,18 +698,13 @@ a.reset-model:hover {
   font-weight: bold;
 }
 
-/* line 132, ../sass/_configuration.scss */
-#save.saveAct {
-  background-color: #1d1d1d;
-}
-
-/* line 136, ../sass/_configuration.scss */
+/* line 133, ../sass/_configuration.scss */
 #BoardRotation {
   width: 72px;
   height: 22px;
 }
 
-/* line 141, ../sass/_configuration.scss */
+/* line 138, ../sass/_configuration.scss */
 .minicolors input[type=hidden] + .minicolors-swatch {
   position: relative;
   cursor: pointer;
@@ -718,20 +713,14 @@ a.reset-model:hover {
   height: 18px;
 }
 
-/* line 149, ../sass/_configuration.scss */
+/* line 146, ../sass/_configuration.scss */
 #userSel {
   width: 200px;
 }
 
-/* line 153, ../sass/_configuration.scss */
+/* line 150, ../sass/_configuration.scss */
 .tricopter {
   display: none;
-}
-
-/* line 157, ../sass/_configuration.scss */
-.mixer-image {
-  position: relative;
-  top: -15px;
 }
 
 /* line 6, ../sass/_esc_flasher.scss */
@@ -1288,17 +1277,12 @@ select, button, input, textarea {
   border-bottom: 1px solid transparent;
 }
 
-/* line 406, ../sass/_main.scss */
-.navigation-menu-button:hover {
-  background-color: #777;
-}
-
 /* line 411, ../sass/_main.scss */
 .portSelector {
   border-bottom: 1px solid #756c0a;
   flex-grow: 10;
-  padding-top: 10px;
-  padding-left: 20px;
+  padding-top: 15px;
+  padding-left: 18px;
 }
 
 /* line 418, ../sass/_main.scss */
@@ -1313,13 +1297,17 @@ select, button, input, textarea {
   text-align: center;
   min-width: 50px;
 }
+/* line 429, ../sass/_main.scss */
+.u-button.saveAct {
+  background-color: red;
+}
 
-/* line 430, ../sass/_main.scss */
+/* line 434, ../sass/_main.scss */
 .u-button:hover {
   background-color: #cec12f;
 }
 
-/* line 436, ../sass/_main.scss */
+/* line 440, ../sass/_main.scss */
 .config_buttons {
   position: fixed;
   right: 10px;
@@ -1371,6 +1359,21 @@ select, button, input, textarea {
   background-image: none;
   background-repeat: repeat;
   z-index: -998;
+}
+
+/* line 26, ../sass/_osd.scss */
+ul.osd-backgrounds-thimbnails li {
+  display: inline-block;
+  margin-right: 3px;
+  margin-bottom: 3px;
+}
+/* line 31, ../sass/_osd.scss */
+ul.osd-backgrounds-thimbnails li img {
+  border: 1px solid #333;
+}
+/* line 35, ../sass/_osd.scss */
+ul.osd-backgrounds-thimbnails li img.active {
+  border: 1px solid #756c0a;
 }
 
 /* latin */
@@ -1492,6 +1495,11 @@ select, button, input, textarea {
 /* line 102, ../sass/_layout.scss */
 .column-67 {
   width: 67%;
+}
+
+/* line 106, ../sass/_layout.scss */
+.column-100 {
+  width: 100%;
 }
 
 /* line 1, ../sass/_minicolors.scss */

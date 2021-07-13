@@ -277,6 +277,7 @@ function dist_src() {
 
     // everything else
     './css/css/images/*.*',
+    './css/css/fonts/*.*',
     './eventPage.js',
     './cordova.js', // For cordova
     './*.html',

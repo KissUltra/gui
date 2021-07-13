@@ -1,8 +1,25 @@
 'use strict';
 
+
+function setBackground(background) {
+	chrome.storage.local.set({'background': background});
+}
+
+function getBackground(callback) {
+	  chrome.storage.local.get('background', function (result) {
+          if ((result !== undefined) && (result.background !== undefined)) {
+              callback(result.background);
+          } else {
+              callback('images/osd/video1.mp4');
+          }
+      });
+}
+
 CONTENT.osd = {
 
 };
+
+
 
 CONTENT.osd.initialize = function (callback) {
     var self = this;
@@ -27,20 +44,52 @@ CONTENT.osd.initialize = function (callback) {
 	
 
 	self.interval = window.setInterval(function() { self.nvcounter = 1 - self.nvcounter }, 500);
-
+	
+	self.backgrounds = [
+		"images/osd/video1.mp4",
+		"images/osd/video3.mp4",
+		"images/osd/video2.mp4"
+	];
 
 	function htmlLoaded(data) {
 		
-		self.video = new BackgroundVideo({
-			container: "osdframe",
-		    video: [
-		        {
-		        	file: "images/osd_background.mp4"
-		        }
-		    ]
-		});
 		
-		self.playing = true;
+		getBackground(function(bg) {
+			
+			self.video = new BackgroundVideo({
+				container: "osdframe",
+				zIndex: "1000",
+			    video: [
+			        {
+			        	file: bg
+			        }
+			    ]
+			});
+			
+			self.playing = true;
+			$.each(self.backgrounds, function( index, value ) {
+				 $(".osd-backgrounds-thimbnails").append('<li><img data-idx="'+index+'" src="'+value.replace('.mp4','.png')+'" '+(value === bg ? 'class="bgtn active"' : 'class="bgtn"')+'></li>');
+			});
+
+			$("img.bgtn").on('click', function() {
+				$("img.bgtn").removeClass('active');
+				$(this).addClass('active');
+				var src = self.backgrounds[$(this).data('idx')];
+				setBackground(src);
+				
+				$("#BackgroundVideo-0").remove();
+				
+				self.video = new BackgroundVideo({
+					container: "osdframe",
+					zIndex: "1000",
+				    video: [
+				        {
+				        	file: src
+				        }
+				    ]
+				});
+			});
+		});
 
 		self.startedUIupdate = 0;
 		window.clearTimeout(self.updateTimeout);

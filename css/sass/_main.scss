@@ -389,30 +389,30 @@ select, button, input, textarea {
   padding: 14px 14px;
   
 
-  	font-weight: 300;
-	font-size: 16px;
+  font-weight: 300; 
+  font-size: 16px;
 	
   margin: 0px;
   transition: 0.25s background ease;
   &.active-menu {
     background-color: $background-color;
     color: #fff;
-      	font-weight: 600;
+    font-weight: 600;
     border: 1px solid #756c0a;
   	border-bottom: 1px solid transparent;
   }
 }
 
 .navigation-menu-button:hover {
-  background-color: #777;
+  //background-color: #777;
 }
 
 
 .portSelector {
  	border-bottom: 1px solid #756c0a;
  	flex-grow: 10;
- 	padding-top: 10px;
-    padding-left: 20px;
+ 	padding-top: 15px;
+    padding-left: 18px;
 }
 
 .u-button {
@@ -425,6 +425,10 @@ select, button, input, textarea {
   background-color: #756c0a;
   text-align: center;
   min-width: 50px;
+  
+  &.saveAct {
+  	background-color: red;
+  }
 }
 
 .u-button:hover {

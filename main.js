@@ -3,34 +3,18 @@
 const MIN_CONFIG_VERSION = 126; // this gui can manage versions in this range
 const MAX_CONFIG_VERSION = 126;
 
-function getLanguage(callback) {
-    if (typeof chromeSerial !== 'undefined') {
-        chrome.storage.local.get('language', function (result) {
-            if (result.language !== undefined) {
-                callback(result.language);
-            } else {
-                callback("en");
-            }
-        });
-    } else {
-        if (window.localStorage.getItem('language') !== undefined) {
-            var lang = window.localStorage.getItem('language');
-            if (lang == null) lang = "en";
-            callback(lang);
-        } else {
-            callback("en");
-        }
-    }
+function setLanguage(lang) {
+	chrome.storage.local.set({'language': lang});
 }
 
-function setLanguage(lang) {
-    if (typeof chromeSerial !== 'undefined') {
-        chrome.storage.local.set({
-            'language': lang
-        });
-    } else {
-        localStorage.setItem('language', lang);
-    }
+function getLanguage(callback) {
+	  chrome.storage.local.get('language', function (result) {
+          if (result !== undefined) {
+              callback(result.language);
+          } else {
+              callback('en');
+          }
+      });
 }
 
 function changeLanguage() {
