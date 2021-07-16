@@ -2,12 +2,13 @@
 .flex-container {
     width: 100%;
     display: flex;
+    //margin-bottom: 6px;
 }
+
 
 .column {
 	width: 50%;
-
-
+	
 	.block {
 
 		width: 100%;
@@ -38,6 +39,7 @@
 			table {
 				border: 0px;
 				margin-bottom: 10px;
+				width:98%;
 			}
 		
 	 		select {
@@ -66,10 +68,9 @@
 			}
 
 			dt {
-  				//float: left;
-  				//width: 100px;
+
   				display: inline-block;
-  				width: 40%;
+  				width: 40%; 
   				height: 27px;
   				line-height: 24px;
 			}
@@ -107,3 +108,10 @@
 	width: 100%;
 }
 
+.block-h-100 {
+	height: 100%;
+}
+
+.max-height {
+	display: flex!important;
+}

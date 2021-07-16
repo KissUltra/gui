@@ -70,10 +70,11 @@ $(document).ready(function () {
             GUI.contentSwitchInProgress = false;
         }
 
-        $("#navigation button").removeClass("active-menu");
+    
       
         
         if ($(self).hasClass('unlocked') && GUI.activeContent != content) {
+            $("#navigation button").removeClass("active-menu");
         	$(self).addClass("active-menu");
             GUI.contentSwitchInProgress = true;
             GUI.contentSwitchCleanup(function () {

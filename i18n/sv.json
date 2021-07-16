@@ -407,11 +407,13 @@
     "title.gps": "GPS",
     "column.latitude": "Latitude:",
     "column.longitude": "Longitude:",
-    "column.altitude": "Altitude:",
+    "column.altitude": "ASL Alt:",
     "column.course": "Course:",
     "column.speed": "Speed:",
     "column.satellites": "Satellites:",
-    
+    "column.distance": "Distance:",
+    "column.direction": "Direction:",
+    "column.relativeAlt": "Altitude:",	
     "title.rth": "Kiss RTH",
     "column.rth.return.altitude": "Return altitude (m) (0 - auto)",
     "column.rth.home.altitude": "Home altitude (m)",
@@ -421,5 +423,7 @@
     "column.rth.min.throttle": "Minimum throttle (0 - auto)",
     "column.rth.return.speed": "Return speed (km/h)",
     "column.rth.home.action": "Home action",
-	"title.osd-mirror": "OSD Mirror"
+	"title.osd-mirror": "OSD Mirror",
+	"legend.40": "ESC on PWM7",
+    "legend.41": "ESC on PWM8"
 }

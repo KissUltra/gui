@@ -1,224 +1,3 @@
-/* line 3, ../sass/_data_output.scss */
-.data_output {
-  margin-bottom: 50px;
-}
-/* line 5, ../sass/_data_output.scss */
-.data_output .other {
-  	/*a {
-      	margin: 10px 0 0 0;
-      	display: block;
-      	color: white;
-      	padding: 0 10px 0 10px;
-      	height: 20px;
-      	line-height: 20px;
-      	background-color: #756c0a;
-      	text-align: center;
-  	}
-  
-  	a:hover {
-      	background-color: #cec12f;
-  	}*/
-}
-/* line 6, ../sass/_data_output.scss */
-.data_output .other dl dt {
-  float: left;
-  width: 50px;
-  line-height: 20px;
-  text-align: right;
-}
-/* line 13, ../sass/_data_output.scss */
-.data_output .other dl dd {
-  margin-left: 55px;
-  line-height: 20px;
-  font-weight: bold;
-}
-/* line 36, ../sass/_data_output.scss */
-.data_output .bars {
-  float: left;
-  width: 100%;
-  font-weight: bold;
-}
-/* line 41, ../sass/_data_output.scss */
-.data_output .bars ul {
-  margin-bottom: 5px;
-  clear: left;
-}
-/* line 46, ../sass/_data_output.scss */
-.data_output .bars li {
-  float: left;
-  height: 22px;
-  line-height: 20px;
-}
-/* line 52, ../sass/_data_output.scss */
-.data_output .bars .name {
-  padding: 0 10px 0 0;
-  width: 40px;
-  text-align: right;
-}
-/* line 58, ../sass/_data_output.scss */
-.data_output .bars .meter {
-  width: calc(100% - 80px);
-}
-/* line 62, ../sass/_data_output.scss */
-.data_output .bars .motor {
-  width: calc(100% - 80px);
-}
-/* line 66, ../sass/_data_output.scss */
-.data_output .bars .meter-bar {
-  position: relative;
-  margin-top: 2px;
-  width: 100%;
-  height: 15px;
-  border: 1px solid silver;
-  background-color: #f4f4f4;
-}
-/* line 75, ../sass/_data_output.scss */
-.data_output .bars .meter-bar .label {
-  position: absolute;
-  width: 50px;
-  height: 15px;
-  line-height: 15px;
-  text-align: center;
-  color: #474747;
-}
-/* line 84, ../sass/_data_output.scss */
-.data_output .bars .meter-bar .fill {
-  position: relative;
-  overflow: hidden;
-  width: 50%;
-  height: 15px;
-  background-color: #cec12f;
-}
-/* line 92, ../sass/_data_output.scss */
-.data_output .bars .meter-bar .fill .label {
-  color: white;
-}
-/* line 97, ../sass/_data_output.scss */
-.data_output .plot {
-  margin: 10px 0 0 0;
-}
-/* line 98, ../sass/_data_output.scss */
-.data_output .plot dl {
-  float: left;
-}
-/* line 101, ../sass/_data_output.scss */
-.data_output .plot dl dt {
-  line-height: 32px;
-  float: left;
-  width: 100px;
-  text-align: right;
-}
-/* line 108, ../sass/_data_output.scss */
-.data_output .plot dl dd {
-  line-height: 32px;
-  margin-left: 105px;
-  font-weight: bold;
-}
-/* line 114, ../sass/_data_output.scss */
-.data_output .plot dl dd:nth-of-type(1) {
-  color: #00A8F0;
-}
-/* line 118, ../sass/_data_output.scss */
-.data_output .plot dl dd:nth-of-type(2) {
-  color: #f02525;
-}
-/* line 122, ../sass/_data_output.scss */
-.data_output .plot dl dd:nth-of-type(3) {
-  color: #C0D800;
-}
-/* line 126, ../sass/_data_output.scss */
-.data_output .plot dl dd:nth-of-type(4) {
-  color: #9440ED;
-}
-/* line 130, ../sass/_data_output.scss */
-.data_output .plot dl dd:nth-of-type(5) {
-  color: #f8921a;
-}
-/* line 134, ../sass/_data_output.scss */
-.data_output .plot dl dd:nth-of-type(6) {
-  color: #147A66;
-}
-/* line 142, ../sass/_data_output.scss */
-.data_output #graph {
-  background-color: white;
-  margin-left: 10px;
-}
-
-/* line 151, ../sass/_data_output.scss */
-.motor-test {
-  margin-left: 10px;
-}
-
-/*	.motor-test-button {
-	    margin: 10px 0 0 0;
-	    color: white;
-	    padding: 2px 10px 0 10px;
-	    height: 24px;
-	    line-height: 20px;
-	    background-color: #756c0a;
-	    font-size: 16px;
-	}
-	
-	.motor-test-button a:hover {
-	    background-color: #d01414;
-	} */
-/* line 169, ../sass/_data_output.scss */
-.otherValues {
-  width: 100%;
-}
-
-/* line 173, ../sass/_data_output.scss */
-.otherValues td {
-  width: 25%;
-  text-align: right;
-}
-
-/* line 178, ../sass/_data_output.scss */
-.model_chart {
-  width: 190px;
-  height: 190px;
-  float: right;
-}
-
-/* line 184, ../sass/_data_output.scss */
-.plot dd {
-  width: 35px;
-  overflow: hidden;
-  text-overflow: hidden;
-}
-
-/* line 193, ../sass/_data_output.scss */
-a.reset_model {
-  margin: 10px 0 0 0;
-  display: block;
-  color: white;
-  padding: 0 10px 0 10px;
-  height: 20px;
-  line-height: 20px;
-  background-color: #1d1d1d;
-  text-align: center;
-  float: right;
-}
-
-/* line 205, ../sass/_data_output.scss */
-a.reset-model:hover {
-  background-color: #cec12f;
-}
-
-@media (max-width: 500px) {
-  /* line 210, ../sass/_data_output.scss */
-  .data_output .model_chart {
-    display: block;
-    float: none;
-    margin-left: 10px;
-  }
-
-  /* line 215, ../sass/_data_output.scss */
-  a.reset_model {
-    float: left;
-    margin-left: 10px;
-  }
-}
 /* line 5, ../sass/_flasher.scss */
 .flasher .flash {
   position: absolute;
@@ -1400,11 +1179,11 @@ ul.osd-backgrounds-thimbnails li img.active {
   display: flex;
 }
 
-/* line 7, ../sass/_layout.scss */
+/* line 9, ../sass/_layout.scss */
 .column {
   width: 50%;
 }
-/* line 11, ../sass/_layout.scss */
+/* line 12, ../sass/_layout.scss */
 .column .block {
   width: 100%;
   padding: 0px;
@@ -1412,7 +1191,7 @@ ul.osd-backgrounds-thimbnails li img.active {
   border: 1px solid #333;
   background-color: #222;
 }
-/* line 20, ../sass/_layout.scss */
+/* line 21, ../sass/_layout.scss */
 .column .block .title {
   padding: 0 0 0 5px;
   margin: 0 0 5px 0;
@@ -1420,27 +1199,28 @@ ul.osd-backgrounds-thimbnails li img.active {
   color: #e09338;
   font-weight: 600;
 }
-/* line 28, ../sass/_layout.scss */
+/* line 29, ../sass/_layout.scss */
 .column .block .body {
   display: block;
   padding: 0 0 0 5px;
 }
-/* line 33, ../sass/_layout.scss */
+/* line 34, ../sass/_layout.scss */
 .column .block .body input[type="checkbox"] {
   position: relative;
   top: 1px;
 }
-/* line 38, ../sass/_layout.scss */
+/* line 39, ../sass/_layout.scss */
 .column .block .body table {
   border: 0px;
   margin-bottom: 10px;
+  width: 98%;
 }
-/* line 43, ../sass/_layout.scss */
+/* line 45, ../sass/_layout.scss */
 .column .block .body select {
   height: 22px;
   border: 1px solid silver;
 }
-/* line 48, ../sass/_layout.scss */
+/* line 50, ../sass/_layout.scss */
 .column .block .body input[type="text"] {
   width: 70px;
   height: 20px;
@@ -1448,7 +1228,7 @@ ul.osd-backgrounds-thimbnails li img.active {
   text-align: right;
   border: 1px solid silver;
 }
-/* line 56, ../sass/_layout.scss */
+/* line 58, ../sass/_layout.scss */
 .column .block .body input[type="number"] {
   width: 70px;
   height: 20px;
@@ -1456,50 +1236,60 @@ ul.osd-backgrounds-thimbnails li img.active {
   text-align: right;
   border: 1px solid silver;
 }
-/* line 64, ../sass/_layout.scss */
+/* line 66, ../sass/_layout.scss */
 .column .block .body dl {
   margin-bottom: 10px;
 }
-/* line 68, ../sass/_layout.scss */
+/* line 70, ../sass/_layout.scss */
 .column .block .body dt {
   display: inline-block;
   width: 40%;
   height: 27px;
   line-height: 24px;
 }
-/* line 77, ../sass/_layout.scss */
+/* line 78, ../sass/_layout.scss */
 .column .block .body dt.wide {
   width: 100%;
 }
-/* line 81, ../sass/_layout.scss */
+/* line 82, ../sass/_layout.scss */
 .column .block .body dd {
   height: 27px;
   display: inline-block;
 }
-/* line 85, ../sass/_layout.scss */
+/* line 86, ../sass/_layout.scss */
 .column .block .body dd .minicolors {
   position: relative;
   top: -2px;
 }
 
-/* line 94, ../sass/_layout.scss */
+/* line 95, ../sass/_layout.scss */
 .column-left {
   padding-right: 7px;
 }
 
-/* line 98, ../sass/_layout.scss */
+/* line 99, ../sass/_layout.scss */
 .column-33 {
   width: 33%;
 }
 
-/* line 102, ../sass/_layout.scss */
+/* line 103, ../sass/_layout.scss */
 .column-67 {
   width: 67%;
 }
 
-/* line 106, ../sass/_layout.scss */
+/* line 107, ../sass/_layout.scss */
 .column-100 {
   width: 100%;
+}
+
+/* line 111, ../sass/_layout.scss */
+.block-h-100 {
+  height: 100%;
+}
+
+/* line 115, ../sass/_layout.scss */
+.max-height {
+  display: flex !important;
 }
 
 /* line 1, ../sass/_minicolors.scss */
@@ -1906,4 +1696,205 @@ ul.osd-backgrounds-thimbnails li img.active {
 /* line 330, ../sass/_minicolors.scss */
 .minicolors-theme-semanticui input {
   text-indent: 30px;
+}
+
+/* line 3, ../sass/_data_output.scss */
+.data_output {
+  margin-bottom: 50px;
+}
+/* line 6, ../sass/_data_output.scss */
+.data_output .other dl dt {
+  float: left;
+  width: 50px;
+  line-height: 20px;
+  text-align: right;
+}
+/* line 13, ../sass/_data_output.scss */
+.data_output .other dl dd {
+  margin-left: 55px;
+  line-height: 20px;
+  font-weight: bold;
+}
+/* line 24, ../sass/_data_output.scss */
+.data_output .plot {
+  margin: 10px 0 0 0;
+}
+/* line 30, ../sass/_data_output.scss */
+.data_output #graph {
+  background-color: white;
+  margin-left: 10px;
+}
+
+/* line 39, ../sass/_data_output.scss */
+.motor-test {
+  margin-left: 10px;
+}
+
+/* line 45, ../sass/_data_output.scss */
+.otherValues {
+  width: 100%;
+}
+
+/* line 49, ../sass/_data_output.scss */
+.otherValues td {
+  width: 25%;
+  text-align: right;
+}
+
+/* line 54, ../sass/_data_output.scss */
+.model_chart {
+  width: 190px;
+  height: 190px;
+  float: right;
+  position: relative;
+  left: -10px;
+}
+
+/* line 62, ../sass/_data_output.scss */
+.plot dd {
+  width: 35px;
+  overflow: hidden;
+  text-overflow: hidden;
+}
+
+/* line 71, ../sass/_data_output.scss */
+a.reset_model {
+  margin-right: 10px;
+  float: right;
+}
+
+@media (max-width: 500px) {
+  /* line 78, ../sass/_data_output.scss */
+  .data_output .model_chart {
+    display: block;
+    float: none;
+    margin-left: 10px;
+  }
+
+  /* line 83, ../sass/_data_output.scss */
+  a.reset_model {
+    float: left;
+    margin-left: 10px;
+  }
+}
+/* line 91, ../sass/_data_output.scss */
+.bars ul {
+  margin-bottom: 5px;
+  clear: left;
+}
+/* line 96, ../sass/_data_output.scss */
+.bars li {
+  float: left;
+  height: 22px;
+  line-height: 20px;
+}
+/* line 102, ../sass/_data_output.scss */
+.bars .name {
+  padding: 0 10px 0 0;
+  width: 40px;
+  text-align: right;
+}
+/* line 108, ../sass/_data_output.scss */
+.bars .meter {
+  width: calc(100% - 80px);
+}
+/* line 112, ../sass/_data_output.scss */
+.bars .motor {
+  width: calc(100% - 80px);
+}
+/* line 116, ../sass/_data_output.scss */
+.bars .meter-bar {
+  position: relative;
+  margin-top: 2px;
+  width: 100%;
+  height: 15px;
+  border: 1px solid silver;
+  background-color: #f4f4f4;
+}
+/* line 125, ../sass/_data_output.scss */
+.bars .meter-bar .label {
+  position: absolute;
+  width: 50px;
+  height: 15px;
+  line-height: 15px;
+  text-align: center;
+  color: #474747;
+}
+/* line 134, ../sass/_data_output.scss */
+.bars .meter-bar .fill {
+  position: relative;
+  overflow: hidden;
+  width: 50%;
+  height: 15px;
+  background-color: #cec12f;
+}
+/* line 142, ../sass/_data_output.scss */
+.bars .meter-bar .fill .label {
+  color: white;
+}
+
+/* line 147, ../sass/_data_output.scss */
+.column .block .body dl.legend {
+  width: 145px;
+  float: left;
+  font-size: 12px;
+  position: relative;
+  top: -5px;
+}
+/* line 154, ../sass/_data_output.scss */
+.column .block .body dl.legend dt {
+  float: left;
+  width: 100px;
+  height: 20px;
+  line-height: 24px;
+}
+/* line 161, ../sass/_data_output.scss */
+.column .block .body dl.legend dd {
+  height: 20px;
+  line-height: 24px;
+  font-weight: bold;
+  width: 25%;
+  text-align: right;
+}
+/* line 169, ../sass/_data_output.scss */
+.column .block .body dl.legend dd:nth-of-type(1) {
+  color: #00A8F0;
+}
+/* line 173, ../sass/_data_output.scss */
+.column .block .body dl.legend dd:nth-of-type(2) {
+  color: #f02525;
+}
+/* line 177, ../sass/_data_output.scss */
+.column .block .body dl.legend dd:nth-of-type(3) {
+  color: #C0D800;
+}
+/* line 181, ../sass/_data_output.scss */
+.column .block .body dl.legend dd:nth-of-type(4) {
+  color: #9440ED;
+}
+/* line 185, ../sass/_data_output.scss */
+.column .block .body dl.legend dd:nth-of-type(5) {
+  color: #f8921a;
+}
+/* line 189, ../sass/_data_output.scss */
+.column .block .body dl.legend dd:nth-of-type(6) {
+  color: #147A66;
+}
+/* line 193, ../sass/_data_output.scss */
+.column .block .body dl.legend dd:nth-of-type(7) {
+  color: #147A66;
+}
+/* line 197, ../sass/_data_output.scss */
+.column .block .body dl.legend dd:nth-of-type(8) {
+  color: #147A66;
+}
+
+/* line 202, ../sass/_data_output.scss */
+#graph {
+  background-color: #fff;
+}
+
+/* line 206, ../sass/_data_output.scss */
+.mixerPreview {
+  text-align: center;
 }

@@ -45,10 +45,15 @@ CONTENT.osd.initialize = function (callback) {
 
 	self.interval = window.setInterval(function() { self.nvcounter = 1 - self.nvcounter }, 500);
 	
+	/*
+	 * ffmpeg -i src.m4v -vf scale=-1:288 tmp1.mp4
+	 * ffmpeg -i tmp1.mp4 -filter:v "crop=370:288:64:0" dst.mp4	
+	 */
 	self.backgrounds = [
 		"images/osd/video1.mp4",
 		"images/osd/video3.mp4",
-		"images/osd/video2.mp4"
+		"images/osd/video2.mp4",
+		"images/osd/video4.mp4"
 	];
 
 	function htmlLoaded(data) {

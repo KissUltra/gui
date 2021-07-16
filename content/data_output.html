@@ -1,52 +1,64 @@
-<div class="data_output">
-    <div class="receiver wrapper-narrow">
-        <div class="groupTitle" data-i18n="title.receiver">Receiver</div>
-        <div class="bars">
+<div class="flex-container">
+	<div class="column column-left column-33 max-height">
+		<div class="block">
+			    <div class="title" data-i18n="title.receiver">Receiver</div>
+			    <div class="body">
+        			<div id="rbars" class="bars" ></div>
+        		</div>
+		</div>
+	</div>	
+	
+	<div class="column column-left column-33 max-height">
+		<div class="block">
+		  	<div id="motorTestTitle" class="title">
+            	<span data-i18n="title.motors">Motors</span>
+            	<a class="motor-test-button u-button" href="#" style="font-size:11px;" data-i18n="button.test">TEST</a>
+            	<input style="display:none" type="checkbox" class="motor-test-enabled" />
+        	</div>
+        	<div id="mbars" class="bars"></div>
+
+        	<div class="mixerPreview">
+            	<img class="mixer-image" src="./images/mixer/0.png" />
+        	</div>
         </div>
-    </div>
-    <div class="motors wrapper-narrow">
-        <div id="motorTestTitle" class="groupTitle">
-            <span data-i18n="title.motors">Motors</span>
-            <a class="motor-test-button u-button" href="#" style="font-size:11px;" data-i18n="button.test">TEST</a>
-            <input style="display:none" type="checkbox" class="motor-test-enabled" />
+	</div>	
+	
+	<div class="column column-33 max-height" style="flex-direction:column">
+		<div class="block" style="flex-grow: 10">
+			  <div class="title" data-i18n="title.other">Other</div>
+			  <div class="body">
+        		<table class="otherValues">
+            		<tr>
+                		<td data-i18n="column.mode">Mode:</td>
+                		<td id="omode">&nbsp;</td>
+                		<td data-i18n="column.status">Status:</td>
+                		<td id="ostatus">&nbsp;</td>
+            		</tr>
+           			<tr>
+                		<td data-i18n="column.angle-x">AngleX:</td>
+                		<td id="oanglex">&nbsp;</td>
+                		<td data-i18n="column.idle">Idle:</td>
+                		<td id="idle">&nbsp;</td>
+            		</tr>
+            		<tr>
+                		<td data-i18n="column.angle-y">AngleY:</td>
+                		<td id="oangley">&nbsp;</td>
+                		<td data-i18n="column.voltage">Voltage:</td>
+                		<td id="Vbat">&nbsp;</td>
+            		</tr>
+            		<tr>
+                		<td colspan="4">
+                    		<a class="calibrateAccelerometer u-button" href="#"  data-i18n="button.calibrate-accelerometer">Calibrate Accelerometer</a>
+               			</td>
+            		</tr>
+        		</table>
+        	</div>
         </div>
-        <div class="bars">
-        </div>
-        <div class="mixerPreview">
-            <img class="mixer-image" src="./images/mixer/0.png" />
-        </div>
-    </div>
-    <div class="other wrapper-narrow">
-        <div class="groupTitle" data-i18n="title.other">Other</div>
-        <table class="otherValues">
-            <tr>
-                <td data-i18n="column.mode">Mode:</td>
-                <td id="omode">&nbsp;</td>
-                <td data-i18n="column.status">Status:</td>
-                <td id="ostatus">&nbsp;</td>
-            </tr>
-            <tr>
-                <td data-i18n="column.angle-x">AngleX:</td>
-                <td id="oanglex">&nbsp;</td>
-                <td data-i18n="column.idle">Idle:</td>
-                <td id="idle">&nbsp;</td>
-            </tr>
-            <tr>
-                <td data-i18n="column.angle-y">AngleY:</td>
-                <td id="oangley">&nbsp;</td>
-                <td data-i18n="column.voltage">Voltage:</td>
-                <td id="Vbat">&nbsp;</td>
-            </tr>
-            <tr>
-                <td colspan="4">
-                    <a class="calibrateAccelerometer u-button href="#" style="font-size:11px;" data-i18n="button.calibrate-accelerometer">Calibrate
-                        Accelerometer</a>
-                </td>
-            </tr>
-        </table>
         
-        <div id="gpsheader" class="groupTitle" data-i18n="title.gps" style="margin-top: 16px; display:none">GPS</div>
-        <table id="gpsdata" class="otherValues" style="display: none">
+        <div id="gpsblock" class="block" style="display: none">
+        	<div class="title" data-i18n="title.gps">GPS</div>
+        	<div class="body">
+        	<table id="gpsdata" class="otherValues" >
             <tr>
                 <td data-i18n="column.latitude">Latitude:</td>
                 <td id="latitude">&nbsp;</td>
@@ -66,9 +78,13 @@
                 <td id="satellites">&nbsp;</td>
             </tr>
         </table>
+        </div>
+        </div>
 
-        <div id="homePointheader" class="groupTitle" data-i18n="title.homePoint" style="margin-top: 16px; display:none">Home Point</div>
-        <table id="homePointdata" class="otherValues" style="display: none">
+		<div id="homeblock" class="block"  style="display: none">
+        <div class="title" data-i18n="title.homePoint">Home Point</div>
+        <div class="body">
+        <table id="homePointdata" class="otherValues">
             <tr>
                 <td data-i18n="column.distance">Distance:</td>
                 <td id="homePointDistance">&nbsp;</td>
@@ -80,17 +96,23 @@
                 <td id="homePointrelativeHeight">&nbsp;</td>
             </tr>
         </table>
-        
-    </div>
-    <div class="clear-both"></div>
-    <div class="plot">
-        <div class="groupTitle">
-            <span data-i18n="title.telemetry">Telemetry</span>
-            <select name="graphTitle" style="position: relative; top:-1px;">
-                <option value="0" data-i18n="telemetry.0">Gyro &amp; ACC Data</option>
-            </select>
+		</div>
+		</div>
+		</div>
+	</div>	
 
-        </div>
+
+<div class="flex-container">
+
+	<div class="column  column-100">
+		<div class="block">
+			        <div class="title"><span data-i18n="title.telemetry">Telemetry</span>
+            			<select name="graphTitle" style="position: relative; top:-1px;">
+                			<option value="0" data-i18n="telemetry.0">Gyro &amp; ACC Data</option>
+            			</select>
+        			</div>
+        			
+        			<div class="body plot">
         <dl class="legend">
             <dt id="graph1" data-i18n="legend.1">Gyroscope X</dt>
             <dd>&nbsp;</dd>
@@ -104,14 +126,27 @@
             <dd>&nbsp;</dd>
             <dt id="graph6" data-i18n="legend.6">Accelerometer Z</dt>
             <dd>&nbsp;</dd>
+              <dt id="graph7" ></dt>
+            <dd>&nbsp;</dd>
+              <dt id="graph8"></dt>
+            <dd>&nbsp;</dd>
         </dl>
         <canvas id="graph" width="100" height="190"></canvas>
         <div id="model" class="model_chart"></div>
-    </div>
-    <div>
-        <a class="reset_model" href="#" style="font-size:11px;" data-i18n="button.reset-model">Reset model</a>
-    </div>
+
+
+        		<a class="u-button reset_model" href="#" data-i18n="button.reset-model">Reset model</a>
+        		
+        		<div style="height: 40px">&nbsp;</div>
+			
+			</div>
+		</div>
+	</div>
+	
 </div>
+
+
+
 <div id="motor-test-disclaimer" class="warning-disclaimer">
     <div class="warning-disclaimer-inner">
         <div class="warning1" data-i18n="title.warning"></div>

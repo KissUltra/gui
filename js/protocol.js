@@ -256,6 +256,8 @@ kissProtocol.processPacket = function (code, obj) {
                 obj.ESC_Telemetrie3 = [];
                 obj.ESC_Telemetrie4 = [];
                 obj.ESC_Telemetrie5 = [];
+                	obj.ESC_Telemetrie6 = [];// TODO
+                	obj.ESC_Telemetrie7 = [];// TODO
                 obj.ESC_TelemetrieStats = [];
                 obj.adaptiveFilter = 0;
                 obj.RXStats = undefined;
@@ -304,6 +306,7 @@ kissProtocol.processPacket = function (code, obj) {
             obj.PWMOutVals[3] = data.getInt16(74, 0);
             obj.PWMOutVals[4] = data.getInt16(76, 0);
             obj.PWMOutVals[5] = data.getInt16(78, 0);
+            	
             obj.debug2 = data.getUint16(80, 0) / 1000;
             obj.idleTime = data.getUint8(82);
 
@@ -342,6 +345,18 @@ kissProtocol.processPacket = function (code, obj) {
             obj.ESC_Telemetrie5[2] = data.getInt16(137, 0);
             obj.ESC_Telemetrie5[3] = data.getInt16(139, 0);
             obj.ESC_Telemetrie5[4] = data.getInt16(141, 0);
+             
+            	obj.ESC_Telemetrie6[0] = 0;// TODO
+            	obj.ESC_Telemetrie6[1] = 0;// TODO
+            	obj.ESC_Telemetrie6[2] = 0;// TODO
+            	obj.ESC_Telemetrie6[3] = 0;// TODO
+            	obj.ESC_Telemetrie6[4] = 0;// TODO
+            	
+            	obj.ESC_Telemetrie7[0] = 0;// TODO
+            	obj.ESC_Telemetrie7[1] = 0;// TODO
+            	obj.ESC_Telemetrie7[2] = 0;// TODO
+            	obj.ESC_Telemetrie7[3] = 0;// TODO
+            	obj.ESC_Telemetrie7[4] = 0;// TODO
 
             obj.ESC_TelemetrieStats[0] = data.getInt16(142, 0);
             obj.ESC_TelemetrieStats[1] = data.getInt16(144, 0);
@@ -349,15 +364,15 @@ kissProtocol.processPacket = function (code, obj) {
             obj.ESC_TelemetrieStats[3] = data.getInt16(148, 0);
             obj.ESC_TelemetrieStats[4] = data.getInt16(150, 0);
             obj.ESC_TelemetrieStats[5] = data.getInt16(152, 0);
-
-            if (usedVersion >= 111) {
-                obj.RXcommands[8] = 1500 + ((data.getInt16(154, 0) / 1000) * 500);
-                obj.RXcommands[9] = 1500 + ((data.getInt16(156, 0) / 1000) * 500);
-                obj.RXcommands[10] = 1500 + ((data.getInt16(158, 0) / 1000) * 500);
-            }
             
-            if (usedVersion >= 116) {
-            	obj.RXStats = {
+            	obj.ESC_TelemetrieStats[6] = 0;// TODO
+            	obj.ESC_TelemetrieStats[7] = 0;// TODO
+
+            obj.RXcommands[8] = 1500 + ((data.getInt16(154, 0) / 1000) * 500);
+            obj.RXcommands[9] = 1500 + ((data.getInt16(156, 0) / 1000) * 500);
+            obj.RXcommands[10] = 1500 + ((data.getInt16(158, 0) / 1000) * 500);
+            
+            obj.RXStats = {
             		upRSSI1 : -data.getUint8(160, 0),
             		upRSSI2 : -data.getUint8(161, 0),
             		upLQ : data.getUint8(162, 0),
@@ -368,12 +383,12 @@ kissProtocol.processPacket = function (code, obj) {
             		downRSSI : -data.getUint8(167, 0),
             		downLQ : data.getUint8(168, 0),
             		downSNR : data.getInt8(169, 0)
-            	};
-            }
-            if (usedVersion >= 123) {
-                obj.PWMOutVals[6] = data.getInt16(170, 0);
-                obj.PWMOutVals[7] = data.getInt16(172, 0);
-            }
+            };
+            
+            obj.PWMOutVals[6] = data.getInt16(170, 0);
+            obj.PWMOutVals[7] = data.getInt16(172, 0);
+            
+            // TODO: Add here extra ESC telemetry!
             
             break;
         case this.GET_SETTINGS:

@@ -17,10 +17,27 @@ CONTENT.data_output.initialize = function (callback) {
     self.homeinfo = {};
     self.telemCount = 0;
 
+    self.motors = 4;
+    
     GUI.switchContent('data_output', function () {
-        kissProtocol.send(kissProtocol.GET_TELEMETRY, [kissProtocol.GET_TELEMETRY], function () {
-            GUI.load("./content/data_output.html", htmlLoaded);
-        });
+    	 kissProtocol.send(kissProtocol.GET_SETTINGS, [kissProtocol.GET_SETTINGS], function () {
+    		 // how many motors we have?
+    		 var ct = kissProtocol.data[kissProtocol.GET_SETTINGS].CopterType;
+    		 if (ct == 0) {
+    			 self.motors = 3;
+    		 } else if (ct >=1 && ct<=3 ) {
+    			 self.motors = 4;
+    		 } else if (ct >=4 && ct<=6 ) {
+    			 self.motors = 6;
+    		 } else if (ct >=7 && ct<=8 ) {
+    			 self.motors = 5;
+    		 } else {
+    			 self.motors = 8;
+    		 }
+    		 kissProtocol.send(kissProtocol.GET_TELEMETRY, [kissProtocol.GET_TELEMETRY], function () {
+    	         GUI.load("./content/data_output.html", htmlLoaded);
+    	     });
+         });
     });
 
     function deg2direction(val) {
@@ -82,7 +99,7 @@ CONTENT.data_output.initialize = function (callback) {
     function htmlLoaded() {
         // generate receiver bars
         var receiverNames = [$.i18n('column.throttle'), $.i18n('column.roll'), $.i18n('column.pitch'), $.i18n('column.yaw'), 'AUX1', 'AUX2', 'AUX3', 'AUX4', 'AUX5', 'AUX6', 'AUX7'];
-        var receiverContainer = $('.data_output .receiver .bars');
+        var receiverContainer = $('#rbars');
         var receiverFillArray = [];
         var receiverLabelArray = [];
         self.ESCTelemetry = 0;
@@ -126,12 +143,18 @@ CONTENT.data_output.initialize = function (callback) {
 
         var octoCotperType = [9,10];
         // generate motor bars
-        if (data['ver'] >= 123 && octoCotperType.indexOf(data['CopterType']) !== -1) {
-            var motorNames = ['M1', 'M2', 'M3', 'M4', 'M5', 'M6', 'M7', 'M8'];
-        } else {
-            var motorNames = ['M1', 'M2', 'M3', 'M4', 'M5', 'M6'];
+//        if (data['ver'] >= 123 && octoCotperType.indexOf(data['CopterType']) !== -1) {
+//            var motorNames = ['M1', 'M2', 'M3', 'M4', 'M5', 'M6', 'M7', 'M8'];
+//        } else {
+//            var motorNames = ['M1', 'M2', 'M3', 'M4', 'M5', 'M6'];
+//        }
+        var motorNames = [];
+        
+        for (var i=0; i<self.motors; i++) {
+        	motorNames.push("M"+(i+1));
         }
-        var motorContainer = $('.data_output .motors .bars');
+        
+        var motorContainer = $('#mbars');
         var motorFillArray = [];
         var motorLabelArray = [];
 
@@ -273,6 +296,11 @@ CONTENT.data_output.initialize = function (callback) {
             } else {
                 $(".motor-test").prop("disabled", true);
             }
+            
+            // set to empty
+            for (var i=0; i<8; i++) {
+       		 	$('#graph'+(i+1)).text('');
+            }
 
             if (useGraphData == 0) {
                 $('#graph1').text($.i18n('legend.1'));
@@ -310,12 +338,11 @@ CONTENT.data_output.initialize = function (callback) {
                 $('#graph5').text('');
                 $('#graph6').text('');
             } else {
-                $('#graph1').text($.i18n('legend.13'));
-                $('#graph2').text($.i18n('legend.14'));
-                $('#graph3').text($.i18n('legend.15'));
-                $('#graph4').text($.i18n('legend.16'));
-                $('#graph5').text($.i18n('legend.17'));
-                $('#graph6').text($.i18n('legend.18'));
+            	for (var i=0; i<self.motors; i++) {
+            		var n = 'legend.'+(13+i);
+            		if (i>5) n = 'legend.'+(i-6 + 40);
+            		 $('#graph'+(i+1)).text($.i18n(n));
+            	}
             }
             $('#idle').text(data['idleTime'] + ' %');
             $('#Vbat').text((data['LiPoVolt'] * 10).toFixed(2) + ' v');
@@ -361,6 +388,10 @@ CONTENT.data_output.initialize = function (callback) {
             var midscale = 1.5;
 
             // update legend
+            
+            for (var i=0; i<8; i++) {
+            	legendItems.eq(i).text('');
+            }
             switch (useGraphData) {
                 case 0:
                     legendItems.eq(0).text(data['GyroRaw'][0].toFixed(3));
@@ -395,88 +426,40 @@ CONTENT.data_output.initialize = function (callback) {
 
                     break;
                 case 1:
-                    legendItems.eq(0).text(data['ESC_Telemetrie0'][0].toFixed(3));
-                    legendItems.eq(1).text(data['ESC_Telemetrie1'][0].toFixed(3));
-                    legendItems.eq(2).text(data['ESC_Telemetrie2'][0].toFixed(3));
-                    legendItems.eq(3).text(data['ESC_Telemetrie3'][0].toFixed(3));
-                    legendItems.eq(4).text(data['ESC_Telemetrie4'][0].toFixed(3));
-                    legendItems.eq(5).text(data['ESC_Telemetrie5'][0].toFixed(3));
-                    sampleBlock.push((data['ESC_Telemetrie0'][0] / 35) - midscale);
-                    sampleBlock.push((data['ESC_Telemetrie1'][0] / 35) - midscale);
-                    sampleBlock.push((data['ESC_Telemetrie2'][0] / 35) - midscale);
-                    sampleBlock.push((data['ESC_Telemetrie3'][0] / 35) - midscale);
-                    sampleBlock.push((data['ESC_Telemetrie4'][0] / 35) - midscale);
-                    sampleBlock.push((data['ESC_Telemetrie5'][0] / 35) - midscale);
+                	for (var i=0; i<self.motors; i++) {
+                		legendItems.eq(i).text(data['ESC_Telemetrie'+i][0].toFixed(3));
+                		sampleBlock.push((data['ESC_Telemetrie'+i][0] / 35) - midscale);
+                	}
                     break;
                 case 2:
-                    legendItems.eq(0).text((data['ESC_Telemetrie0'][1] / 100).toFixed(3));
-                    legendItems.eq(1).text((data['ESC_Telemetrie1'][1] / 100).toFixed(3));
-                    legendItems.eq(2).text((data['ESC_Telemetrie2'][1] / 100).toFixed(3));
-                    legendItems.eq(3).text((data['ESC_Telemetrie3'][1] / 100).toFixed(3));
-                    legendItems.eq(4).text((data['ESC_Telemetrie4'][1] / 100).toFixed(3));
-                    legendItems.eq(5).text((data['ESC_Telemetrie5'][1] / 100).toFixed(3));
-                    sampleBlock.push((data['ESC_Telemetrie0'][1] / 1000) - midscale);
-                    sampleBlock.push((data['ESC_Telemetrie1'][1] / 1000) - midscale);
-                    sampleBlock.push((data['ESC_Telemetrie2'][1] / 1000) - midscale);
-                    sampleBlock.push((data['ESC_Telemetrie3'][1] / 1000) - midscale);
-                    sampleBlock.push((data['ESC_Telemetrie4'][1] / 1000) - midscale);
-                    sampleBlock.push((data['ESC_Telemetrie5'][1] / 1000) - midscale);
+                 	for (var i=0; i<self.motors; i++) {
+                 		legendItems.eq(i).text((data['ESC_Telemetrie'+i][1] / 100).toFixed(3));
+                 		sampleBlock.push((data['ESC_Telemetrie'+i][1] / 1000) - midscale);
+                 	}
                     break;
                 case 3:
-                    legendItems.eq(0).text((data['ESC_Telemetrie0'][2] / 100).toFixed(3));
-                    legendItems.eq(1).text((data['ESC_Telemetrie1'][2] / 100).toFixed(3));
-                    legendItems.eq(2).text((data['ESC_Telemetrie2'][2] / 100).toFixed(3));
-                    legendItems.eq(3).text((data['ESC_Telemetrie3'][2] / 100).toFixed(3));
-                    legendItems.eq(4).text((data['ESC_Telemetrie4'][2] / 100).toFixed(3));
-                    legendItems.eq(5).text((data['ESC_Telemetrie5'][2] / 100).toFixed(3));
-                    sampleBlock.push((data['ESC_Telemetrie0'][2] / 1000) - midscale);
-                    sampleBlock.push((data['ESC_Telemetrie1'][2] / 1000) - midscale);
-                    sampleBlock.push((data['ESC_Telemetrie2'][2] / 1000) - midscale);
-                    sampleBlock.push((data['ESC_Telemetrie3'][2] / 1000) - midscale);
-                    sampleBlock.push((data['ESC_Telemetrie4'][2] / 1000) - midscale);
-                    sampleBlock.push((data['ESC_Telemetrie5'][2] / 1000) - midscale);
+                	for (var i=0; i<self.motors; i++) {
+                		legendItems.eq(i).text((data['ESC_Telemetrie'+i][2] / 100).toFixed(3));
+                		sampleBlock.push((data['ESC_Telemetrie'+i][2] / 1000) - midscale);
+                	}
                     break;
                 case 4:
-                    legendItems.eq(0).text((data['ESC_Telemetrie0'][3] / 1000).toFixed(3));
-                    legendItems.eq(1).text((data['ESC_Telemetrie1'][3] / 1000).toFixed(3));
-                    legendItems.eq(2).text((data['ESC_Telemetrie2'][3] / 1000).toFixed(3));
-                    legendItems.eq(3).text((data['ESC_Telemetrie3'][3] / 1000).toFixed(3));
-                    legendItems.eq(4).text((data['ESC_Telemetrie4'][3] / 1000).toFixed(3));
-                    legendItems.eq(5).text((data['ESC_Telemetrie5'][3] / 1000).toFixed(3));
-                    sampleBlock.push((data['ESC_Telemetrie0'][3] / 5000) - midscale);
-                    sampleBlock.push((data['ESC_Telemetrie1'][3] / 5000) - midscale);
-                    sampleBlock.push((data['ESC_Telemetrie2'][3] / 5000) - midscale);
-                    sampleBlock.push((data['ESC_Telemetrie3'][3] / 5000) - midscale);
-                    sampleBlock.push((data['ESC_Telemetrie4'][3] / 5000) - midscale);
-                    sampleBlock.push((data['ESC_Telemetrie5'][3] / 5000) - midscale);
+                	for (var i=0; i<self.motors; i++) {
+                		legendItems.eq(i).text((data['ESC_Telemetrie'+i][3] / 1000).toFixed(3));
+                		sampleBlock.push((data['ESC_Telemetrie'+i][3] / 5000) - midscale);
+                	}
                     break;
                 case 5:
-                    legendItems.eq(0).text((data['ESC_Telemetrie0'][4] / 10).toFixed(3));
-                    legendItems.eq(1).text((data['ESC_Telemetrie1'][4] / 10).toFixed(3));
-                    legendItems.eq(2).text((data['ESC_Telemetrie2'][4] / 10).toFixed(3));
-                    legendItems.eq(3).text((data['ESC_Telemetrie3'][4] / 10).toFixed(3));
-                    legendItems.eq(4).text((data['ESC_Telemetrie4'][4] / 10).toFixed(3));
-                    legendItems.eq(5).text((data['ESC_Telemetrie5'][4] / 10).toFixed(3));
-                    sampleBlock.push((data['ESC_Telemetrie0'][4] / 1000) - midscale);
-                    sampleBlock.push((data['ESC_Telemetrie1'][4] / 1000) - midscale);
-                    sampleBlock.push((data['ESC_Telemetrie2'][4] / 1000) - midscale);
-                    sampleBlock.push((data['ESC_Telemetrie3'][4] / 1000) - midscale);
-                    sampleBlock.push((data['ESC_Telemetrie4'][4] / 1000) - midscale);
-                    sampleBlock.push((data['ESC_Telemetrie5'][4] / 1000) - midscale);
+                	for (var i=0; i<self.motors; i++) {
+                		legendItems.eq(i).text((data['ESC_Telemetrie'+i][4] / 10).toFixed(3));
+                		sampleBlock.push((data['ESC_Telemetrie'+i][4] / 1000) - midscale);
+                	}
                     break;
                 case 6:
-                    legendItems.eq(0).text((data['ESC_TelemetrieStats'][0]).toFixed(3));
-                    legendItems.eq(1).text((data['ESC_TelemetrieStats'][1] / 100).toFixed(3));
-                    legendItems.eq(2).text((data['ESC_TelemetrieStats'][2] / 10).toFixed(3));
-                    legendItems.eq(3).text((data['ESC_TelemetrieStats'][3] / 1000).toFixed(3));
-                    legendItems.eq(4).text((data['ESC_TelemetrieStats'][4] / 10).toFixed(3));
-                    legendItems.eq(5).text((data['ESC_TelemetrieStats'][5]).toFixed(3));
-                    sampleBlock.push((data['ESC_TelemetrieStats'][0] / 35) - midscale);
-                    sampleBlock.push((data['ESC_TelemetrieStats'][3] / 1000) - midscale);
-                    sampleBlock.push((data['ESC_TelemetrieStats'][1] / 1000) - midscale);
-                    sampleBlock.push((data['ESC_TelemetrieStats'][4] / 5000) - midscale);
-                    sampleBlock.push((data['ESC_TelemetrieStats'][2] / 700) - midscale);
-                    sampleBlock.push((data['ESC_TelemetrieStats'][5] / 1000) - midscale);
+                	for (var i=0; i<6; i++) {
+                		legendItems.eq(i).text((data['ESC_TelemetrieStats'][i]).toFixed(3));
+                		sampleBlock.push((data['ESC_TelemetrieStats'][i] / 35) - midscale);
+                	}
                     break;
                 case 7:
                     legendItems.eq(0).text(data['RXStats'].upRSSI1);
@@ -524,8 +507,7 @@ CONTENT.data_output.initialize = function (callback) {
             self.renderGraph();
 
             if (gps !== undefined) {
-                $("#gpsheader").show();
-                $("#gpsdata").show();
+                $("#gpsblock").show();
                 $("#latitude").text(gps.latitude.toFixed(6));
                 $("#longitude").text(gps.longitude.toFixed(6));
                 $("#speed").text(gps.speed.toFixed(2) + " km/h");
@@ -535,8 +517,7 @@ CONTENT.data_output.initialize = function (callback) {
             }
 
             if (homeinfo !== undefined) {
-                $("#homePointheader").show();
-                $("#homePointdata").show();
+                $("#homeblock").show();
                 $("#homePointDistance").text(homeinfo.homeDistance.toFixed(2) + " m");
                 $("#homePointDirection").text(homeinfo.homeDirection.toFixed(2));
                 $("#homePointrelativeHeight").text(homeinfo.homeRelativeAltitude.toFixed(2) + " m");
