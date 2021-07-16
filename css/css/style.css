@@ -1213,7 +1213,6 @@ ul.osd-backgrounds-thimbnails li img.active {
 .column .block .body table {
   border: 0px;
   margin-bottom: 10px;
-  width: 98%;
 }
 /* line 45, ../sass/_layout.scss */
 .column .block .body select {
@@ -1732,7 +1731,7 @@ ul.osd-backgrounds-thimbnails li img.active {
 
 /* line 45, ../sass/_data_output.scss */
 .otherValues {
-  width: 100%;
+  width: 98%;
 }
 
 /* line 49, ../sass/_data_output.scss */
