@@ -1,12 +1,16 @@
-<div class="rates">
-	<div class="wrapper-narrow">
-		<div class="receiver">
-			<div class="groupTitle" data-i18n="title.receiver">Receiver</div>
-			<div class="bars"></div>
-
-			<div class="groupTitle" data-i18n="title.rates">Rates</div>
-
-			<table class="rc_rates">
+<div class="flex-container">
+	<div class="column column-left column-33 max-height" style="flex-direction:column">
+		<div class="block">
+			    <div class="title" data-i18n="title.receiver">Receiver</div>
+			    <div class="body">
+        			<div id="rbars" class="bars"></div>
+        		</div>
+		</div>
+		
+		<div class="block block-h-100">
+			    <div class="title" data-i18n="title.rates">Rates</div>
+			    <div class="body">
+        			<table class="rc_rates">
 				<tr>
 					<th class="name"></th>
 					<th class="rate" data-i18n="column.rc-rate">RC Rate</th>
@@ -50,24 +54,28 @@
 					</td>
 				</tr>
 			</table>
-
+        			
+        	</div>
 		</div>
-
-	</div>
-
-	<div class="wrapper-wide">
-		<div class="groupTitle" data-i18n="title.charts">Charts</div>
-		<div id="charts">
-			<div id="rates_chart_roll" class="rc_chart"></div>
-			<div id="rates_chart_pitch" class="rc_chart"></div>
-			<br />
-			<div id="rates_chart_yaw" class="rc_chart"></div>
-			<div id="model" class="rc_chart"></div>
+	</div>	
+	
+	<div class="column column-67">
+		<div class="block">
+			    <div class="title" data-i18n="title.charts">Charts</div>
+			    <div class="body">
+					<div id="rates_chart_roll" class="rc_chart"></div>
+					<div id="rates_chart_pitch" class="rc_chart"></div>
+					<br />
+					<div id="rates_chart_yaw" class="rc_chart"></div>
+					<div id="model" class="rc_chart"></div>
+        		</div>
 		</div>
-	</div>
+	</div>	
+	
+</div>
+	
+	
 
 	<div class="config_buttons">
 		<a id="save" class="u-button" href="#" title="Save Settings to EEPROM" data-i18n="button.save">Save</a>
 	</div>
-	<div class="clear-both"></div>
-</div>

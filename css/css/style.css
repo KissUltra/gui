@@ -114,223 +114,14 @@
   background-color: #d01414;
 }
 
-/* line 5, ../sass/_rates.scss */
-.rates .receiver {
-  float: left;
-  width: 100%;
-}
-/* line 10, ../sass/_rates.scss */
-.rates .bars {
-  float: left;
-  width: 100%;
-  font-weight: bold;
-  margin-bottom: 20px;
-}
-/* line 17, ../sass/_rates.scss */
-.rates .bars ul {
-  margin-bottom: 5px;
-  clear: left;
-}
-/* line 22, ../sass/_rates.scss */
-.rates .bars li {
-  float: left;
-  height: 22px;
-  line-height: 20px;
-}
-/* line 28, ../sass/_rates.scss */
-.rates .bars .name {
-  padding: 0 10px 0 0;
-  width: 40px;
-  text-align: right;
-}
-/* line 34, ../sass/_rates.scss */
-.rates .bars .meter {
-  width: calc(100% - 50px);
-}
-/* line 38, ../sass/_rates.scss */
-.rates .bars .meter-bar {
-  position: relative;
-  margin-top: 2px;
-  width: 100%;
-  height: 15px;
-  border: 1px solid silver;
-  background-color: #f4f4f4;
-}
-/* line 47, ../sass/_rates.scss */
-.rates .bars .meter-bar .label {
-  position: absolute;
-  width: 50px;
-  height: 15px;
-  line-height: 15px;
-  text-align: center;
-  color: #474747;
-}
-/* line 56, ../sass/_rates.scss */
-.rates .bars .meter-bar .fill {
-  position: relative;
-  overflow: hidden;
-  width: 50%;
-  height: 15px;
-  background-color: #cec12f;
-}
-/* line 64, ../sass/_rates.scss */
-.rates .bars .meter-bar .fill .label {
-  color: white;
-}
-/* line 70, ../sass/_rates.scss */
-.rates .rc_rates {
-  border-collapse: collapse;
-}
-/* line 74, ../sass/_rates.scss */
-.rates .rc_rates tr {
-  height: 25px;
-}
-/* line 78, ../sass/_rates.scss */
-.rates .rc_rates th {
-  width: 60px;
-  padding-right: 5px;
-  text-align: center;
-}
-/* line 84, ../sass/_rates.scss */
-.rates .rc_rates input {
-  width: 60px;
-}
-/* line 88, ../sass/_rates.scss */
-.rates .rc_rates .name {
-  padding: 0 10px 0 0;
-  width: 40px;
-  text-align: right;
-  font-weight: bold;
-}
-/* line 95, ../sass/_rates.scss */
-.rates .rc_rates input[type="text"] {
-  width: 60px;
-  height: 20px;
-  line-height: 20px;
-  text-align: right;
-  border: 1px solid silver;
-}
-/* line 103, ../sass/_rates.scss */
-.rates .rc_rates input[type="number"] {
-  width: 60px;
-  height: 20px;
-  line-height: 20px;
-  text-align: right;
-  border: 1px solid silver;
-}
-/* line 112, ../sass/_rates.scss */
-.rates .rc_chart {
+/* line 3, ../sass/_rates.scss */
+.rc_chart {
   width: 200px;
   height: 200px;
   display: inline-block;
 }
 
-/* line 5, ../sass/_tpa.scss */
-.tpa .bars {
-  float: left;
-  width: 100%;
-  font-weight: bold;
-}
-/* line 10, ../sass/_tpa.scss */
-.tpa .bars ul {
-  margin-bottom: 5px;
-  clear: left;
-}
-/* line 15, ../sass/_tpa.scss */
-.tpa .bars li {
-  float: left;
-  height: 22px;
-  line-height: 20px;
-}
-/* line 21, ../sass/_tpa.scss */
-.tpa .bars .name {
-  padding: 0 10px 0 0;
-  width: 40px;
-  text-align: right;
-}
-/* line 27, ../sass/_tpa.scss */
-.tpa .bars .meter {
-  width: calc(100% - 50px);
-}
-/* line 31, ../sass/_tpa.scss */
-.tpa .bars .meter-bar {
-  position: relative;
-  margin-top: 2px;
-  width: 100%;
-  height: 15px;
-  border: 1px solid silver;
-  background-color: #f4f4f4;
-}
-/* line 40, ../sass/_tpa.scss */
-.tpa .bars .meter-bar .label {
-  position: absolute;
-  width: 50px;
-  height: 15px;
-  line-height: 15px;
-  text-align: center;
-  color: #474747;
-}
-/* line 49, ../sass/_tpa.scss */
-.tpa .bars .meter-bar .fill {
-  position: relative;
-  overflow: hidden;
-  width: 50%;
-  height: 15px;
-  background-color: #cec12f;
-}
-/* line 57, ../sass/_tpa.scss */
-.tpa .bars .meter-bar .fill .label {
-  color: white;
-}
-/* line 62, ../sass/_tpa.scss */
-.tpa .pids {
-  border-collapse: collapse;
-}
-/* line 65, ../sass/_tpa.scss */
-.tpa .pids tr {
-  height: 25px;
-}
-/* line 69, ../sass/_tpa.scss */
-.tpa .pids th {
-  width: 60px;
-  padding-right: 5px;
-  text-align: center;
-}
-/* line 75, ../sass/_tpa.scss */
-.tpa .pids input {
-  width: 60px;
-}
-/* line 79, ../sass/_tpa.scss */
-.tpa .pids .name {
-  padding: 0 10px 0 0;
-  width: 40px;
-  text-align: right;
-  font-weight: bold;
-}
-/* line 86, ../sass/_tpa.scss */
-.tpa .pids input[type="text"] {
-  width: 60px;
-  height: 20px;
-  line-height: 20px;
-  text-align: right;
-  border: 1px solid silver;
-}
-/* line 94, ../sass/_tpa.scss */
-.tpa .pids input[type="number"] {
-  width: 60px;
-  height: 20px;
-  line-height: 20px;
-  text-align: right;
-  border: 1px solid silver;
-}
-/* line 103, ../sass/_tpa.scss */
-.tpa .tpa_chart {
-  width: 58%;
-  height: 160px;
-  display: inline-block;
-}
-
-/* line 111, ../sass/_tpa.scss */
+/* line 3, ../sass/_tpa.scss */
 .cpid {
   width: 56px;
   height: 20px;
@@ -344,22 +135,11 @@
   font-size: 11px;
 }
 
-/* line 124, ../sass/_tpa.scss */
-.tpa_influence {
-  width: 50%;
-  float: left;
-}
-
-/* line 129, ../sass/_tpa.scss */
-.battery_influence {
-  width: 50%;
-  float: right;
-}
-
-/* line 134, ../sass/_tpa.scss */
-#simulatedVoltage {
-  width: 80px;
-  height: 24px;
+/* line 17, ../sass/_tpa.scss */
+.tpa_chart {
+  width: 99%;
+  height: 160px;
+  display: inline-block;
 }
 
 /* line 4, ../sass/_configuration.scss */

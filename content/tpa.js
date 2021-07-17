@@ -77,7 +77,7 @@ CONTENT.tpa.initialize = function (callback) {
         // generate receiver bars
         var receiverNames = [$.i18n("column.throttle")]
         var receiverChannels = [0];
-        var receiverContainer = $('.tpa .receiver .bars');
+        var receiverContainer = $('#rbars');
         var receiverFillArray = [];
         var receiverLabelArray = [];
         self.ESCTelemetry = 0;
