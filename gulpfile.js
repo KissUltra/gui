@@ -254,7 +254,7 @@ function dist_src() {
     './js/libraries/jquery-3.3.1.min.js',
     './js/libraries/jquery.minicolors.min.js',
     './js/libraries/jquery-ui.min.js',
-    './js/libraries/semver.js',       
+    './js/libraries/semver.js',
     './js/libraries/stm32usbdfu.js',
     './js/libraries/three.min.js',
     './js/libraries/background-video.js',

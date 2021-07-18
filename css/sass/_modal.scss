@@ -1,0 +1,49 @@
+.modal-overlay {
+	position: fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0,0,0,.45);
+	z-index: 2000;
+}
+
+.modal {
+	display: none;
+	position: fixed;
+	top: calc(100% - 200px);
+	left: 50%;
+	max-width: 700px;
+	width: 100%;
+	box-sizing: border-box;
+	z-index: 2020;
+	//visibility: hidden;
+	-webkit-transform: translateX(-50%);
+	-moz-transform: translateX(-50%);
+	-ms-transform: translateX(-50%);
+	-o--transform: translateX(-50%);
+	color: #fff;
+	background-image: url("images/warning_stripe.png");
+	padding: 10px;
+	//border: 1px solid #333;
+}
+
+.modal-content {
+	background-color: #222;
+	padding: 10px;
+	  text-align: center;
+}
+
+
+.modal-footer {
+	text-align: center;
+}
+
+.modal .header {
+	color: #d01414;
+    font-size: 20px;
+  
+}
+

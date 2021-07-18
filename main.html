@@ -50,35 +50,10 @@
     <script type="text/javascript" src="./js/libraries/i18n/jquery.i18n.emitter.js"></script>
     <script type="text/javascript" src="./js/libraries/i18n/jquery.i18n.emitter.bidi.js"></script>
     <script type="text/javascript" src="./js/libraries/lz4.js"></script>
+    <script type="text/javascript" src="./js/libraries/simple-modal.js"></script>
 </head>
 
 <body>
-<!-- 	<div id="mainWrapper">
-        <div id="portArea">
-            <select id="port" title="Port">
-                ports
-            </select>
-            <a class="connect" href="#" data-i18n="menu.connect">Connect</a>
-            <a class="navigation-menu-button" href="#" data-i18n="menu.menu">Menu</a>
-            <div id="navigation">
-                <ul id="menu">
-                    <li data-name="configuration" data-i18n="menu.configuration">Configuration</li>
-                    <li data-name="advanced" data-i18n="menu.advanced">Advanced</li>
-                    <li data-name="data_output" data-i18n="menu.data-output">Data Output</li>
-                    <li data-name="rates" data-i18n="menu.rates">Rates</li>
-                    <li data-name="tpa" data-i18n="menu.tpa">TPA</li>
-                    <li data-name="fc_flasher" data-i18n="menu.fc-flasher" style="display:none">FC Flasher</li>
-                    <li data-name="esc_flasher" data-i18n="menu.esc-flasher">ESC Flasher</li>
-                    <li data-name="wifi" data-i18n_="menu.wifi" class="external">
-                        <a id="wifi" href="http://192.168.4.1/" target="_blank">WIFI</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div id="content">
-        </div>
-    </div>
- -->
     <div id="mainWrapper">
         <div id="portArea">
         
@@ -89,7 +64,6 @@
             <!-- 	<a class="navigation-menu-button" href="#" data-i18n="menu.menu">Menu</a> -->
             </div>
         	
-        
             <div id="navigation">
             	<button class="navigation-menu-button unlocked" data-name="configuration">Configuration</button>
 				<button class="navigation-menu-button unlocked" data-name="advanced">Advanced</button>
@@ -105,14 +79,23 @@
         <div id="content">
         </div>
     </div>
-    <div id="dialogGUIupdate">
-        <script>
-            $(document).ready(function () { nw.Window.get().on('new-win-policy', function (frame, url, policy) { policy.ignore(); nw.Shell.openExternal(url); }); });
-        </script>
-        <div data-i18n="[html]popup.newGUIavailable">This GUI version is outdated.</div>
-    </div>
+
     <script type="text/javascript" src="cordova.js"></script>
     <script type="text/javascript" src="js/startup.js"></script>
+    
+    <div class="modal-overlay" style="display:none"></div>
+	<div class="modal" style="display:none">
+	    <script>
+            $(document).ready(function () { nw.Window.get().on('new-win-policy', function (frame, url, policy) { policy.ignore(); nw.Shell.openExternal(url); }); });
+        </script>
+		<div class="modal-content">
+			<div class="modal-body" >
+				<p class="header">This GUI version is outdated.</p>
+				Click download button to update to the new version. 
+			</div>
+			<div class="modal-footer"><a class="update-download u-button" href="https://github.com/KissUltra/gui/releases" target="_blank">Download</a></div>
+		</div>
+	</div>
 </body>
 
 </html>

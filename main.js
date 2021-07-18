@@ -9,7 +9,7 @@ function setLanguage(lang) {
 
 function getLanguage(callback) {
 	  chrome.storage.local.get('language', function (result) {
-          if (result !== undefined) {
+          if ((result !== undefined) && (result.language !== undefined)) {
               callback(result.language);
           } else {
               callback('en');
@@ -31,21 +31,30 @@ function changeLanguage() {
     });
 }
 
+function showUpdateModal() {
+	$(".modal,.modal-overlay").show();
+} 
+
+function hideModal() {
+	$(".modal,.modal-overlay").hide();
+}
+
 function checkGithubRelease(currVersion) {
-    $("#dialogGUIupdate").hide();
-    // TODO: Point in the right direction
-//    $.get('https://api.github.com/repos/flyduino/kiss-gui/releases', function (releaseData) {
-//        console.log('Loaded release information from GitHub.');
-//        console.log('Latest release found: ' + releaseData[0].tag_name, ' parameter: ' + currVersion);
-//        if (semver.gt(releaseData[0].tag_name, currVersion)) {
-//            console.log('New version aviable!');
-//            $("#dialogGUIupdate").dialog();
-//
-//        } else {
-//            $("#dialogGUIupdate").hide();
-//            console.log('Latest version!');
-//        }
-//    });
+		
+    console.log("Looking for version newer then " + currVersion);
+    $.get('https://api.github.com/repos/KissUltra/gui/releases', function (releaseData) {
+        console.log(releaseData);
+        if (releaseData.length > 0) {
+        	console.log('Latest release found: ' + releaseData[0].tag_name, ' parameter: ' + currVersion);
+        	if (semver.gt(releaseData[0].tag_name, currVersion)) {
+        		console.log('New version ' + releaseData[0].tag_name + ' available!');
+        		showUpdateModal();
+        	} else {
+        		hideModal();
+        		console.log('Latest version!');
+        	}
+    	}
+    });
 };
 
 $(document).ready(function () {
@@ -69,10 +78,7 @@ $(document).ready(function () {
         function content_ready() {
             GUI.contentSwitchInProgress = false;
         }
-
     
-      
-        
         if ($(self).hasClass('unlocked') && GUI.activeContent != content) {
             $("#navigation button").removeClass("active-menu");
         	$(self).addClass("active-menu");
@@ -81,8 +87,15 @@ $(document).ready(function () {
                 CONTENT[content].initialize();
             });
         }
-    	  
 
+    });
+    
+    $(".update-close, .modal-overlay").on("click", function() {
+    	hideModal();
+    });
+    
+    $(".update-download").on("click", function() {
+    	hideModal();
     });
 });
 
