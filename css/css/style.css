@@ -1689,9 +1689,10 @@ a.reset_model {
   height: 100%;
   background: rgba(0, 0, 0, 0.45);
   z-index: 2000;
+  backdrop-filter: blur(5px);
 }
 
-/* line 13, ../sass/_modal.scss */
+/* line 14, ../sass/_modal.scss */
 .modal {
   display: none;
   position: fixed;
@@ -1710,19 +1711,19 @@ a.reset_model {
   padding: 10px;
 }
 
-/* line 33, ../sass/_modal.scss */
+/* line 34, ../sass/_modal.scss */
 .modal-content {
   background-color: #222;
   padding: 10px;
   text-align: center;
 }
 
-/* line 40, ../sass/_modal.scss */
+/* line 41, ../sass/_modal.scss */
 .modal-footer {
   text-align: center;
 }
 
-/* line 44, ../sass/_modal.scss */
+/* line 45, ../sass/_modal.scss */
 .modal .header {
   color: #d01414;
   font-size: 20px;
