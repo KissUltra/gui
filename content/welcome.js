@@ -49,6 +49,8 @@ CONTENT.welcome.initialize = function (callback) {
             setLanguage(lang);
             changeLanguage();
         });
+        
+        scrollTop();
     }
 };
 

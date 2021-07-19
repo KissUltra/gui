@@ -648,6 +648,8 @@ CONTENT.advanced.initialize = function (callback) {
             });
 
         });
+        
+        scrollTop();
 
     }
 };

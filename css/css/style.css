@@ -516,27 +516,27 @@ input[type="number"]::-webkit-inner-spin-button {
   width: 150px;
   height: 20px;
   line-height: 20px;
-  border: 1px solid #756c0a;
+  border: 0px solid #9C241B;
 }
 
 /* line 122, ../sass/_main.scss */
 #portArea .connect {
   float: left;
   margin: 5px 0 0 5px;
-  height: 18px;
+  height: 20px;
   line-height: 18px;
   width: 90px;
   font-weight: bold;
   color: #fff;
   text-align: center;
-  border: 1px solid #c79605;
-  background-color: #ffca80;
+  border: 0px solid #9C241B;
+  background-color: #9C241B;
   text-shadow: 1px 1px 0 #444;
 }
 
 /* line 136, ../sass/_main.scss */
 #portArea .connect:hover {
-  background-color: #fdebb4;
+  background-color: #d01414;
 }
 
 /* line 140, ../sass/_main.scss */
@@ -553,7 +553,7 @@ input[type="number"]::-webkit-inner-spin-button {
   line-height: 20px;
   padding: 0 10px 0 10px;
   text-align: center;
-  background-color: #756c0a;
+  background-color: #9C241B;
   color: #969a54;
 }
 
@@ -797,7 +797,7 @@ input[type="number"]::-webkit-inner-spin-button {
   padding: 10px 10px 10px 10px;
   height: 24px;
   line-height: 24px;
-  background-color: #1d1d1d;
+  background-color: #9C241B;
   font-size: 16px;
 }
 /* line 367, ../sass/_main.scss */
@@ -815,7 +815,7 @@ select, button, input, textarea {
 /* line 378, ../sass/_main.scss */
 .navigation-menu-button {
   background-color: #151515;
-  border-bottom: 1px solid #756c0a;
+  border-bottom: 1px solid #9C241B;
   border-top: 1px solid #151515;
   color: #888;
   float: left;
@@ -827,24 +827,24 @@ select, button, input, textarea {
   margin: 0px;
   transition: 0.25s background ease;
 }
-/* line 396, ../sass/_main.scss */
+/* line 394, ../sass/_main.scss */
 .navigation-menu-button.active-menu {
   background-color: #1d1d1d;
   color: #fff;
   font-weight: 600;
-  border: 1px solid #756c0a;
+  border: 1px solid #9C241B;
   border-bottom: 1px solid transparent;
 }
 
-/* line 410, ../sass/_main.scss */
+/* line 408, ../sass/_main.scss */
 .portSelector {
-  border-bottom: 1px solid #756c0a;
+  border-bottom: 1px solid #9C241B;
   flex-grow: 10;
   padding-top: 15px;
   padding-left: 18px;
 }
 
-/* line 417, ../sass/_main.scss */
+/* line 415, ../sass/_main.scss */
 .u-button {
   margin: 10px 0 0 0;
   display: inline-block;
@@ -852,21 +852,43 @@ select, button, input, textarea {
   padding: 0 10px 0 10px;
   height: 20px;
   line-height: 20px;
-  background-color: #756c0a;
+  background-color: #559641;
   text-align: center;
   min-width: 50px;
 }
-/* line 428, ../sass/_main.scss */
+/* line 426, ../sass/_main.scss */
 .u-button.saveAct {
-  background-color: red;
+  background-color: #9C241B;
 }
 
-/* line 433, ../sass/_main.scss */
+/* line 431, ../sass/_main.scss */
 .u-button:hover {
-  background-color: #cec12f;
+  background-color: #70c357;
+}
+/* line 434, ../sass/_main.scss */
+.u-button:hover.saveAct {
+  background-color: #d01414;
 }
 
-/* line 439, ../sass/_main.scss */
+/* line 440, ../sass/_main.scss */
+.u-button-red {
+  margin: 10px 0 0 0;
+  display: inline-block;
+  color: white;
+  padding: 0 10px 0 10px;
+  height: 20px;
+  line-height: 20px;
+  background-color: #9C241B;
+  text-align: center;
+  min-width: 50px;
+}
+
+/* line 452, ../sass/_main.scss */
+.u-button-red:hover {
+  background-color: #d01414;
+}
+
+/* line 458, ../sass/_main.scss */
 .config_buttons {
   position: fixed;
   right: 10px;
@@ -1605,7 +1627,7 @@ a.reset_model {
   overflow: hidden;
   width: 50%;
   height: 15px;
-  background-color: #cec12f;
+  background-color: #9C241B;
 }
 /* line 142, ../sass/_data_output.scss */
 .bars .meter-bar .fill .label {

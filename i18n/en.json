@@ -273,7 +273,7 @@
     "text.disarmed": "Disarmed",
     "text.rth": "RTH",
     "text.turtle-mode": "Turtle-Mode",
-    "text.eeprom-version": "Eeprom version:",
+    "text.eeprom-version": "Eeprom:",
     "text.enable-motor-test": "Enable Motors Test ",
     "text.esc-flasher-complete": "<br/><br/> <br/><br/>For safety reasons, communication with KISS FC has been terminated.<br/><br/>Please unplug your battery, and reconnect your KISS FC.<br/><br/>",
     "text.esc-flasher-invalid-firmware": "Selected esc firmware file is not suitable for flashing.",
@@ -291,7 +291,7 @@
     "text.fc-flasher-success": "SUCCESS!",
     "text.fc-flasher-unprotect": "Protection removed",
     "text.fc-type": "FC type",
-    "text.firmware-version": "Firmware version:",
+    "text.firmware-version": "Firmware:",
     "text.firmware-versions": "Firmware versions",
     "text.flight-controller": "Flight controller",
     "text.fs-mode-sec": "FS. levelmode Sec.",
@@ -468,8 +468,9 @@
     "column.rth.home.action": "Home action",
     "column.rth.failsafe.action": "RTH on Failsafe",
 	"title.osd-mirror": "OSD Mirror",
-	"text.hardware-version": "Hardware version:",
+	"text.hardware-version": "Hardware:",
 	"legend.40": "ESC on PWM7",
-    "legend.41": "ESC on PWM8"
+    "legend.41": "ESC on PWM8",
+    "text.bootloader-version": "Bootloader:"
 			
 }

@@ -244,6 +244,8 @@ CONTENT.rates.initialize = function (callback) {
             $('#save').removeClass("saveAct");
             kissProtocol.send(kissProtocol.SET_SETTINGS, kissProtocol.preparePacket(kissProtocol.SET_SETTINGS, kissProtocol.data[kissProtocol.GET_SETTINGS]));
         });
+        
+        scrollTop();
     }
 };
 

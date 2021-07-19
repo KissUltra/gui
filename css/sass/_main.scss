@@ -116,25 +116,25 @@ input[type="number"]::-webkit-inner-spin-button {
 	width: 150px;
 	height: 20px;
 	line-height: 20px;
-	border: 1px solid #756c0a;
+	border: 0px solid $kiss_accent;
 }
 
 #portArea .connect {
 	float: left;
 	margin: 5px 0 0 5px;
-	height: 18px;
+	height: 20px;
 	line-height: 18px;
 	width: 90px;
 	font-weight: bold;
 	color:  $button-text-normal;
 	text-align: center;
-    border: 1px solid  $button-border-normal;
-    background-color: $button-background-normal;
+    border: 0px solid  $kiss_accent;
+    background-color: $kiss_accent;
     text-shadow: 1px 1px 0 #444;
 }
 
 #portArea .connect:hover {
-	background-color: $button-bakground-hover;
+	background-color: $kiss_accent_bright;
 }
 
 #navigation {
@@ -149,7 +149,7 @@ input[type="number"]::-webkit-inner-spin-button {
 	line-height: 20px;
 	padding: 0 10px 0 10px;
 	text-align: center;
-	background-color: #756c0a;
+	background-color: $kiss_accent;
     color: #969a54;
 }
 
@@ -360,12 +360,12 @@ input[type="number"]::-webkit-inner-spin-button {
 	    padding: 10px 10px 10px 10px;
 	    height: 24px;
 	    line-height: 24px;
-	    background-color: $background-color;
+	    background-color: $kiss_accent;
 	    font-size: 16px;
 	}
 	
 	.warning-button:hover {
-	    background-color: #d01414;
+	    background-color: $kiss_accent_bright;
 	}
 }
 
@@ -377,10 +377,8 @@ select, button, input, textarea {
 
 .navigation-menu-button {
   background-color: #151515;
-  border-bottom: 1px solid #756c0a;
+  border-bottom: 1px solid $kiss_accent;
   border-top: 1px solid #151515;
-  // border-left: 1px solid #151515;
-   // border-right: 1px solid #151515;
   color: #888;
   float: left;
   outline: none;
@@ -397,7 +395,7 @@ select, button, input, textarea {
     background-color: $background-color;
     color: #fff;
     font-weight: 600;
-    border: 1px solid #756c0a;
+    border: 1px solid $kiss_accent;
   	border-bottom: 1px solid transparent;
   }
 }
@@ -408,7 +406,7 @@ select, button, input, textarea {
 
 
 .portSelector {
- 	border-bottom: 1px solid #756c0a;
+ 	border-bottom: 1px solid $kiss_accent;
  	flex-grow: 10;
  	padding-top: 15px;
     padding-left: 18px;
@@ -421,17 +419,38 @@ select, button, input, textarea {
   padding: 0 10px 0 10px;
   height: 20px;
   line-height: 20px;
-  background-color: #756c0a;
+  background-color: $button-background-normal;
   text-align: center;
   min-width: 50px;
   
   &.saveAct {
-  	background-color: red;
+  	background-color: $kiss_accent;
   }
 }
 
 .u-button:hover {
-  background-color: #cec12f;
+  background-color: #70c357;
+  
+   &.saveAct {
+  	background-color: $kiss_accent_bright;
+  }
+}
+
+
+.u-button-red {
+  margin: 10px 0 0 0;
+  display: inline-block;
+  color: white;
+  padding: 0 10px 0 10px;
+  height: 20px;
+  line-height: 20px;
+  background-color: $kiss-accent;
+  text-align: center;
+  min-width: 50px;
+ }
+
+.u-button-red:hover {
+  background-color: $kiss_accent_bright;
 }
 
 

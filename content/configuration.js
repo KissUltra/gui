@@ -5,13 +5,58 @@ CONTENT.configuration = {
     PRESET_PIDs: [],
 };
 
+
+
 CONTENT.configuration.initialize = function (callback) {
     var self = this;
+    
+    self.hwTimeout = 0;
+    
+    function updateInfo() {
+    	if (kissProtocol.data[kissProtocol.GET_HARDWARE_INFO] != undefined) {
+    	  var info = kissProtocol.data[kissProtocol.GET_HARDWARE_INFO];
+    	  var tmp = info.hardwareVersion;
+          var rev = tmp & 255;
+          var brd = tmp >> 8;
+          if (brd == 1) {
+          	$("#hwversion").text("ULTRA rev. " + rev);
+          } else if (brd == 2) {
+          	$("#hwversion").text("ULTRA MINI rev. " + rev);
+          } else {
+          	$("#hwversion").text("UNKNOWN rev. " + rev);
+          }
+          var tmp = info.bootloaderVersion;
+          var minor =  tmp & 255;
+          var major = tmp >> 8;
+          $("#blversion").text("v" + major + "." + (minor < 10 ? '0'+minor : minor));
+    	} else {
+    		$("#blversion").text('...');
+    		$("#hwversion").text('...');
+    	}
+    } 
 
     GUI.switchContent('configuration', function () {
         kissProtocol.send(kissProtocol.GET_SETTINGS, [kissProtocol.GET_SETTINGS], function () {
             GUI.load("./content/configuration.html", function () {
                 htmlLoaded(kissProtocol.data[kissProtocol.GET_SETTINGS])
+                
+                console.log("Getting hw info!");
+                
+                
+                self.hwTimeout = window.setTimeout(function () {
+                	console.log("No HW info received");
+                	kissProtocol.init();
+                }, 1000);
+                
+                if (kissProtocol.data[kissProtocol.GET_HARDWARE_INFO] == undefined) {
+                	kissProtocol.send(kissProtocol.GET_HARDWARE_INFO, [kissProtocol.GET_HARDWARE_INFO, 0, 0], function () {
+                        updateInfo();
+                        if (self.hwTimeout != 0) window.clearTimeout(self.hwTimeout);
+                	});
+                } else {
+                	if (self.hwTimeout != 0) window.clearTimeout(self.hwTimeout);
+                	updateInfo();
+                }
             });
         });
     });
@@ -154,9 +199,6 @@ CONTENT.configuration.initialize = function (callback) {
     function htmlLoaded(data) {
         validateBounds('#content input[type="number"]');
         var settingsFilled = 0;
-
-        console.log("RECEIVED:");
-        console.log(data);
 
         $('input[name="3dMode"]').removeAttr("disabled");
 
@@ -980,6 +1022,7 @@ CONTENT.configuration.initialize = function (callback) {
             kissProtocol.send(kissProtocol.GET_SETTINGS, [kissProtocol.GET_SETTINGS], function () {
                 GUI.load("./content/configuration.html", function () {
                     htmlLoaded(kissProtocol.data[kissProtocol.GET_SETTINGS]);
+                    updateInfo();
                     $('#save').removeAttr("data-i18n");
                     $('#save').attr('data-i18n', 'button.saved');
 
@@ -1001,13 +1044,17 @@ CONTENT.configuration.initialize = function (callback) {
                     tmp.ver = v; // fix version to one we get from FCs
                     kissProtocol.data[kissProtocol.GET_SETTINGS] = tmp;
                     htmlLoaded(kissProtocol.data[kissProtocol.GET_SETTINGS]);
+                    updateInfo();
                     contentChange();
                 });
             });
         });
+        
+        scrollTop();
     }
 };
 
 CONTENT.configuration.cleanup = function (callback) {
+	if (self.hwTimeout != 0) window.clearTimeout(self.hwTimeout);
     if (callback) callback();
 };

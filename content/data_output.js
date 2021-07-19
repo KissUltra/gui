@@ -568,6 +568,8 @@ CONTENT.data_output.initialize = function (callback) {
 
         // start
         fastDataPoll();
+        
+        scrollTop();
     }
 };
 

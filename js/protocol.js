@@ -59,6 +59,7 @@ var kissProtocol = {
 	GET_HOME_INFO: 0x72,
 	
 	GET_OSD: 0x7F,
+	GET_HARDWARE_INFO: 0x75,
 
     block: false,
     ready: false,
@@ -90,7 +91,7 @@ kissProtocol.read = function (readInfo) {
             switch (this.state) {
                 case 0:
                     // wait for start byte
-                    if ((data[i] == 5) || (data[i] == kissProtocol.GET_GPS) || (data[i] == kissProtocol.GET_HOME_INFO) || (data[i] == kissProtocol.GET_OSD)) this.state++;
+                    if ((data[i] == 5) || (data[i] == kissProtocol.GET_GPS) || (data[i] == kissProtocol.GET_HARDWARE_INFO) || (data[i] == kissProtocol.GET_HOME_INFO) || (data[i] == kissProtocol.GET_OSD)) this.state++;
                     else this.state = 0;
                     this.errCase++;
                     if (this.errCase > 3) {
@@ -189,6 +190,11 @@ kissProtocol.init = function () {
     this.RequestInterval = 0;
     this.RequestTimeout = 0;
     this.ready = false;
+}
+
+kissProtocol.removeRequests = function (reqId) {
+    this.requests = [];
+    kissProtocol.proceedRequest();
 }
 
 kissProtocol.removePendingRequests = function () {
@@ -617,10 +623,11 @@ kissProtocol.processPacket = function (code, obj) {
                  	obj.rthReturnSpeed = data.getUint8(199, 0);
                 }
                 
-                 blen = 208;
+                 // ??? blen = 208;
                 // next free 200
             } catch (Exception) {
                 console.log("Exception while reading packet");
+                console.log(Exception);
             }
             break;
 
@@ -710,8 +717,13 @@ kissProtocol.processPacket = function (code, obj) {
             
         case this.GET_HOME_INFO:
             obj.homeDistance =  data.getUint16(0, 0);
-            obj.homeDirection = data.getUint16(0, 0);
+            obj.homeDirection = data.getUint16(2, 0);
             obj.homeRelativeAltitude = data.getUint16(4, 0);
+            break;
+            
+        case this.GET_HARDWARE_INFO:
+            obj.hardwareVersion =  data.getUint16(0, 0);
+            obj.bootloaderVersion = data.getUint16(2, 0);
             break;
         	
         case this.SCHEDULE_REQUEST:
@@ -967,17 +979,13 @@ kissProtocol.preparePacket = function (code, obj) {
     outputU8[1] = 5;
     outputU8[2] = blen;
 
-    var ver = +kissProtocol.data[kissProtocol.GET_SETTINGS].ver;
+    //var ver = +kissProtocol.data[kissProtocol.GET_SETTINGS].ver;
     //console.log("using version: " + ver);
 
     for (var i = 0; i < blen; i++) {
         outputU8[i + 3] = bufferU8[i];
 
-        if (ver < 109) {
-            // old crc
-            crc += bufferU8[i];
-            crcCounter++;
-        } else {
+
             // new crc
             crc ^= bufferU8[i];
             for (var j = 0; j < 8; j++) {
@@ -987,14 +995,9 @@ kissProtocol.preparePacket = function (code, obj) {
                     crc <<= 1;
                 }
             }
-        }
     }
 
-    if (ver < 109) {
-        outputU8[outputU8.length - 1] = Math.floor(crc / crcCounter);
-    } else {
         outputU8[outputU8.length - 1] = crc & 0xFF;
-    }
 
     //console.log("Calculated crc: " + outputU8[outputU8.length - 1]);
 

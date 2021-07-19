@@ -71,7 +71,8 @@ $(document).ready(function () {
             }
 
             GUI.switchToDisconnect();
-
+            kissProtocol.data = [];
+            
             var bootloaderListener = function (info) {
                 serialDevice.onReceive.removeListener(bootloaderListener);
                 if (info.data.byteLength > 0) {

@@ -224,6 +224,8 @@ CONTENT.osd.initialize = function (callback) {
 		$(window).on('resize', self.resizeOSD).resize();
 
 		fastDataPoll();
+		
+	    scrollTop();
 	}
 };
 

@@ -449,6 +449,8 @@
     "column.rth.return.speed": "Return speed (km/h)",
     "column.rth.home.action": "Home action",
 	"title.osd-mirror": "OSD Mirror",
+	"text.hardware-version": "Hardware:",
 	"legend.40": "ESC on PWM7",
-    "legend.41": "ESC on PWM8"
+    "legend.41": "ESC on PWM8",
+    "text.bootloader-version": "Bootloader:"
 }

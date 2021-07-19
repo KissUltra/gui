@@ -134,6 +134,7 @@ GUI.timeoutKillAll = function () {
 };
 
 GUI.contentSwitchCleanup = function (callback) {
+	console.log("GUI.contentSwitchCleanup");
     GUI.intervalKillAll(); // all intervals (mostly data pulling) needs to be
     // removed on tab switch
 
@@ -141,29 +142,31 @@ GUI.contentSwitchCleanup = function (callback) {
 };
 
 GUI.switchContent = function (newContent, callback) {
+	console.log("GUI.switchContent");
     if (GUI.activeContent != newContent) {
-        console.log('Switching content to ' + newContent);
+        console.log('Switching active content to ' + newContent);
         
         $("#navigation button").removeClass("active-menu");
 
         $("#navigation button[data-name='" + newContent + "']").addClass('active-menu')
 
         GUI.activeContent = newContent;
+          
         kissProtocol.clearPendingRequests(function () {
+        	console.log("Requests cleared");
             callback();
         });
     } else {
+    	console.log("Just a callback");
         callback();
     }
 }
 
 GUI.load = function (url, callback) {
-    $('#content').animate({
-        scrollTop: 0
-    }, 700);
+  
     $('#content').load(url, function () {
-
         callback();
+    	$("#content").scrollTop(0);
         $("*", "#content").i18n();
     });
 }

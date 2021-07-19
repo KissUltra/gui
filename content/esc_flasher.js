@@ -330,6 +330,8 @@ CONTENT.esc_flasher.initialize = function (callback) {
             $('#save').removeClass("saveAct");
             kissProtocol.send(kissProtocol.SET_ESC_SETTINGS, kissProtocol.preparePacket(kissProtocol.SET_ESC_SETTINGS, tmp));
         });
+        
+        scrollTop();
 
     };
 }

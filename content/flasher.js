@@ -245,8 +245,10 @@ CONTENT.flasher.initialize = function (callback) {
                 });
             }
         });
+        
+        scrollTop();
     }
-    ;
+    
 }
 
 CONTENT.flasher.resizeChart = function () {

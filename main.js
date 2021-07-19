@@ -3,6 +3,10 @@
 const MIN_CONFIG_VERSION = 126; // this gui can manage versions in this range
 const MAX_CONFIG_VERSION = 126;
 
+function scrollTop() {
+	   $("#content").scrollTop(60);
+}
+
 function setLanguage(lang) {
 	chrome.storage.local.set({'language': lang});
 }

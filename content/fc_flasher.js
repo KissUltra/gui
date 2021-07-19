@@ -380,6 +380,8 @@ CONTENT.fc_flasher.initialize = function (callback) {
                 }, 500);
             }
         });
+        
+        scrollTop();
     };
 }
 
