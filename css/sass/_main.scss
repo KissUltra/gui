@@ -55,6 +55,7 @@ input[type="number"]::-webkit-inner-spin-button {
 
 #mainWrapper {
 	height: 100%;
+	overflow: hidden;
 }
 
 .inputSpinners {
@@ -177,7 +178,7 @@ input[type="number"]::-webkit-inner-spin-button {
 	padding: 10px;
 	margin: 0 0 0 10px;
 	width: calc(100% - 40px);
-	height: calc(100% - 70px);
+	height: calc(100% - 130px);
     margin-top: 60px;
     overflow-x: hidden;
     overflow-y: scroll;
@@ -376,7 +377,7 @@ select, button, input, textarea {
  }
 
 .navigation-menu-button {
-  background-color: #151515;
+  background-color: #000;
   border-bottom: 1px solid $kiss_accent;
   border-top: 1px solid #151515;
   color: #888;
@@ -387,10 +388,11 @@ select, button, input, textarea {
   
 
   font-weight: 300; 
-  font-size: 16px;
+  font-size: 15px;
+  line-height: 22px;
 	
   margin: 0px;
-  transition: 0.25s background ease;
+  transition: 0.4s background ease;
   &.active-menu {
     background-color: $background-color;
     color: #fff;

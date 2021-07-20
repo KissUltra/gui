@@ -33,7 +33,18 @@
 .flasher .hidden {
   display: none;
 }
-/* line 42, ../sass/_flasher.scss */
+/* line 40, ../sass/_flasher.scss */
+.flasher p.half {
+  width: 45%;
+  display: inline-block;
+}
+/* line 45, ../sass/_flasher.scss */
+.flasher p.half_right {
+  width: 45%;
+  display: inline-block;
+  float: right;
+}
+/* line 52, ../sass/_flasher.scss */
 .flasher .loader {
   width: 16px;
   height: 16px;
@@ -45,21 +56,21 @@
   display: none;
 }
 
-/* line 55, ../sass/_flasher.scss */
+/* line 65, ../sass/_flasher.scss */
 #fc_type, #fw_version {
-  width: 250px;
+  width: 100%;
 }
 
-/* line 59, ../sass/_flasher.scss */
+/* line 69, ../sass/_flasher.scss */
 #fw_notes {
   width: 100%;
-  height: 200px;
+  height: 120px;
   overflow: scroll;
   background-color: #eee;
   color: black;
 }
 
-/* line 67, ../sass/_flasher.scss */
+/* line 77, ../sass/_flasher.scss */
 #remote_fw label {
   display: block;
   margin-bottom: 5px;
@@ -314,10 +325,21 @@
   margin-bottom: 20px;
 }
 /* line 37, ../sass/_esc_flasher.scss */
+.esc_flasher p.half {
+  width: 45%;
+  display: inline-block;
+}
+/* line 42, ../sass/_esc_flasher.scss */
+.esc_flasher p.half_right {
+  width: 45%;
+  display: inline-block;
+  float: right;
+}
+/* line 48, ../sass/_esc_flasher.scss */
 .esc_flasher .hidden {
   display: none;
 }
-/* line 41, ../sass/_esc_flasher.scss */
+/* line 52, ../sass/_esc_flasher.scss */
 .esc_flasher .loader {
   width: 16px;
   height: 16px;
@@ -329,32 +351,18 @@
   display: none;
 }
 
-/* line 57, ../sass/_esc_flasher.scss */
-#fc_type, #fw_version {
-  width: 250px;
-}
-
-/* line 61, ../sass/_esc_flasher.scss */
-#fw_notes {
-  width: 100%;
-  height: 200px;
-  overflow: scroll;
-  background-color: #eee;
-  color: black;
-}
-
-/* line 69, ../sass/_esc_flasher.scss */
+/* line 70, ../sass/_esc_flasher.scss */
 #remote_fw label {
   display: block;
   margin-bottom: 5px;
   color: #e09338;
 }
 
-/* line 76, ../sass/_esc_flasher.scss */
+/* line 77, ../sass/_esc_flasher.scss */
 .escSettings {
   width: 100%;
 }
-/* line 79, ../sass/_esc_flasher.scss */
+/* line 80, ../sass/_esc_flasher.scss */
 .escSettings td {
   text-align: center;
 }
@@ -445,21 +453,22 @@ input[type="number"]::-webkit-inner-spin-button {
 /* line 56, ../sass/_main.scss */
 #mainWrapper {
   height: 100%;
+  overflow: hidden;
 }
 
-/* line 60, ../sass/_main.scss */
+/* line 61, ../sass/_main.scss */
 .inputSpinners {
   position: absolute;
   width: 15px;
   top: 1px;
 }
 
-/* line 66, ../sass/_main.scss */
+/* line 67, ../sass/_main.scss */
 .flashing-in-progress {
   display: none;
 }
 
-/* line 70, ../sass/_main.scss */
+/* line 71, ../sass/_main.scss */
 .inputSpinners div {
   display: block;
   width: 15px;
@@ -467,31 +476,31 @@ input[type="number"]::-webkit-inner-spin-button {
   background-color: #f1f1f1;
 }
 
-/* line 77, ../sass/_main.scss */
+/* line 78, ../sass/_main.scss */
 .inputSpinners div:hover {
   background-color: #d2d2d2;
 }
 
-/* line 81, ../sass/_main.scss */
+/* line 82, ../sass/_main.scss */
 .inputSpinners div:nth-child(1) {
   background-image: url("./images/triangleArrowUp.gif");
   background-position: 4px 4px;
   background-repeat: no-repeat;
 }
 
-/* line 87, ../sass/_main.scss */
+/* line 88, ../sass/_main.scss */
 .inputSpinners div:nth-child(2) {
   background-image: url("./images/triangleArrowDown.gif");
   background-position: 4px 3px;
   background-repeat: no-repeat;
 }
 
-/* line 93, ../sass/_main.scss */
+/* line 94, ../sass/_main.scss */
 .inputSpinners div:active {
   background-color: #787878;
 }
 
-/* line 97, ../sass/_main.scss */
+/* line 98, ../sass/_main.scss */
 #portArea {
   margin: 0 0 10px 0;
   padding: 0 5px 0 0;
@@ -509,7 +518,7 @@ input[type="number"]::-webkit-inner-spin-button {
   flex-wrap: nowrap;
 }
 
-/* line 113, ../sass/_main.scss */
+/* line 114, ../sass/_main.scss */
 #portArea #port {
   float: left;
   margin: 5px 0 0 5px;
@@ -519,7 +528,7 @@ input[type="number"]::-webkit-inner-spin-button {
   border: 0px solid #9C241B;
 }
 
-/* line 122, ../sass/_main.scss */
+/* line 123, ../sass/_main.scss */
 #portArea .connect {
   float: left;
   margin: 5px 0 0 5px;
@@ -534,18 +543,18 @@ input[type="number"]::-webkit-inner-spin-button {
   text-shadow: 1px 1px 0 #444;
 }
 
-/* line 136, ../sass/_main.scss */
+/* line 137, ../sass/_main.scss */
 #portArea .connect:hover {
   background-color: #d01414;
 }
 
-/* line 140, ../sass/_main.scss */
+/* line 141, ../sass/_main.scss */
 #navigation {
   float: right;
   margin: 5px 0 0 0;
 }
 
-/* line 145, ../sass/_main.scss */
+/* line 146, ../sass/_main.scss */
 #navigation li {
   margin: 0 0 0 5px;
   float: left;
@@ -557,41 +566,41 @@ input[type="number"]::-webkit-inner-spin-button {
   color: #969a54;
 }
 
-/* line 156, ../sass/_main.scss */
+/* line 157, ../sass/_main.scss */
 #navigation li.unlocked.selected {
   background-color: #cec12f;
 }
 
-/* line 160, ../sass/_main.scss */
+/* line 161, ../sass/_main.scss */
 #navigation li.unlocked {
   cursor: pointer;
   color: #fff;
 }
 
-/* line 166, ../sass/_main.scss */
+/* line 167, ../sass/_main.scss */
 #navigation li.unlocked:hover {
   cursor: pointer;
   background-color: #cec12f;
   color: #fff;
 }
 
-/* line 172, ../sass/_main.scss */
+/* line 173, ../sass/_main.scss */
 #navigation li.hidden {
   display: none;
 }
 
-/* line 176, ../sass/_main.scss */
+/* line 177, ../sass/_main.scss */
 #content {
   padding: 10px;
   margin: 0 0 0 10px;
   width: calc(100% - 40px);
-  height: calc(100% - 70px);
+  height: calc(100% - 130px);
   margin-top: 60px;
   overflow-x: hidden;
   overflow-y: scroll;
 }
 
-/* line 187, ../sass/_main.scss */
+/* line 188, ../sass/_main.scss */
 .groupTitle {
   padding: 0 0 5px 0;
   margin: 0 0 5px 0;
@@ -599,7 +608,7 @@ input[type="number"]::-webkit-inner-spin-button {
   color: #e09338;
 }
 
-/* line 194, ../sass/_main.scss */
+/* line 195, ../sass/_main.scss */
 .wrapper-wide {
   float: left;
   width: 65%;
@@ -607,7 +616,7 @@ input[type="number"]::-webkit-inner-spin-button {
   padding-left: 2px;
 }
 
-/* line 201, ../sass/_main.scss */
+/* line 202, ../sass/_main.scss */
 .wrapper-narrow {
   float: left;
   width: calc(33% - 20px);
@@ -615,7 +624,7 @@ input[type="number"]::-webkit-inner-spin-button {
   padding-left: 2px;
 }
 
-/* line 208, ../sass/_main.scss */
+/* line 209, ../sass/_main.scss */
 .wrapper-half {
   float: left;
   width: calc(50% - 10px);
@@ -623,7 +632,7 @@ input[type="number"]::-webkit-inner-spin-button {
   padding-left: 2px;
 }
 
-/* line 215, ../sass/_main.scss */
+/* line 216, ../sass/_main.scss */
 .wrapper-full {
   width: 100%;
   padding: 0px;
@@ -635,7 +644,7 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 @media (max-width: 824px) {
-  /* line 226, ../sass/_main.scss */
+  /* line 227, ../sass/_main.scss */
   .wrapper-wide {
     width: 100%;
     padding: 5px;
@@ -643,7 +652,7 @@ input[type="number"]::-webkit-inner-spin-button {
     clear: both;
   }
 
-  /* line 232, ../sass/_main.scss */
+  /* line 233, ../sass/_main.scss */
   .wrapper-narrow {
     width: 100%;
     padding: 5px;
@@ -651,7 +660,7 @@ input[type="number"]::-webkit-inner-spin-button {
     clear: both;
   }
 
-  /* line 238, ../sass/_main.scss */
+  /* line 239, ../sass/_main.scss */
   .wrapper-half {
     width: 100%;
     padding: 5px;
@@ -659,17 +668,17 @@ input[type="number"]::-webkit-inner-spin-button {
     clear: both;
   }
 
-  /* line 244, ../sass/_main.scss */
+  /* line 245, ../sass/_main.scss */
   .wrapper-full {
     margin-bottom: 10px;
   }
 
-  /* line 247, ../sass/_main.scss */
+  /* line 248, ../sass/_main.scss */
   .navigation-menu-button {
     display: inline-block;
   }
 
-  /* line 250, ../sass/_main.scss */
+  /* line 251, ../sass/_main.scss */
   #navigation {
     display: none;
     position: fixed;
@@ -678,7 +687,7 @@ input[type="number"]::-webkit-inner-spin-button {
     right: 0px;
   }
 
-  /* line 257, ../sass/_main.scss */
+  /* line 258, ../sass/_main.scss */
   #navigation.active-menu {
     display: inline;
     z-index: 100;
@@ -687,7 +696,7 @@ input[type="number"]::-webkit-inner-spin-button {
     right: 0px;
   }
 
-  /* line 264, ../sass/_main.scss */
+  /* line 265, ../sass/_main.scss */
   #navigation li {
     margin: 0px;
     float: none;
@@ -697,7 +706,7 @@ input[type="number"]::-webkit-inner-spin-button {
     width: 120px;
   }
 
-  /* line 273, ../sass/_main.scss */
+  /* line 274, ../sass/_main.scss */
   #menu {
     background-color: black;
     padding-left: 3px;
@@ -705,24 +714,24 @@ input[type="number"]::-webkit-inner-spin-button {
     padding-bottom: 1px;
   }
 
-  /* line 280, ../sass/_main.scss */
+  /* line 281, ../sass/_main.scss */
   .configuration .rates tr > *:nth-child(1) {
     display: inline;
   }
 
-  /* line 284, ../sass/_main.scss */
+  /* line 285, ../sass/_main.scss */
   #portArea #port {
     width: 90px;
   }
 
-  /* line 288, ../sass/_main.scss */
+  /* line 289, ../sass/_main.scss */
   .mixer-image {
     width: 200px;
     left: 125px;
     top: 15px;
   }
 
-  /* line 295, ../sass/_main.scss */
+  /* line 296, ../sass/_main.scss */
   .groupTitle {
     padding: 0 0 2px 0;
     margin: 0 0 2px 0;
@@ -730,33 +739,33 @@ input[type="number"]::-webkit-inner-spin-button {
     color: #e09338;
   }
 
-  /* line 302, ../sass/_main.scss */
+  /* line 303, ../sass/_main.scss */
   #userSel {
     width: 50px;
   }
 
-  /* line 306, ../sass/_main.scss */
+  /* line 307, ../sass/_main.scss */
   #presetSel {
     width: 50px;
   }
 
-  /* line 310, ../sass/_main.scss */
+  /* line 311, ../sass/_main.scss */
   #lapTimerTypeAndInterface {
     width: 90px;
   }
 }
-/* line 316, ../sass/_main.scss */
+/* line 317, ../sass/_main.scss */
 #wifi {
   text-decoration: none;
   color: inherit;
 }
 
-/* line 321, ../sass/_main.scss */
+/* line 322, ../sass/_main.scss */
 ::-webkit-scrollbar {
   display: none;
 }
 
-/* line 325, ../sass/_main.scss */
+/* line 326, ../sass/_main.scss */
 .warning-disclaimer {
   display: none;
   position: absolute;
@@ -768,7 +777,7 @@ input[type="number"]::-webkit-inner-spin-button {
   z-index: 2000;
 }
 
-/* line 336, ../sass/_main.scss */
+/* line 337, ../sass/_main.scss */
 .warning-disclaimer-inner {
   width: calc(100% - 50px);
   height: calc(100% - 50px);
@@ -776,21 +785,21 @@ input[type="number"]::-webkit-inner-spin-button {
   background-color: black;
   text-align: center;
 }
-/* line 343, ../sass/_main.scss */
+/* line 344, ../sass/_main.scss */
 .warning-disclaimer-inner .warning1 {
   font-size: 30px;
   color: #d01414;
   padding-top: 30px;
   text-align: center;
 }
-/* line 350, ../sass/_main.scss */
+/* line 351, ../sass/_main.scss */
 .warning-disclaimer-inner .warning2 {
   font-size: 20px;
   color: #ffffff;
   padding-top: 30px;
   text-align: center;
 }
-/* line 357, ../sass/_main.scss */
+/* line 358, ../sass/_main.scss */
 .warning-disclaimer-inner .warning-button {
   margin: 40px 0 0 0;
   color: white;
@@ -800,21 +809,21 @@ input[type="number"]::-webkit-inner-spin-button {
   background-color: #9C241B;
   font-size: 16px;
 }
-/* line 367, ../sass/_main.scss */
+/* line 368, ../sass/_main.scss */
 .warning-disclaimer-inner .warning-button:hover {
   background-color: #d01414;
 }
 
-/* line 372, ../sass/_main.scss */
+/* line 373, ../sass/_main.scss */
 select, button, input, textarea {
   font-family: "Titillium Web", sans-serif;
   font-style: normal;
   font-weight: 300;
 }
 
-/* line 378, ../sass/_main.scss */
+/* line 379, ../sass/_main.scss */
 .navigation-menu-button {
-  background-color: #151515;
+  background-color: #000;
   border-bottom: 1px solid #9C241B;
   border-top: 1px solid #151515;
   color: #888;
@@ -823,11 +832,12 @@ select, button, input, textarea {
   cursor: pointer;
   padding: 14px 14px;
   font-weight: 300;
-  font-size: 16px;
+  font-size: 15px;
+  line-height: 22px;
   margin: 0px;
-  transition: 0.25s background ease;
+  transition: 0.4s background ease;
 }
-/* line 394, ../sass/_main.scss */
+/* line 396, ../sass/_main.scss */
 .navigation-menu-button.active-menu {
   background-color: #1d1d1d;
   color: #fff;
@@ -836,7 +846,7 @@ select, button, input, textarea {
   border-bottom: 1px solid transparent;
 }
 
-/* line 408, ../sass/_main.scss */
+/* line 410, ../sass/_main.scss */
 .portSelector {
   border-bottom: 1px solid #9C241B;
   flex-grow: 10;
@@ -844,7 +854,7 @@ select, button, input, textarea {
   padding-left: 18px;
 }
 
-/* line 415, ../sass/_main.scss */
+/* line 417, ../sass/_main.scss */
 .u-button {
   margin: 10px 0 0 0;
   display: inline-block;
@@ -856,21 +866,21 @@ select, button, input, textarea {
   text-align: center;
   min-width: 50px;
 }
-/* line 426, ../sass/_main.scss */
+/* line 428, ../sass/_main.scss */
 .u-button.saveAct {
   background-color: #9C241B;
 }
 
-/* line 431, ../sass/_main.scss */
+/* line 433, ../sass/_main.scss */
 .u-button:hover {
   background-color: #70c357;
 }
-/* line 434, ../sass/_main.scss */
+/* line 436, ../sass/_main.scss */
 .u-button:hover.saveAct {
   background-color: #d01414;
 }
 
-/* line 440, ../sass/_main.scss */
+/* line 442, ../sass/_main.scss */
 .u-button-red {
   margin: 10px 0 0 0;
   display: inline-block;
@@ -883,12 +893,12 @@ select, button, input, textarea {
   min-width: 50px;
 }
 
-/* line 452, ../sass/_main.scss */
+/* line 454, ../sass/_main.scss */
 .u-button-red:hover {
   background-color: #d01414;
 }
 
-/* line 458, ../sass/_main.scss */
+/* line 460, ../sass/_main.scss */
 .config_buttons {
   position: fixed;
   right: 10px;

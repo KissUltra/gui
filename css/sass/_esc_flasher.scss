@@ -34,6 +34,17 @@
 	    margin-bottom: 20px;
 	}
 	
+	p.half {
+		width: 45%;
+		display: inline-block;
+	}
+	
+	p.half_right {
+		width: 45%;
+		display: inline-block;
+		float: right;
+	}
+	
 	.hidden {
 	    display: none;
 	}
@@ -54,17 +65,7 @@
 
 
 
-#fc_type, #fw_version {
-    width: 250px;
-}
 
-#fw_notes {
-    width: 100%;
-    height: 200px;
-    overflow: scroll;
-    background-color: #eee;
-    color: black;
-}
 
 #remote_fw label {
     display: block;
