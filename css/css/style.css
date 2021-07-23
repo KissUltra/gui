@@ -111,17 +111,17 @@
   padding-top: 30px;
   text-align: center;
 }
-/* line 34, ../sass/_jquery.kiss.warning.scss */
+/* line 35, ../sass/_jquery.kiss.warning.scss */
 .kiss-warning-inner .button {
   margin: 40px 0 0 0;
   color: white;
   padding: 10px 10px 10px 10px;
   height: 24px;
   line-height: 24px;
-  background-color: #1d1d1d;
+  background-color: #9C241B;
   font-size: 16px;
 }
-/* line 44, ../sass/_jquery.kiss.warning.scss */
+/* line 45, ../sass/_jquery.kiss.warning.scss */
 .kiss-warning-inner .button:hover {
   background-color: #d01414;
 }
@@ -323,24 +323,14 @@
 }
 /* line 33, ../sass/_esc_flasher.scss */
 .esc_flasher p {
-  margin-bottom: 20px;
+  margin-bottom: 5px;
+  padding-right: 5px;
 }
-/* line 37, ../sass/_esc_flasher.scss */
-.esc_flasher p.half {
-  width: 45%;
-  display: inline-block;
-}
-/* line 42, ../sass/_esc_flasher.scss */
-.esc_flasher p.half_right {
-  width: 45%;
-  display: inline-block;
-  float: right;
-}
-/* line 48, ../sass/_esc_flasher.scss */
+/* line 39, ../sass/_esc_flasher.scss */
 .esc_flasher .hidden {
   display: none;
 }
-/* line 52, ../sass/_esc_flasher.scss */
+/* line 43, ../sass/_esc_flasher.scss */
 .esc_flasher .loader {
   width: 16px;
   height: 16px;
@@ -351,19 +341,26 @@
   margin-top: -4px;
   display: none;
 }
+/* line 54, ../sass/_esc_flasher.scss */
+.esc_flasher .buttons {
+  text-align: right;
+  margin-bottom: 5px;
+  margin-right: 5px;
+}
 
-/* line 70, ../sass/_esc_flasher.scss */
+/* line 66, ../sass/_esc_flasher.scss */
 #remote_fw label {
   display: block;
   margin-bottom: 5px;
   color: #e09338;
+  font-size: 16px;
 }
 
-/* line 77, ../sass/_esc_flasher.scss */
+/* line 74, ../sass/_esc_flasher.scss */
 .escSettings {
   width: 100%;
 }
-/* line 80, ../sass/_esc_flasher.scss */
+/* line 77, ../sass/_esc_flasher.scss */
 .escSettings td {
   text-align: center;
 }

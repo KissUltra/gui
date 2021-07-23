@@ -99,9 +99,7 @@ CONTENT.esc_flasher.initialize = function (callback) {
 
         var data = kissProtocol.data[kissProtocol.GET_SETTINGS];
         if (data.lipoConnected == 1) {
-            if (data.ver > 108) {
-                $("#escSettingsDiv").show();
-            }
+            $("#escSettingsDiv").show();
             $("#escInfoDiv").show();
         }
 
@@ -214,11 +212,11 @@ CONTENT.esc_flasher.initialize = function (callback) {
                         var add = true;
                         if (escDetected != "" && board != escDetected) add = false;
                         var escBoardNames = {
-                            'KISS32A': "Kiss Racing 32A ESC",
+                            'KISS32A':  "Kiss Racing 32A ESC",
                             'ULTRA45A': "Kiss ULTRA 45A ESC",
-                            'KISS24A': "Kiss Racing 24A ESC",
-                            'KISS16A': "Kiss AIOv2 ESC",
-                            'KISS8A': "Kiss AIOv1 ESC",
+                            'KISS24A':  "Kiss Racing 24A ESC",
+                            'KISS16A':  "Kiss AIOv2 ESC",
+                            'KISS8A':   "Kiss AIOv1 ESC",
                             'KISSLOGIC25A': "Kiss Racing 25A ESC (Single + 4in1)",
                             'KISS25A': "Kiss Racing 25A ESC (Single + 4in1)"
                         };

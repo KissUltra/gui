@@ -31,18 +31,19 @@
 	    text-align: center;
 	}
 	
+
 	.button {
 	  	margin: 40px 0 0 0;
 	    color: white;
 	    padding: 10px 10px 10px 10px;
 	    height: 24px;
 	    line-height: 24px;
-	    background-color: $background-color;
+	    background-color: $kiss_accent;
 	    font-size: 16px;
 	}
 	
 	.button:hover {
-	    background-color: #d01414;
+	    background-color: $kiss_accent_bright;
 	}
 
 }

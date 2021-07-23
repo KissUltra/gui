@@ -1,13 +1,15 @@
-<div class="esc_flasher">
-	<div class="wrapper-half">
-		<div class="groupTitle" data-i18n="title.esc-flasher">KISS ESC Flasher</div>
-		<p>
-			<a id="select_file" class="u-button" href="#" data-i18n="button.select-firmware">SELECT FIRMWARE</a>
-			<a id="download_file" class="u-button" href="#" data-i18n="button.select-remote-firmware"></a>
-			<img id="loader1" class="loader" src="images/ajax-loader.gif" />
-		</p>
-
-		<div id="remote_fw" style="display:none">
+<div class="flex-container esc_flasher">
+	<div class="column column-left">
+		<div class="block">
+			<div class="title" data-i18n="title.esc-flasher">KISS ESC Flasher</div>
+			<div class="body">
+				<p>
+					<a id="select_file" class="u-button" href="#" data-i18n="button.select-firmware">SELECT FIRMWARE</a>
+					<a id="download_file" class="u-button" href="#" data-i18n="button.select-remote-firmware"></a>
+					<img id="loader1" class="loader" src="images/ajax-loader.gif" />
+				</p>
+				
+				<div id="remote_fw" style="display:none">
 			<p class="half">
 				<label for="fc_type" data-i18n="text.esc-type">ESC type</label>
 				<select id="fc_type"></select>
@@ -42,23 +44,23 @@
 		<p id="esc_info">
 
 		</p>
-	</div>
-	<div class="wrapper-half">
-
-		<div id="escInfoDiv" class="wrapper-full" style="display:none">
-			<div class="groupTitle" data-i18n="title.esc-info">KISS ESC Info</div>
-			<ul id="escInfo">
-			</ul>
-		</div>
-
-		<div id="escSettingsDiv" class="wrapper-full" style="display:none">
-
-			<div class="config_buttons">
-				<a id="save" class="config_button" href="#" title="Save Settings to ESC" data-i18n="button.save">Save Settings</a>
 			</div>
-			<div class="clear-both"></div>
+		</div>
+	</div>
+	
+	<div class="column">
+		<div class="block"  id="escInfoDiv" style="display:none">
+			<div class="title" data-i18n="title.esc-info">KISS ESC Info</div>
+			<div class="body">
+				<ul id="escInfo"></ul>
+			</div>
+		</div>
+		
+		<div class="block"  id="escSettingsDiv" style="display:none">
+			<div class="title" data-i18n="title.esc-settings">KISS ESC Settings</div>
+			<div class="body">
+				
 
-			<div class="groupTitle" data-i18n="title.esc-settings">KISS ESC Settings</div>
 			<table class="escSettings">
 				<thead>
 					<th data-i18n="column.esc-number"></th>
@@ -123,9 +125,19 @@
 				</tbody>
 			</table>
 
+
+			</div>
+			
+			<div class="buttons">
+				<a id="save" class="config_button u-button-red" href="#" title="Save Settings to ESC" data-i18n="button.save">Save Settings</a>
+			</div>
+			
 		</div>
 	</div>
 </div>
+
+			
+
 <div id="esc-flasher-disclaimer" class="warning-disclaimer">
 	<div class="warning-disclaimer-inner">
 		<div class="warning1" data-i18n="title.warning"></div>

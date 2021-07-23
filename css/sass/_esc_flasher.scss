@@ -31,19 +31,10 @@
 	}
 	
 	p {
-	    margin-bottom: 20px;
+	    margin-bottom: 5px;
+	    padding-right: 5px;
 	}
 	
-	p.half {
-		width: 45%;
-		display: inline-block;
-	}
-	
-	p.half_right {
-		width: 45%;
-		display: inline-block;
-		float: right;
-	}
 	
 	.hidden {
 	    display: none;
@@ -60,6 +51,11 @@
 	    display: none;
 	}
 
+	.buttons {
+		text-align: right;
+    	margin-bottom: 5px;
+    	margin-right: 5px;
+	}
 
 } // esc flasher
 
@@ -71,6 +67,7 @@
     display: block;
     margin-bottom: 5px;
     color: #e09338;
+    font-size: 16px;
 }
 
 

@@ -19,9 +19,9 @@ CONTENT.configuration.initialize = function (callback) {
           var rev = tmp & 255;
           var brd = tmp >> 8;
           if (brd == 1) {
-          	$("#hwversion").text("ULTRA rev. " + rev);
+          	$("#hwversion").text("FCFC ULTRA rev. " + rev);
           } else if (brd == 2) {
-          	$("#hwversion").text("ULTRA MINI rev. " + rev);
+          	$("#hwversion").text("FCFC ULTRA MINI rev. " + rev);
           } else {
           	$("#hwversion").text("UNKNOWN rev. " + rev);
           }
