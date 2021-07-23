@@ -30,23 +30,14 @@
 	}
 	
 	 p {
-	    margin-bottom: 20px;
+	    margin-bottom: 5px;
+    	padding-right: 5px;
 	}
 	
 	.hidden {
 	    display: none;
 	}
 	
-	p.half {
-		width: 45%;
-		display: inline-block;
-	}
-	
-	p.half_right {
-		width: 45%;
-		display: inline-block;
-		float: right;
-	}
 	
 	
 	.loader {
@@ -60,6 +51,9 @@
 	    display: none;
 	}
 
+	#fcimage {
+		margin-top: 7px;	
+	}
 }
 
 #fc_type, #fw_version {
@@ -77,5 +71,6 @@
 #remote_fw label {
     display: block;
     margin-bottom: 5px;
+    font-size: 16px;
     color: #e09338;
 }

@@ -1,7 +1,9 @@
-<div class="flasher">
-	<div class="wrapper-half">
-		<div class="groupTitle" data-i18n="title.fc-flasher"></div>
-		<p>
+<div class="flex-container flasher">
+	<div class="column column-left">
+		<div class="block">
+			<div class="title" data-i18n="title.fc-flasher">KISS FC Flasher</div>
+			<div class="body">
+			<p>
 			<a id="select_file" class="u-button" href="#" data-i18n="button.select-firmware"></a>
 			<a id="download_file" class="u-button" href="#" data-i18n="button.select-remote-firmware"></a>
 			<img id="loader1" class="loader" src="images/ajax-loader.gif" />
@@ -34,9 +36,18 @@
 		</p>
 
 		<p id="status"></p>
+			</div>
+			
+		</div>
 	</div>
-
-	<div class="wrapper-half" style="overflow: hidden">
-		<img style="float:right;" id="fcimage" src="./images/KISS_ULTRA.png" />
+	
+	<div class="column">
+		<div class="block">
+		<!-- 	<div class="title" data-i18n="title.fc-flasher">KISS FC Flasher</div> -->
+			<div class="body body-center">
+				<img  id="fcimage" src="./images/KISS_ULTRA.png" />
+			</div>
+		</div>
 	</div>
 </div>
+
