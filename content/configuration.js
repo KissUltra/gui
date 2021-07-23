@@ -696,8 +696,9 @@ CONTENT.configuration.initialize = function (callback) {
                             data['actKey'] = parseInt(key);
                             kissProtocol.send(kissProtocol.SET_SETTINGS, kissProtocol.preparePacket(kissProtocol.SET_SETTINGS, kissProtocol.data[kissProtocol.GET_SETTINGS]));
                             kissProtocol.send(kissProtocol.GET_SETTINGS, [kissProtocol.GET_SETTINGS], function () {
-                                $('#content').load("./content/configuration.html", function () {
+                            	GUI.load("./content/configuration.html", function () {
                                     htmlLoaded(kissProtocol.data[kissProtocol.GET_SETTINGS]);
+                                    updateInfo();
                                 });
                             });
                         },

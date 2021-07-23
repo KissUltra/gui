@@ -81,14 +81,15 @@
 .kiss-warning {
   display: none;
   position: absolute;
-  top: 30px;
+  top: 0px;
   left: 0px;
   width: 100%;
-  height: calc(100% - 30px);
+  height: calc(100% - 0px);
+  z-index: 2000;
   background-image: url("images/warning_stripe.png");
 }
 
-/* line 11, ../sass/_jquery.kiss.warning.scss */
+/* line 12, ../sass/_jquery.kiss.warning.scss */
 .kiss-warning-inner {
   width: calc(100% - 50px);
   height: calc(100% - 50px);
@@ -96,21 +97,21 @@
   background-color: #1e1e1e;
   text-align: center;
 }
-/* line 19, ../sass/_jquery.kiss.warning.scss */
+/* line 20, ../sass/_jquery.kiss.warning.scss */
 .kiss-warning-inner .title {
   font-size: 30px;
   color: #d01414;
   padding-top: 30px;
   text-align: center;
 }
-/* line 26, ../sass/_jquery.kiss.warning.scss */
+/* line 27, ../sass/_jquery.kiss.warning.scss */
 .kiss-warning-inner .body {
   font-size: 20px;
   color: #ffffff;
   padding-top: 30px;
   text-align: center;
 }
-/* line 33, ../sass/_jquery.kiss.warning.scss */
+/* line 34, ../sass/_jquery.kiss.warning.scss */
 .kiss-warning-inner .button {
   margin: 40px 0 0 0;
   color: white;
@@ -120,7 +121,7 @@
   background-color: #1d1d1d;
   font-size: 16px;
 }
-/* line 43, ../sass/_jquery.kiss.warning.scss */
+/* line 44, ../sass/_jquery.kiss.warning.scss */
 .kiss-warning-inner .button:hover {
   background-color: #d01414;
 }

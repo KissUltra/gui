@@ -1,10 +1,11 @@
 .kiss-warning {
 	display: none;
 	position: absolute;
-	top: 30px;
+	top: 0px;
 	left: 0px;
 	width: 100%;
-	height: calc(100% - 30px);
+	height: calc(100% - 0px);
+	z-index: 2000;
 	background-image: url("images/warning_stripe.png");
 }
 
