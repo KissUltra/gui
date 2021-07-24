@@ -79,7 +79,7 @@ CONTENT.configuration.initialize = function (callback) {
 
         chrome.fileSystem.chooseEntry({
             type: 'saveFile',
-            suggestedName: 'kissfc-backup',
+            suggestedName: 'kissultra-backup',
             accepts: accepts
         }, function (fileEntry) {
             if (chrome.runtime.lastError) {
@@ -184,7 +184,22 @@ CONTENT.configuration.initialize = function (callback) {
                         console.log('Read OK');
                         try {
                             var json = JSON.parse(e.target.result);
-                            if (callback) callback(json);
+                            
+                            console.log(json);
+                            if (json.kissultra) {
+                                if (callback) callback(json);
+                            } else {
+                            	console.log("Old kiss backup detected!");
+                            	
+                            	$(".modal-body").html("<p class='header'>This backup is outdated.</p>For safety reasons, importing of the old backups is prohibited.");
+                            	$(".modal-footer").html("");
+                            	
+                			
+                            	$(".modal-overlay").show();
+                            	$(".modal").show();
+                            	
+                            	return;
+                            }
                         } catch (e) {
                             console.log('Wrong file');
                             return;
@@ -725,6 +740,8 @@ CONTENT.configuration.initialize = function (callback) {
         }
 
         function grabData() {
+        	data['kissultra'] = true;
+        	
             // uav type and receiver
             data['CopterType'] = parseInt($('select.mixer').val());
             data['RXType'] = parseInt($('.rxType').val());

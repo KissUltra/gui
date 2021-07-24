@@ -36,6 +36,8 @@ function changeLanguage() {
 }
 
 function showUpdateModal() {
+	$(".modal-body").html("<p class='header'>This GUI version is outdated.</p>Click download button to update to the new version.");
+	$(".modal-footer").html("<a class='update-download u-button' href='https://github.com/KissUltra/gui/releases' target='_blank'>Download</a>");
 	$(".modal,.modal-overlay").show();
 } 
 
