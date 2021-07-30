@@ -426,5 +426,6 @@
 	"text.hardware-version": "Hardware:",
 	"legend.40": "ESC on PWM7",
     "legend.41": "ESC on PWM8",
-    "text.bootloader-version": "Bootloader:"
+    "text.bootloader-version": "Bootloader:",
+    "title.homePoint": "Home"
 }
