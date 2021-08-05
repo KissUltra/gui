@@ -15,7 +15,11 @@
     	        c+='<div class="title">'+data.title+'</div>';
     	        c+='<div class="body">'+body;
     	        if (data.button!=='') {
-    	            c+='<a class="button" href="#">'+data.button+'</a>';
+    	            c+='<a class="button" href="'+data.href+'"';
+    	            if (data.target) {
+    	            	c+=' target="'+data.target+'"';
+    	            }
+    	            c+='>'+data.button+'</a>';
     	        }
     	        c+='</div>';
     	        
@@ -34,6 +38,7 @@
                     self.data(PLUGIN_NAME, $.extend(true, {
                     	title: 'WARNING!!!',
                     	button: '',
+                    	href: '#',
                     	action: function() {
                     	    self.hide();
                     	}

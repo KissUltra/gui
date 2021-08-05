@@ -60,6 +60,7 @@ var kissProtocol = {
 	
 	GET_OSD: 0x7F,
 	GET_HARDWARE_INFO: 0x75,
+	GET_OSD_CONFIG: 0x76,
 
     block: false,
     ready: false,
@@ -91,7 +92,7 @@ kissProtocol.read = function (readInfo) {
             switch (this.state) {
                 case 0:
                     // wait for start byte
-                    if ((data[i] == 5) || (data[i] == kissProtocol.GET_GPS) || (data[i] == kissProtocol.GET_HARDWARE_INFO) || (data[i] == kissProtocol.GET_HOME_INFO) || (data[i] == kissProtocol.GET_OSD)) this.state++;
+                    if ((data[i] == 5) || (data[i] == kissProtocol.GET_GPS) || (data[i] == kissProtocol.GET_HARDWARE_INFO) || (data[i] == kissProtocol.GET_HOME_INFO) || (data[i] == kissProtocol.GET_OSD) || (data[i] == kissProtocol.GET_OSD_CONFIG)) this.state++;
                     else this.state = 0;
                     this.errCase++;
                     if (this.errCase > 3) {
@@ -177,7 +178,6 @@ kissProtocol.send = function (code, data, callback) {
         'buffer': bufferOut,
         'callback': (callback) ? callback : false
     });
-    //console.log("calling process request");
     kissProtocol.proceedRequest();
 };
 
@@ -472,12 +472,7 @@ kissProtocol.processPacket = function (code, obj) {
                 obj.AUX[1] = data.getUint8(74);
                 obj.AUX[2] = data.getUint8(75);
                 obj.AUX[3] = data.getUint8(76);
-                if (obj.ver < 104) {
-                    obj.aux1Funk = data.getUint8(73);
-                    obj.aux2Funk = data.getUint8(74);
-                    obj.aux3Funk = data.getUint8(75);
-                    obj.aux4Funk = data.getUint8(76);
-                }
+              
                 obj.maxAng = data.getUint16(77) / 14.3;
                 obj.LPF = data.getUint8(79);
 
@@ -494,18 +489,15 @@ kissProtocol.processPacket = function (code, obj) {
                 obj.SN[10] = data.getUint8(90);
                 obj.SN[11] = data.getUint8(91);
 
-                //obj.ver = data.getUint8(92);  // already fetched
-
                 obj.TPA[0] = data.getUint16(93, 0) / 1000;
                 obj.TPA[1] = data.getUint16(95, 0) / 1000;
                 obj.TPA[2] = data.getUint16(97, 0) / 1000;
-                obj.ESConeshot42 = data.getUint8(99);
+                                
                 obj.failsaveseconds = data.getUint8(100);
-                if (obj.ver > 100) {
-                    obj.BoardRotation = data.getUint8(101);
-                    obj.isActive = data.getUint8(102);
-                    obj.actKey = 0;
-                }
+
+                obj.BoardRotation = data.getUint8(101);
+                obj.isActive = data.getUint8(102);
+                obj.actKey = 0;
 
                 obj.CustomTPAInfluence = data.getUint8(103);
                 obj.TPABP1 = data.getUint8(104);
@@ -529,7 +521,6 @@ kissProtocol.processPacket = function (code, obj) {
                 obj.debugVariables = 0;
                 obj.mahAlarm = 0;
                 obj.lipoConnected = 0;
-
 
                 obj.vtxChannel = data.getUint8(120);
                 obj.loggerConfig = data.getUint8(121);
@@ -576,52 +567,34 @@ kissProtocol.processPacket = function (code, obj) {
 
                 obj.motorBuzzer = data.getUint8(163, 0);
 
-                if (obj.ver >= 109) {
-                    obj.loopTimeDivider = data.getUint8(164, 0);
-                    obj.yawLpF = data.getUint8(165, 0);
-                    obj.DLpF = data.getUint8(166, 0);
-                    obj.reverseMotors = data.getUint8(167, 0);
-                    obj.AUX[8] = data.getUint8(168, 0);
-                    obj.adaptiveFilter = data.getUint8(169, 0);
-                }
-
-                if (obj.ver >= 110) {
-                    obj.AUX[9] = data.getUint8(170, 0);
-                    obj.AUX[10] = data.getUint8(171, 0);
-                    obj.ledBrightness = data.getUint8(172, 0);
-                }
-                if (obj.ver >= 111) {
-                    obj.AUX[11] = data.getUint8(174, 0);
-                    obj.setpointIntoD = data.getUint8(175, 0); // DTerm Weight
-                }
-                if (obj.ver >= 113) {
-                    obj.ESCOutputLayout = 0;
-                    obj.ESCOutputLayout = data.getUint8(176, 0); // Custom ESC Orientation
-                }
-                if (obj.ver >= 116) {
-                    obj.SerialSetup = 0xFFFFFFFF;
-                    obj.SerialSetup = data.getUint32(177, 0);   // Serial mapping
-                }
-                if (obj.ver >= 117) {
-                     obj.AUX[12] = data.getUint8(181, 0); // realpit
-                }
-                if (obj.ver >= 119) {
-                    obj.launchMode = data.getUint8(182, 0); // launchmode
-                }
-                if (obj.ver >= 121) {
-                	obj.osdConfig = data.getUint16(183, 0); // DJI
-                	obj.AUX[13] = data.getUint8(185, 0); // RTH
-                }
-                if (obj.ver >= 122) { // RTH
-                 	obj.rthReturnAltitude = data.getUint16(186, 0);
-                 	obj.rthHomeAltitude = data.getUint16(188, 0);
-                  	obj.rthDescentRadius = data.getUint16(190, 0);
-                	obj.rthHoverThrottle = data.getUint16(192, 0);
-                	obj.rthMaxThrottle = data.getUint16(194, 0);
-                	obj.rthMinThrottle = data.getUint16(196, 0);
-                 	obj.rthHomeAction = data.getUint8(198, 0);
-                 	obj.rthReturnSpeed = data.getUint8(199, 0);
-                }
+                obj.loopTimeDivider = data.getUint8(164, 0);
+                obj.yawLpF = data.getUint8(165, 0);
+                obj.DLpF = data.getUint8(166, 0);
+                obj.reverseMotors = data.getUint8(167, 0);
+                obj.AUX[8] = data.getUint8(168, 0);
+                obj.adaptiveFilter = data.getUint8(169, 0);
+                obj.AUX[9] = data.getUint8(170, 0);
+                obj.AUX[10] = data.getUint8(171, 0);
+                obj.ledBrightness = data.getUint8(172, 0);
+                obj.AUX[11] = data.getUint8(174, 0);
+                obj.setpointIntoD = data.getUint8(175, 0); // DTerm Weight
+                obj.ESCOutputLayout = 0;
+                obj.ESCOutputLayout = data.getUint8(176, 0); // Custom ESC Orientation
+                obj.SerialSetup = 0xFFFFFFFF;
+                obj.SerialSetup = data.getUint32(177, 0);   // Serial mapping
+                obj.AUX[12] = data.getUint8(181, 0); // realpit
+                obj.launchMode = data.getUint8(182, 0); // launchmode
+                obj.osdConfig = data.getUint16(183, 0); // DJI
+                obj.AUX[13] = data.getUint8(185, 0); // RTH
+                obj.rthReturnAltitude = data.getUint16(186, 0);
+                obj.rthHomeAltitude = data.getUint16(188, 0);
+                obj.rthDescentRadius = data.getUint16(190, 0);
+                obj.rthHoverThrottle = data.getUint16(192, 0);
+                obj.rthMaxThrottle = data.getUint16(194, 0);
+                obj.rthMinThrottle = data.getUint16(196, 0);
+                obj.rthHomeAction = data.getUint8(198, 0);
+                obj.rthReturnSpeed = data.getUint8(199, 0);
+     
                 
                  // ??? blen = 208;
                 // next free 200
@@ -731,6 +704,141 @@ kissProtocol.processPacket = function (code, obj) {
         	
         case this.GET_OSD:
         	break;
+        	
+        case this.GET_OSD_CONFIG:
+            try {
+            	var chunk = data.getUint8(0, 0);
+              	var chunksLeft = data.getUint8(1, 0);
+              
+              	obj.chunk = chunk;
+              	obj.chunksLeft = chunksLeft;
+              	
+            	if (chunk == 0) {
+            		console.log("Received first chunk, cleanup");
+            	   	obj.chunkBuffer = new ArrayBuffer(1024); // should be enough for now
+                	var chunkData = new DataView(obj.chunkBuffer, 0);
+                	for (var i=0; i<1024; i++) {
+                		chunkData.setUint8(i, 0);
+                	}
+                	obj.delayedCallback = obj.callback;
+                	obj.callback = null;
+            	}
+
+            	var crcOk = false;
+            	
+            	if (obj.buffer.byteLength > 2) {
+            		var chunkData = new DataView(obj.chunkBuffer, 0);
+                	var idx = 200 * chunk; 
+                	for (var i = 0; i<(obj.buffer.byteLength - 2); i++) {
+                		chunkData.setUint8(i + idx, data.getUint8(2 + i, 0));
+            		}
+                	
+                	if (chunksLeft == 0) {
+                		var chunkData = new DataView(obj.chunkBuffer, 0);
+                		var len = chunk  * 200 +  obj.buffer.byteLength - 2;
+                		var crc1 = chunkData.getUint8(len - 1, 0);
+                		var crc2 = 0;
+                		for (var i=0; i<(len - 1); i++) {
+                			crc2 ^= chunkData.getUint8(i, 0);
+                			for (var j = 0; j < 8; j++) {
+                				if ((crc2 & 0x80) != 0) {
+                					crc2 = ((crc2 << 1) ^ 0xD5) & 0xFF;
+                				} else {
+                					crc2 <<= 1;
+                				}
+                			}
+                		}
+                		if (crc1 == crc2) {
+                			crcOk = true;
+                		} else {
+                    		console.log("CRC error: " + crc1 + " != " + crc2);
+                		}
+                	}
+            	}	
+            	            	
+            	if (chunksLeft == 0) {
+
+            		if (crcOk) {
+
+            			// begin parsing
+            			var chunkData = new DataView(obj.chunkBuffer, 0);
+            			var p = 0;
+            			obj.eepromVersion =  chunkData.getUint16(p, 0); p+=2;
+            			obj.syncLevel =  chunkData.getUint16(p, 0); p+=2;
+            			obj.blackLevel =  chunkData.getUint16(p, 0); p+=2;
+            			obj.whiteLevel =  chunkData.getUint16(p, 0); p+=2;
+            			obj.options1 =  chunkData.getUint8(p, 0); p+=1;
+            			obj.options2 =  chunkData.getUint8(p, 0); p+=1;
+            			obj.options3 =  chunkData.getUint8(p, 0); p+=1;
+            			obj.callsign = "";
+            			for (var i=0; i<16; i++) { obj.callsign += String.fromCharCode(chunkData.getUint8(p, 0)); p+=1; }
+            			obj.ccRestVoltage = chunkData.getUint16(p, 0) / 1000; p+=2;
+            			obj.ccLeftVoltage = chunkData.getUint16(p, 0) / 1000; p+=2;
+            			obj.ccRightVoltage = chunkData.getUint16(p, 0) / 1000; p+=2;
+            			obj.ccUpVoltage = chunkData.getUint16(p, 0) / 1000; p+=2;
+            			obj.ccDownVoltage = chunkData.getUint16(p, 0) / 1000; p+=2;
+            			obj.ccSelectVoltage = chunkData.getUint16(p, 0) / 1000; p+=2;
+            			obj.hdFrameOptions = chunkData.getUint8(p, 0);  p+=1;
+            			obj.hdFrameLeft = chunkData.getUint16(p, 0); p+=2;
+            			obj.hdFrameTop = chunkData.getUint16(p, 0); p+=2;
+            			obj.hdFrameRight = chunkData.getUint16(p, 0); p+=2;
+            			obj.hdFrameBottom = chunkData.getUint16(p, 0); p+=2;
+            			obj.rssiWarning = chunkData.getUint16(p, 0); p+=2;
+            			obj.lqWarning = chunkData.getUint16(p, 0); p+=2;
+            			obj.satWarning = chunkData.getUint16(p, 0); p+=2;
+            			obj.altitudeWarning = chunkData.getUint16(p, 0); p+=2;
+            			obj.snrWarning = chunkData.getUint16(p, 0); p+=2;
+            			obj.currentWarning = chunkData.getUint16(p, 0); p+=2;
+            			obj.lipoSize = chunkData.getUint16(p, 0); p+=2;
+            			obj.lipoWarning = chunkData.getUint8(p, 0);  p+=1;
+            			obj.cellWarning = chunkData.getUint16(p, 0) / 100; p+=2;
+            			obj.tzIndex = chunkData.getUint16(p, 0); p+=2;
+            			obj.gpsOptions = chunkData.getUint8(p, 0);  p+=1;
+            			obj.customLayout = [];
+
+            			for (var i=0; i<26; i++) {
+            				var sensor = {};
+            				sensor.x =  chunkData.getUint16(p, 0); p+=2;
+            				sensor.y =  chunkData.getUint16(p, 0); p+=2;
+            				sensor.visible =  chunkData.getUint8(p, 0);  p+=1;
+            				sensor.align =  chunkData.getUint8(p, 0);  p+=1;
+            				sensor.font =  chunkData.getUint8(p, 0);  p+=1;
+            				sensor.proportional =  chunkData.getUint8(p, 0);  p+=1;
+            				sensor.style =  chunkData.getUint8(p, 0);  p+=1;
+            				obj.customLayout.push(sensor);
+            			}
+
+            			// end parsing
+            			obj.callback = obj.delayedCallback;
+            			delete obj.buffer;
+            			delete obj.chunkBuffer;
+            			delete obj.chunk;
+            			delete obj.chunksLeft;
+            			delete obj.delayedCallback;
+            		} else {
+            			var tmp = {
+            					'buffer': new ArrayBuffer(1),
+            					'chunk': 0
+            			};
+            			kissProtocol.send(kissProtocol.GET_OSD_CONFIG, kissProtocol.preparePacket(kissProtocol.GET_OSD_CONFIG, tmp), function () {
+            				console.log("First chunk loaded");
+            			});
+            		}
+            	} else {
+            		var tmp = {
+       					 'buffer': new ArrayBuffer(1),
+       	                 'chunk': chunk + 1
+            		};
+            		kissProtocol.send(kissProtocol.GET_OSD_CONFIG, kissProtocol.preparePacket(kissProtocol.GET_OSD_CONFIG, tmp), function () {
+            			console.log("Next chunk loaded");
+            		});
+            	}
+         
+            } catch (Exception) {
+                console.log("Exception while reading packet");
+                console.log(Exception);
+            }
+            break;
 
         default:
             console.log('Unknown code received: ' + code);
@@ -755,10 +863,14 @@ kissProtocol.preparePacket = function (code, obj) {
     		data.setUint16(2, obj.chunkSize, 0);
     		blen = 4;
     	break;
+    	
+    	case this.GET_OSD_CONFIG:
+    		data.setUint8(0, obj.chunk, 0);
+    		blen = 1;
+    	break;
 
   
         case this.SET_SETTINGS:
-
 
             data.setUint16(0, obj.G_P[0] * 1000, 0);
             data.setUint16(2, obj.G_P[1] * 1000, 0);
@@ -1020,117 +1132,6 @@ kissProtocol.readBytesAsString = function (buffer, offset, len) {
     return ret;
 };
 
-
-kissProtocol.upgradeTo104 = function (tmp) {
-    if (tmp.ver < 104) {
-        console.log('Data version: ' + tmp.ver);
-        var bo = +tmp['BoardRotation'];
-        console.log('Board Rotation: ' + bo);
-        tmp['CBO'] = [0, 0, 0];
-        tmp['AUX'] = [0, 0, 0, 0, 0];
-        if (bo == 4) tmp['CBO'][2] = 45;
-        else if (bo == 2) tmp['CBO'][2] = 90;
-        else if (bo == 5) tmp['CBO'][2] = 135;
-        else if (bo == 1) tmp['CBO'][2] = 180;
-        else if (bo == 7) tmp['CBO'][2] = -45;
-        else if (bo == 3) tmp['CBO'][2] = -90;
-        else if (bo == 6) tmp['CBO'][2] = -135;
-        tmp['BoardRotation'] = 0;
-        for (var i = 1; i <= 4; i++) {
-            var c = +tmp['aux' + i + 'Funk'];
-            console.log('aux' + i + 'Funk: ' + c);
-            if (c == 1) tmp['AUX'][0] = (i * 16) + 5;
-            if (c == 12) tmp['AUX'][0] = (i * 16) + 3;
-            if (c == 13) tmp['AUX'][0] = (i * 16) + 1;
-            if (c == 2) tmp['AUX'][1] = (i * 16) + 5;
-            if (c == 11) tmp['AUX'][2] = (i * 16) + 5;
-            if (c == 14) tmp['AUX'][3] = (i * 16) + 5;
-            if (c == 6) tmp['AUX'][4] = (i * 16) + 5;
-        }
-    }
-}
-
-kissProtocol.upgradeTo104 = function (tmp) {
-    console.log("Upgrading config:");
-    console.log(tmp);
-    if (tmp.ver < 104) {
-        console.log('Data version: ' + tmp.ver + ' upgrading to 104');
-        var bo = +tmp['BoardRotation'];
-        console.log('Board Rotation: ' + bo);
-        tmp['CBO'] = [0, 0, 0];
-        tmp['AUX'] = [0, 0, 0, 0, 0, 0, 0, 0, 0];
-        if (bo == 4) tmp['CBO'][2] = 45;
-        else if (bo == 2) tmp['CBO'][2] = 90;
-        else if (bo == 5) tmp['CBO'][2] = 135;
-        else if (bo == 1) tmp['CBO'][2] = 180;
-        else if (bo == 7) tmp['CBO'][2] = -45;
-        else if (bo == 3) tmp['CBO'][2] = -90;
-        else if (bo == 6) tmp['CBO'][2] = -135;
-        tmp['BoardRotation'] = 0;
-        for (var i = 1; i <= 4; i++) {
-            var c = +tmp['aux' + i + 'Funk'];
-            console.log('aux' + i + 'Funk: ' + c);
-
-            if (c == 1) tmp['AUX'][0] = (i * 16) + 5;
-            if (c == 12) tmp['AUX'][0] = (i * 16) + 3;
-            if (c == 13) tmp['AUX'][0] = (i * 16) + 1;
-            if (c == 2) tmp['AUX'][1] = (i * 16) + 5;
-            if (c == 11) tmp['AUX'][2] = (i * 16) + 5;
-            if (c == 14) tmp['AUX'][3] = (i * 16) + 5;
-            if (c == 3) tmp['AUX'][4] = (i * 16) + 5;
-        }
-    }
-    if (tmp.ver < 108 && tmp.ver > 104) {
-        console.log('Data version: ' + tmp.ver + ' upgrading to 108');
-        tmp['NFE'][0] = +tmp['NotchFilterEnable'];
-        tmp['NFE'][1] = +tmp['NotchFilterEnable'];
-        tmp['NFCF'][0] = tmp['NotchFilterCenter'];
-        tmp['NFCF'][1] = tmp['NotchFilterCenter'];
-        tmp['NFCO'][0] = tmp['NotchFilterCut'];
-        tmp['NFCO'][1] = tmp['NotchFilterCut'];
-    }
-}
-
-kissProtocol.downgradeFrom104 = function (tmp) {
-    if (tmp.ver < 104) {
-        console.log('Data version: ' + tmp.ver + ' downgrade from 104');
-        tmp['BoardRotation'] = 0;
-        if (tmp.ver < 103) {
-            if (tmp['CBO'][2] == 180) tmp['BoardRotation'] = 1;
-        } else {
-            if (tmp['CBO'][2] == 180) tmp['BoardRotation'] = 1;
-            else if (tmp['CBO'][2] == 45) tmp['BoardRotation'] = 4;
-            else if (tmp['CBO'][2] == 90) tmp['BoardRotation'] = 2;
-            else if (tmp['CBO'][2] == 135) tmp['BoardRotation'] = 5;
-            else if (tmp['CBO'][2] == -45) tmp['BoardRotation'] = 7;
-            else if (tmp['CBO'][2] == -90) tmp['BoardRotation'] = 3;
-            else if (tmp['CBO'][2] == -135) tmp['BoardRotation'] = 6;
-        }
-        if (tmp['AUX'][0] != 0) {
-            var k = tmp['AUX'][0] >> 4;
-            var m = 1;
-            if ((tmp['AUX'][0] & 15) == 3) m = 12;
-            if ((tmp['AUX'][0] & 15) == 1) m = 13;
-            tmp['aux' + k + 'Funk'] = m;
-        }
-        if (tmp['AUX'][1] != 0) {
-            var k = tmp['AUX'][1] >> 4;
-            tmp['aux' + k + 'Funk'] = 2;
-        }
-        if (tmp['AUX'][2] != 0) {
-            var k = tmp['AUX'][2] >> 4;
-            tmp['aux' + k + 'Funk'] = 11;
-        }
-        if (tmp['AUX'][3] != 0) {
-            var k = tmp['AUX'][3] >> 4;
-            tmp['aux' + k + 'Funk'] = 14;
-        }
-        if (tmp['AUX'][4] != 0) {
-            var k = tmp['AUX'][4] >> 4;
-            tmp['aux' + k + 'Funk'] = 3;
-        }
-    }
-}
 
 kissProtocol.disconnectCleanup = function () {
     console.log('Disconnect cleanup');

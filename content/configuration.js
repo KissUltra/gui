@@ -230,16 +230,6 @@ CONTENT.configuration.initialize = function (callback) {
 
 
 
-        // Begin show available RX protocol
-//        if (data['ver'] < 109) { //TODO - Check version
-//            document.getElementById('rxpwm1').style.display = "inline";
-//        }
-//        document.getElementById('rxppm1').style.display = "inline";
-//        document.getElementById('rxppm2').style.display = "inline";
-//        document.getElementById('rxppm3').style.display = "inline";
-//        document.getElementById('rxppm4').style.display = "inline";
-//        document.getElementById('rxppm5').style.display = "inline";
-//        document.getElementById('rxppm6').style.display = "inline";
         document.getElementById('rxdsm1').style.display = "inline";
         document.getElementById('rxdsm2').style.display = "inline";
         document.getElementById('rxsbus1').style.display = "inline";
@@ -249,65 +239,40 @@ CONTENT.configuration.initialize = function (callback) {
         document.getElementById('rxexbus1').style.display = "inline";
         document.getElementById('rxsrxl1').style.display = "inline";
         document.getElementById('rxxbusb1').style.display = "inline";
-        if (data['ver'] >= 109) {
-            document.getElementById('rxcrsf1').style.display = "inline";
-        }
-        if (data['ver'] >= 112) {
-            document.getElementById('rxfport1').style.display = "inline";
-            document.getElementById('rxfport2').style.display = "inline";
-
-        }
-
-        if (data['ver'] >= 120) {
-            document.getElementById('rxsbusfast').style.display = "inline";
-
-        }
-        
-        // temp
+        document.getElementById('rxcrsf1').style.display = "inline";
+        document.getElementById('rxfport1').style.display = "inline";
+        document.getElementById('rxfport2').style.display = "inline";
+        document.getElementById('rxsbusfast').style.display = "inline";
         document.getElementById('rxghost').style.display = "inline";
-
-        if (data['ver'] < 117) {
-            $("select[name='outputMode'] option[value='8']").remove();
-        }
-
-        if (data['ver'] < 123) {
-            for (var i = 8; i < 16; i++) {
-                $("select[name='ESCOutputLayout'] option[value='" + i + "']").remove();
-            }
-        }
 
         if (data['vtxType'] == 0) {
             $('#aux5').hide();
             $('#aux6').hide();
             $('#aux7').hide();
         }
-        if (data['ver'] < 109) {
-            $("select[name='outputMode'] option[value='6']").remove();
-            $("select[name='outputMode'] option[value='7']").remove();
-            $("select[name='lpf'] option[value='7']").remove();
-        } else {
-            kissProtocol.send(kissProtocol.GET_INFO, [kissProtocol.GET_INFO], function () {
-                var info = kissProtocol.data[kissProtocol.GET_INFO];
-                var FCinfo = info.firmvareVersion.split(/-/g);
+      
+        kissProtocol.send(kissProtocol.GET_INFO, [kissProtocol.GET_INFO], function () {
+        	var info = kissProtocol.data[kissProtocol.GET_INFO];
+        	var FCinfo = info.firmvareVersion.split(/-/g);
 
-                switch (FCinfo[0]) {
-                    case "KISSFC":
-                    case "KISSCC":
-                    case "FETTEC_FC_NANO":
-                        $("select[name='outputMode'] option[value='6']").remove(); // dshot1200
-                        $("select[name='outputMode'] option[value='7']").remove(); // dshot2400
-                        $("select[name='outputMode'] option[value='8']").remove(); // onewire
-                        $("li[data-name='fc_flasher']").hide(); // v2 flasher
-                        break;
-                    case "KISSFCV2F7":
-                    case "FETTEC_KISSFC":
-                        $("li[data-name='fc_flasher']").show();
-                        break;
-                    default:
-                        break;
-                }
-            });
-        }
+        	switch (FCinfo[0]) {
+        	case "KISSFC":
+        	case "KISSCC":
+        	case "FETTEC_FC_NANO":
+        		$("select[name='outputMode'] option[value='6']").remove(); // dshot1200
+        		$("select[name='outputMode'] option[value='7']").remove(); // dshot2400
+        		$("select[name='outputMode'] option[value='8']").remove(); // onewire
+        		$("li[data-name='fc_flasher']").hide(); // v2 flasher
+        		break;
+        	case "KISSFCV2F7":
+        	case "FETTEC_KISSFC":
+        		$("li[data-name='fc_flasher']").show();
+        		break;
+        	default:
+        		break;
+        	}
+        });
+    
 
         var MCUid = '';
         for (var i = 0; i < 4; i++) {
@@ -684,15 +649,35 @@ CONTENT.configuration.initialize = function (callback) {
         }
 
         // END Custom ESC Orientation
+        
+        console.log("===");
+        console.log(data);
+        
 
         if (data['ver'] > MAX_CONFIG_VERSION) {
             $("#navigation").hide();
-            $("#upgrade_gui").kissWarning({});
-            $("#upgrade_gui").show();
+            $("#gui_version_mismatch").html("The version of your KISS Ultra Firmware is <b>NEWER</b> than GUI can handle.<br><br>Please visit download page and upgrade your GUI.<br><br><br>");
+            $("#gui_version_mismatch").kissWarning({
+            	href:"https://github.com/KissUltra/gui/releases",
+            	button: 'Open download page',
+            	target: '_blank',
+            	action: function() {
+            		$("a.connect").click(); // disconnect
+            	}
+            });
+            $("#gui_version_mismatch").show();
         } else if (data['ver'] < MIN_CONFIG_VERSION) {
             $("#navigation").hide();
-            $("#downgrade_gui").kissWarning({});
-            $("#downgrade_gui").show();
+            $("#gui_version_mismatch").html("The version of your KISS Ultra Firmware is <b>OLDER</b> than GUI can handle.<br><br>Please visit download page and downgrade your GUI.<br><br><br>");
+            $("#gui_version_mismatch").kissWarning({
+            	href:"https://github.com/KissUltra/gui/releases",
+            	button: 'Open download page',
+            	target: '_blank',
+            	action: function() {
+            		$("a.connect").click(); // disconnect
+            	}
+            });
+            $("#gui_version_mismatch").show();
         } else if (!data['isActive']) {
             $("#navigation").hide();
 
@@ -941,6 +926,7 @@ CONTENT.configuration.initialize = function (callback) {
 
             });
         }
+        
         $('#prePID').change(function () {
             if (document.getElementById('prePID').value == 'preset') {
                 document.getElementById('userSel').style.display = 'none';
@@ -1058,7 +1044,6 @@ CONTENT.configuration.initialize = function (callback) {
                 GUI.load("./content/configuration.html", function () {
                     var v = +kissProtocol.data[kissProtocol.GET_SETTINGS]['ver'];
                     var tmp = $.extend({}, kissProtocol.data[kissProtocol.GET_SETTINGS], config);
-                    kissProtocol.upgradeTo104(tmp);
                     tmp.ver = v; // fix version to one we get from FCs
                     kissProtocol.data[kissProtocol.GET_SETTINGS] = tmp;
                     htmlLoaded(kissProtocol.data[kissProtocol.GET_SETTINGS]);

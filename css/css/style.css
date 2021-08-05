@@ -537,43 +537,6 @@ input[type="number"]::-webkit-inner-spin-button {
 ::-webkit-scrollbar {
   display: none; }
 
-.warning-disclaimer {
-  display: none;
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  width: 100%;
-  height: calc(100% - 0px);
-  background-image: url("images/warning_stripe.png");
-  z-index: 2000; }
-
-.warning-disclaimer-inner {
-  width: calc(100% - 50px);
-  height: calc(100% - 50px);
-  margin: 25px;
-  background-color: black;
-  text-align: center; }
-.warning-disclaimer-inner .warning1 {
-  font-size: 30px;
-  color: #d01414;
-  padding-top: 30px;
-  text-align: center; }
-.warning-disclaimer-inner .warning2 {
-  font-size: 20px;
-  color: #ffffff;
-  padding-top: 30px;
-  text-align: center; }
-.warning-disclaimer-inner .warning-button {
-  margin: 40px 0 0 0;
-  color: white;
-  padding: 10px 10px 10px 10px;
-  height: 24px;
-  line-height: 24px;
-  background-color: #9C241B;
-  font-size: 16px; }
-.warning-disclaimer-inner .warning-button:hover {
-  background-color: #d01414; }
-
 select, button, input, textarea {
   font-family: "Titillium Web", sans-serif;
   font-style: normal;
@@ -1243,3 +1206,40 @@ a.reset_model {
 .modal .header {
   color: #d01414;
   font-size: 20px; }
+
+.warning-disclaimer {
+  display: none;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: calc(100% - 0px);
+  background-image: url("images/warning_stripe.png");
+  z-index: 2000; }
+
+.warning-disclaimer-inner {
+  width: calc(100% - 50px);
+  height: calc(100% - 50px);
+  margin: 25px;
+  background-color: black;
+  text-align: center; }
+.warning-disclaimer-inner .warning1 {
+  font-size: 30px;
+  color: #d01414;
+  padding-top: 30px;
+  text-align: center; }
+.warning-disclaimer-inner .warning2 {
+  font-size: 20px;
+  color: #ffffff;
+  padding-top: 30px;
+  text-align: center; }
+.warning-disclaimer-inner .warning-button {
+  margin: 40px 0 0 0;
+  color: white;
+  padding: 10px 10px 10px 10px;
+  height: 24px;
+  line-height: 24px;
+  background-color: #9C241B;
+  font-size: 16px; }
+.warning-disclaimer-inner .warning-button:hover {
+  background-color: #d01414; }

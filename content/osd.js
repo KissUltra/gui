@@ -32,13 +32,26 @@ CONTENT.osd.initialize = function (callback) {
     self.chunkSize = 240;
     self.flags = 0;
     self.nvcounter = 0;
-   
+    
 	var Buffer = require('buffer').Buffer
 	self.compressedBuffer = Buffer.alloc(128*288); // max osd in bytes
+	
 	
 	GUI.switchContent('osd', function () {
 		GUI.load("./content/osd.html", function () {
 			htmlLoaded({});
+			if (kissProtocol.data[kissProtocol.GET_SETTINGS].ver > 126) {
+				var tmp = {
+						'buffer': new ArrayBuffer(1),
+						'chunk': 0
+				};
+				kissProtocol.send(kissProtocol.GET_OSD_CONFIG, kissProtocol.preparePacket(kissProtocol.GET_OSD_CONFIG, tmp), function () {
+					console.log("Loaded OSD config");
+					console.log(kissProtocol.data[kissProtocol.GET_OSD_CONFIG]);
+				});
+			} else {
+				console.log("OSD configis not supported");
+			}
 		});
 	});
 	
