@@ -7,10 +7,45 @@ CONTENT.configuration = {
 
 
 
+
 CONTENT.configuration.initialize = function (callback) {
     var self = this;
     
     self.hwTimeout = 0;
+    
+    function updateMixers() {
+    	console.log("Update mixers");
+    	var is4Motors = false;
+    	if (kissProtocol.data[kissProtocol.GET_HARDWARE_INFO] != undefined) {
+      	  var info = kissProtocol.data[kissProtocol.GET_HARDWARE_INFO];
+      	  var tmp = info.hardwareVersion;
+            var rev = tmp & 255;
+            var brd = tmp >> 8;
+            if (brd == 2) {
+            	is4Motors = true;
+            }
+    	}
+    	
+    	if (is4Motors) {
+    		console.log("ITS MINI!");
+    		var mixerList = [ 4, 5, 6, 9, 10 ];
+    		
+    		var v = +$("select[name='mixer']").val(); // old value
+    		
+    		if ($("#outputMode").val() == "8") {
+    			 for (var i=0; i<mixerList.length; i++) {
+    				 $("option[value='"+mixerList[i]+"']", "select[name='mixer']").show();
+    			 }
+    		} else {
+    			 for (var i=0; i<mixerList.length; i++) {
+    				 $("option[value='"+mixerList[i]+"']", "select[name='mixer']").hide();
+    				 if (v == mixerList[i]) {
+    					 $("select[name='mixer']").val(2);
+    				 }
+    			 }
+    		}
+    	}
+    }
     
     function updateInfo() {
     	if (kissProtocol.data[kissProtocol.GET_HARDWARE_INFO] != undefined) {
@@ -33,6 +68,7 @@ CONTENT.configuration.initialize = function (callback) {
     		$("#blversion").text('...');
     		$("#hwversion").text('...');
     	}
+    	updateMixers();
     } 
 
     GUI.switchContent('configuration', function () {
@@ -302,44 +338,14 @@ CONTENT.configuration.initialize = function (callback) {
             }, 1000);
         });
 
-        var mixerList = [{
-            name: $.i18n("mixer.0")
-        }, {
-            name: $.i18n("mixer.1")
-        }, {
-            name: $.i18n("mixer.2")
-        }, {
-            name: $.i18n("mixer.3")
-        }, {
-            name: $.i18n("mixer.4")
-        }, {
-            name: $.i18n("mixer.5")
-        }, {
-            name: $.i18n("mixer.6")
-        }, {
-            name: $.i18n("mixer.7")
-        }, {
-            name: $.i18n("mixer.8")
-        }, {
-            name: $.i18n("mixer.9")
-        }, {
-            name: $.i18n("mixer.10")
-        }];
-
+        var mixerList = [2, 1, 4, 5, 6, 9, 10];
+           
+ 
         var mixer_list_e = $('select.mixer');
         for (var i = 0; i < mixerList.length; i++) {
-            mixer_list_e.append('<option data-i18n="mixer.' + (i) + '" value="' + (i) + '">' + mixerList[i].name + '</option>');
+            mixer_list_e.append('<option data-i18n="mixer.' + (mixerList[i]) + '" value="' + (mixerList[i]) + '">' + mixerList[i] + '</option>');
         }
 
-        if (data["ver"] < 110) {
-            $("select[name='mixer'] option[value='7']").remove();
-            $("select[name='mixer'] option[value='8']").remove();
-        }
-
-        if (data["ver"] <= 122) { // Octo support starts 123
-            $("select[name='mixer'] option[value='9']").remove();
-            $("select[name='mixer'] option[value='10']").remove();
-        }
 
         mixer_list_e.on('change', function () {
             var val = parseInt($(this).val());
@@ -397,19 +403,11 @@ CONTENT.configuration.initialize = function (callback) {
 
         var outputMode = data['ESConeshot125'];
 
-       // if (outputMode != 8) {
-            // disable octo for non OneWire due to missing outputs    
-// TODO: Remove for Ultra MINI   only   
-          //  $("select[name='mixer'] option[value='9']").prop("disabled", true);
-          //  $("select[name='mixer'] option[value='10']").prop("disabled", true);
-       // }
-
         $("#outputMode").val(outputMode);
         $("#outputMode").on('change', function () {
             contentChange();
+            updateMixers();
         });
-
-
 
         $('input[name="failsaveseconds"]').val(data['failsaveseconds']);
         $('input[name="failsaveseconds"]').on('input', function () {
@@ -532,36 +530,32 @@ CONTENT.configuration.initialize = function (callback) {
             value: data['AUX'][7]
         });
 
-        if (data['ver'] > 108) {
+
             $("#aux8").kissAux({
                 name: $.i18n("column.turtle-mode"),
                 change: function () { contentChange(); },
                 value: data['AUX'][8]
             }).show();
+            
             if (outputMode < 3) {
                 $("#aux8").hide();
             }
-        } else {
-            $("#aux8").hide();
-        }
+     
 
-        if (data['ver'] > 109) {
             $("#aux9").kissAux({
                 name: $.i18n("column.runcam-split"),
                 change: function () { contentChange(); },
                 value: data['AUX'][9]
             });
+            
             $("#aux10").kissAux({
                 name: $.i18n("column.led-brightness"),
                 change: function () { contentChange(); },
                 value: data['AUX'][10],
                 knob: true
             });
-        } else {
-            $("#aux9").hide();
-            $("#aux10").hide();
-        }
-        if (data['ver'] > 110) {
+
+
             if (data['CopterType'] != 8) {
                 $("#aux11").kissAux({
                     name: $.i18n("column.PentaForward"),
@@ -577,41 +571,38 @@ CONTENT.configuration.initialize = function (callback) {
                     knobOnly: true
                 });
             }
-        }
-        if (data['ver'] >= 121) {
+     
+        
+     
             $("#aux13").kissAux({
                 name: $.i18n("column.rth"),
                 change: function () { contentChange(); },
                 value: data['AUX'][13]
             });
-        } else {
-            $("#aux13").hide();
-        }
+   
         if (data['CopterType'] == 7 || data['CopterType'] == 8) $("#aux11").show();
         else $("#aux11").hide();
 
-        if (data['ver'] < 109) {
-            $('select[name="lpf"]').val(data['LPF']);
-        } else {
+  
             if (data['LPF'] == data['DLpF'] && data['LPF'] == data['yawLpF']) {
                 $('select[name="lpf"]').val(data['LPF']);
                 $("select[name='lpf'] option[value='7']").prop("disabled", true);
             } else {
                 $('select[name="lpf"]').val(7);
             }
-        }
+      
         $('select[name="lpf"]').on('change', function () {
             contentChange();
         });
 
-        if (data['ver'] >= 117) {
+  
             $("#aux12").kissAux({
                 name: $.i18n("column.RealPit"),
                 change: function () { contentChange(); },
                 value: data['AUX'][12]
             });
             $("#aux12").show();
-        } else $("#aux12").hide();
+    
 
         // Temp fix
         if (typeof androidOTGSerial !== 'undefined') {
@@ -627,7 +618,7 @@ CONTENT.configuration.initialize = function (callback) {
         $(".unsafe_active").prop('disabled', true);
 
         // Begin Custom ESC Orientation
-        if (data['ver'] >= 113) {
+
 
             $('select[name="ESCOutputLayout"]').val(data['ESCOutputLayout']);
 
@@ -644,9 +635,8 @@ CONTENT.configuration.initialize = function (callback) {
                 contentChange();
                 UpdateMixerImage(data['CopterType'], parseInt($('select[name="ESCOutputLayout"]').val()), data['reverseMotors']);
 
-            }
-            )
-        }
+            })
+  
 
         // END Custom ESC Orientation
         
