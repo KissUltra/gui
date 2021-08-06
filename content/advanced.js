@@ -342,6 +342,13 @@ CONTENT.advanced.initialize = function (callback) {
                         version: data['ver']
                     });
                 }
+                
+                if (data.lipoConnected == 1) {
+                    $(".unsafe").addClass("unsafe_active");
+                } else {
+                    $(".unsafe").removeClass("unsafe_active");
+                }
+                $(".unsafe_active").prop('disabled', true);
             }
             function readSerials() {
                 for (i = 0; i < 8; i++) {

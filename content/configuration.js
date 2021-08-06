@@ -615,7 +615,7 @@ CONTENT.configuration.initialize = function (callback) {
         } else {
             $(".unsafe").removeClass("unsafe_active");
         }
-        $(".unsafe_active").prop('disabled', true);
+   
 
         // Begin Custom ESC Orientation
 
@@ -625,7 +625,6 @@ CONTENT.configuration.initialize = function (callback) {
             if (data['CopterType'] == 1 || data['CopterType'] == 2) {
                 $('select[name="ESCOutputLayout"]').removeAttr("disabled");
                 $('select[name="ESCOutputLayout"]').val(data['ESCOutputLayout']);
-
             } else {
                 $('select[name="ESCOutputLayout"]').prop('disabled', 'true');
                 $('select[name="ESCOutputLayout"]').val(0);
@@ -634,9 +633,8 @@ CONTENT.configuration.initialize = function (callback) {
             $('select[name="ESCOutputLayout"]').on('change', function () {
                 contentChange();
                 UpdateMixerImage(data['CopterType'], parseInt($('select[name="ESCOutputLayout"]').val()), data['reverseMotors']);
-
             })
-  
+       $(".unsafe_active").prop('disabled', true);
 
         // END Custom ESC Orientation
         
