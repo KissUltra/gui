@@ -14,7 +14,7 @@ const del = require("del");
 const NwBuilder = require("nw-builder");
 
 const gulp = require("gulp");
-const yarn = require("gulp-yarn");
+//const yarn = require("gulp-yarn");
 const rename = require("gulp-rename");
 const os = require("os");
 const git = require("git-rev-sync");
@@ -297,12 +297,12 @@ function dist_src() {
       .pipe(gulp.src("package.json", { passthrougth: true }))
       // .pipe(gulp.src('changelog.html', { passthrougth: true }))
       .pipe(gulp.dest(DIST_DIR))
-      .pipe(
+      /*.pipe(
         yarn({
           production: true,
           ignoreScripts: true
         })
-      )
+      )*/
   );
 }
 
