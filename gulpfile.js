@@ -451,7 +451,7 @@ function release_osx64(done) {
   // Create DMG
   createDirIfNotExists(RELEASE_DIR);
   const ee = appdmg({
-    target: path.join(RELEASE_DIR, getReleaseFilename("macOS", "dmg")),
+    target: path.join(RELEASE_DIR, getReleaseFilename("osx", "dmg")),
     basepath: path.join(APPS_DIR, pkg.name, "osx64"),
     specification: {
       title: "KISS ULTRA GUI",
