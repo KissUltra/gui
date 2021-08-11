@@ -15,7 +15,7 @@ function getProxyURL(url) {
 	if (isNative()) {
 		return url;
 	} else {
-		return "proxy.php?url=" + encodeURI(url);
+		return "proxy.php?url=" + encodeURIComponent(url);
 	}
 }
 
@@ -99,7 +99,7 @@ $(document).ready(function () {
     changeLanguage();
     
     if (isNative()) {
-    	checkGithubRelease(getVersion());
+    	checkGithubRelease(chrome.runtime.getManifest().version);
     }
 
     PortHandler.initialize();

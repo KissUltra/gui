@@ -63,7 +63,7 @@ var fcFlasherReadErrorHandler = function (info) {
 			});
 		} else {
 			// show reconnect button!
-			$(".modal-body").html("<p class='header'>BOOTLOADER</p><br>Your KISS ULTRA is ready for flashing. Click <b>Reconnect</b> button to continue.<br><br><span id=bootloader_timer>&nbsp;<span>");
+			$(".modal-body").html("<p class='header'>BOOTLOADER</p>Your KISS ULTRA is ready for flashing. Click <b>Reconnect</b> button to continue.<br><span id=bootloader_timer>&nbsp;<span>");
         	$(".modal-footer").html("<a class='u-button' id='flash_serial_reconnect'>Reconnect</a>");
         	$(".modal-overlay").show();
         	$(".modal").show();

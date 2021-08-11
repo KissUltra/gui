@@ -107,146 +107,181 @@ CONTENT.configuration.initialize = function (callback) {
     }
 
     function backupConfig() {
-        var chosenFileEntry = null;
+    	if (isNative()) {
+    		var chosenFileEntry = null;
 
-        var accepts = [{
-            extensions: ['txt']
-        }];
+    		var accepts = [{
+    			extensions: ['txt']
+    		}];
 
-        chrome.fileSystem.chooseEntry({
-            type: 'saveFile',
-            suggestedName: 'kissultra-backup',
-            accepts: accepts
-        }, function (fileEntry) {
-            if (chrome.runtime.lastError) {
-                console.error(chrome.runtime.lastError.message);
-                return;
-            }
+    		chrome.fileSystem.chooseEntry({
+    			type: 'saveFile',
+    			suggestedName: 'kissultra-backup',
+    			accepts: accepts
+    		}, function (fileEntry) {
+    			if (chrome.runtime.lastError) {
+    				console.error(chrome.runtime.lastError.message);
+    				return;
+    			}
 
-            if (!fileEntry) {
-                console.log('No file selected.');
-                return;
-            }
+    			if (!fileEntry) {
+    				console.log('No file selected.');
+    				return;
+    			}
 
-            chosenFileEntry = fileEntry;
+    			chosenFileEntry = fileEntry;
 
-            chrome.fileSystem.getDisplayPath(chosenFileEntry, function (path) {
-                console.log('Export to file: ' + path);
-            });
+    			chrome.fileSystem.getDisplayPath(chosenFileEntry, function (path) {
+    				console.log('Export to file: ' + path);
+    			});
 
-            chrome.fileSystem.getWritableEntry(chosenFileEntry, function (fileEntryWritable) {
+    			chrome.fileSystem.getWritableEntry(chosenFileEntry, function (fileEntryWritable) {
 
-                chrome.fileSystem.isWritableEntry(fileEntryWritable, function (isWritable) {
-                    if (isWritable) {
-                        chosenFileEntry = fileEntryWritable;
-                        var config = kissProtocol.data[kissProtocol.GET_SETTINGS];
-                        var json = JSON.stringify(config, function (k, v) {
-                            if (k === 'buffer' || k === 'isActive' || k === 'actKey' || k === 'SN') {
-                                return undefined;
-                            } else {
-                                return v;
-                            }
-                        }, 2);
-                        var blob = new Blob([json], {
-                            type: 'text/plain'
-                        });
+    				chrome.fileSystem.isWritableEntry(fileEntryWritable, function (isWritable) {
+    					if (isWritable) {
+    						chosenFileEntry = fileEntryWritable;
+    						var config = kissProtocol.data[kissProtocol.GET_SETTINGS];
+    						var json = JSON.stringify(config, function (k, v) {
+    							if (k === 'buffer' || k === 'isActive' || k === 'actKey' || k === 'SN') {
+    								return undefined;
+    							} else {
+    								return v;
+    							}
+    						}, 2);
+    						var blob = new Blob([json], {
+    							type: 'text/plain'
+    						});
 
-                        chosenFileEntry.createWriter(function (writer) {
-                            writer.onerror = function (e) {
-                                console.error(e);
-                            };
+    						chosenFileEntry.createWriter(function (writer) {
+    							writer.onerror = function (e) {
+    								console.error(e);
+    							};
 
-                            var truncated = false;
-                            writer.onwriteend = function () {
-                                if (!truncated) {
-                                    truncated = true;
-                                    writer.truncate(blob.size);
-                                    return;
-                                }
-                                console.log('Config has been exported');
-                            };
+    							var truncated = false;
+    							writer.onwriteend = function () {
+    								if (!truncated) {
+    									truncated = true;
+    									writer.truncate(blob.size);
+    									return;
+    								}
+    								console.log('Config has been exported');
+    							};
 
-                            writer.write(blob);
-                        }, function (e) {
-                            console.error(e);
-                        });
-                    } else {
-                        console.log('Cannot write to read only file.');
-                    }
-                });
-            });
-        });
+    							writer.write(blob);
+    						}, function (e) {
+    							console.error(e);
+    						});
+    					} else {
+    						console.log('Cannot write to read only file.');
+    					}
+    				});
+    			});
+    		});
+    	} else {
+    		// web
+    		var config = kissProtocol.data[kissProtocol.GET_SETTINGS];
+    		var json = JSON.stringify(config, function (k, v) {
+    			if (k === 'buffer' || k === 'isActive' || k === 'actKey' || k === 'SN') {
+    				return undefined;
+    			} else {
+    				return v;
+    			}
+    		}, 2);
+    		var blob = new Blob([json], {
+    			type: 'text/plain;charset=utf-8'
+    		});
+    		//Check the Browser.
+    		var isIE = false || !!document.documentMode;
+    		if (isIE) {
+    			window.navigator.msSaveBlob(blob, "kissultra-backup.txt");
+    		} else {
+    			var url = window.URL || window.webkitURL;
+    			var link = url.createObjectURL(blob);
+    			var a = $("<a />");
+    			a.attr("download", "kissultra-backup.txt");
+    			a.attr("href", link);
+    			$("body").append(a);
+    			a[0].click();
+    			$("body").remove(a);
+    		}
+    	}
     };
 
     function restoreConfig(callback) {
-        var chosenFileEntry = null;
 
-        var accepts = [{
-            extensions: ['txt']
-        }];
+    	if (isNative()) {
+    		var chosenFileEntry = null;
 
-        chrome.fileSystem.chooseEntry({
-            type: 'openFile',
-            accepts: accepts
-        }, function (fileEntry) {
-            if (chrome.runtime.lastError) {
-                console.error(chrome.runtime.lastError.message);
-                return;
-            }
+    		var accepts = [{
+    			extensions: ['txt']
+    		}];
 
-            if (!fileEntry) {
-                console.log('No file selected, restore aborted.');
-                return;
-            }
+    		chrome.fileSystem.chooseEntry({
+    			type: 'openFile',
+    			accepts: accepts
+    		}, function (fileEntry) {
+    			if (chrome.runtime.lastError) {
+    				console.error(chrome.runtime.lastError.message);
+    				return;
+    			}
 
-            chosenFileEntry = fileEntry;
+    			if (!fileEntry) {
+    				console.log('No file selected, restore aborted.');
+    				return;
+    			}
 
-            chrome.fileSystem.getDisplayPath(chosenFileEntry, function (path) {
-                console.log('Import config from: ' + path);
-            });
+    			chosenFileEntry = fileEntry;
 
-            chosenFileEntry.file(function (file) {
-                var reader = new FileReader();
+    			chrome.fileSystem.getDisplayPath(chosenFileEntry, function (path) {
+    				console.log('Import config from: ' + path);
+    			});
 
-                reader.onprogress = function (e) {
-                    if (e.total > 4096) {
-                        console.log('File limit (4 KB) exceeded, aborting');
-                        reader.abort();
-                    }
-                };
+    			chosenFileEntry.file(function (file) {
+    				var reader = new FileReader();
 
-                reader.onloadend = function (e) {
-                    if (e.total != 0 && e.total == e.loaded) {
-                        console.log('Read OK');
-                        try {
-                            var json = JSON.parse(e.target.result);
-                            
-                            console.log(json);
-                            if (json.kissultra) {
-                                if (callback) callback(json);
-                            } else {
-                            	console.log("Old kiss backup detected!");
-                            	$(".modal-overlay").off('click');
-                            	$(".modal-overlay").on('click', function() {
-                            		hideModal();
-                            	});
-                            	$(".modal-body").html("<p class='header'>This backup is outdated.</p>For safety reasons, importing of the old backups is prohibited.");
-                            	$(".modal-footer").html("");
-                            	$(".modal-overlay").show();
-                            	$(".modal").show();                            	
-                            	return;
-                            }
-                        } catch (e) {
-                            console.log('Wrong file');
-                            return;
-                        }
-                    }
-                };
-                reader.readAsText(file);
-            });
-        });
+    				reader.onprogress = function (e) {
+    					if (e.total > 4096) {
+    						console.log('File limit (4 KB) exceeded, aborting');
+    						reader.abort();
+    					}
+    				};
+
+    				reader.onloadend = function (e) {
+    					if (e.total != 0 && e.total == e.loaded) {
+    						console.log('Read OK');
+    						try {
+    							var json = JSON.parse(e.target.result);
+
+    							console.log(json);
+    							if (json.kissultra) {
+    								if (callback) callback(json);
+    							} else {
+    								console.log("Old kiss backup detected!");
+    								$(".modal-overlay").off('click');
+    								$(".modal-overlay").on('click', function() {
+    									hideModal();
+    								});
+    								$(".modal-body").html("<p class='header'>This backup is outdated.</p>For safety reasons, importing of the old backups is prohibited.");
+    								$(".modal-footer").html("");
+    								$(".modal-overlay").show();
+    								$(".modal").show();                            	
+    								return;
+    							}
+    						} catch (e) {
+    							console.log('Wrong file');
+    							return;
+    						}
+    					}
+    				};
+    				reader.readAsText(file);
+    			});
+    		});
+    	} else {
+    		// web
+    	}
     };
-
+    
+   
     function htmlLoaded(data) {
         validateBounds('#content input[type="number"]');
         var settingsFilled = 0;
@@ -676,7 +711,7 @@ CONTENT.configuration.initialize = function (callback) {
                     // Activation procedure
                     $(".button", "#activation").hide();
                     $.ajax({
-                        url: 'http://ultraesc.de/KISSFC/getActivation/index.php?SN=' + MCUid + '&VER=' + data['ver'],
+                        url: getProxyURL('http://ultraesc.de/KISSFC/getActivation/index.php?SN=' + MCUid + '&VER=' + data['ver']),
                         cache: false,
                         dataType: "text",
                         success: function (key) {
@@ -833,12 +868,49 @@ CONTENT.configuration.initialize = function (callback) {
             $('#save').text($.i18n("button.save"));
             if (settingsFilled) {
                 $('#save').addClass("saveAct");
-
             }
         }
 
+        function handleFileSelect(evt) {
+        	var files = evt.target.files; 
+        	for (var i = 0, f; f = files[i]; i++) {
+        		var reader = new FileReader();
+        		reader.onload = (function(theFile) {
+        			return function(e) {
+        				var json = JSON.parse(e.target.result);
+        				console.log(json);
+        				if (json.kissultra) {
+        					GUI.load("./content/configuration.html", function () {
+        						var v = +kissProtocol.data[kissProtocol.GET_SETTINGS]['ver'];
+        						var tmp = $.extend({}, kissProtocol.data[kissProtocol.GET_SETTINGS], json);
+        						tmp.ver = v; // fix version to one we get from FCs
+        						kissProtocol.data[kissProtocol.GET_SETTINGS] = tmp;
+        						htmlLoaded(kissProtocol.data[kissProtocol.GET_SETTINGS]);
+        						updateInfo();
+        						contentChange();
+        					});
+        				} else {
+        					console.log("Old kiss backup detected!");
+        					$(".modal-overlay").off('click');
+        					$(".modal-overlay").on('click', function() {
+        						hideModal();
+        					});
+        					$(".modal-body").html("<p class='header'>This backup is outdated.</p>For safety reasons, importing of the old backups is prohibited.");
+        					$(".modal-footer").html("");
+        					$(".modal-overlay").show();
+        					$(".modal").show();                            	
+        					return;
+        				}
+        			};
+        		})(f);
+        		reader.readAsText(f);
+        	}
+        }
+
+        
+
         $.ajax({
-            url: 'http://ultraesc.de/PREPID/?getPIDs',
+            url: getProxyURL('http://ultraesc.de/PREPID/?getPIDs'),
             cache: false,
             dataType: "text",
             success: function (data) {
@@ -900,7 +972,7 @@ CONTENT.configuration.initialize = function (callback) {
 
         if (!data['isActive']) {
             $.ajax({
-                url: 'http://ultraesc.de/KISSFC/getActivation/index.php?SN=' + MCUid + '&VER=' + data['ver'],
+                url: getProxyURL('http://ultraesc.de/KISSFC/getActivation/index.php?SN=' + MCUid + '&VER=' + data['ver']),
                 cache: false,
                 dataType: "text",
                 success: function (key) {
@@ -1028,18 +1100,26 @@ CONTENT.configuration.initialize = function (callback) {
         });
 
         $('#restore').on('click', function () {
-            restoreConfig(function (config) {
-                GUI.load("./content/configuration.html", function () {
-                    var v = +kissProtocol.data[kissProtocol.GET_SETTINGS]['ver'];
-                    var tmp = $.extend({}, kissProtocol.data[kissProtocol.GET_SETTINGS], config);
-                    tmp.ver = v; // fix version to one we get from FCs
-                    kissProtocol.data[kissProtocol.GET_SETTINGS] = tmp;
-                    htmlLoaded(kissProtocol.data[kissProtocol.GET_SETTINGS]);
-                    updateInfo();
-                    contentChange();
-                });
-            });
+        	if (isNative()) {
+        		restoreConfig(function (config) {
+        			GUI.load("./content/configuration.html", function () {
+        				var v = +kissProtocol.data[kissProtocol.GET_SETTINGS]['ver'];
+        				var tmp = $.extend({}, kissProtocol.data[kissProtocol.GET_SETTINGS], config);
+        				tmp.ver = v; // fix version to one we get from FCs
+        				kissProtocol.data[kissProtocol.GET_SETTINGS] = tmp;
+        				htmlLoaded(kissProtocol.data[kissProtocol.GET_SETTINGS]);
+        				updateInfo();
+        				contentChange();
+        			});
+        		});
+        	} else {
+        		$("#files").click();
+        	}
         });
+        
+        if (!isNative()) {
+            document.getElementById('files').addEventListener('change', handleFileSelect, false);
+        }
         
         scrollTop();
     }

@@ -60,7 +60,7 @@ CONTENT.osd.initialize = function (callback) {
 				};
 				kissProtocol.send(kissProtocol.GET_OSD_CONFIG, kissProtocol.preparePacket(kissProtocol.GET_OSD_CONFIG, tmp), function () {
 					console.log("Loaded OSD config");
-					console.log(JSON.stringify(kissProtocol.data[kissProtocol.GET_OSD_CONFIG]));
+					//console.log(JSON.stringify(kissProtocol.data[kissProtocol.GET_OSD_CONFIG]));
 				});
 			} else {
 				console.log("OSD configis not supported");

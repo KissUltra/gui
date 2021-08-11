@@ -1,13 +1,5 @@
 'use strict';
 
-function  getVersion() {
-	if (isNative()) {
-		return chrome.runtime.getManifest().version;
-	} else {
-		return "3.3.3-FIXME";
-	}
-}
-
 CONTENT.welcome = {};
 
 CONTENT.welcome.initialize = function (callback) {
@@ -23,7 +15,18 @@ CONTENT.welcome.initialize = function (callback) {
         $("#portArea").show();
         $('#menu').show();
         $(".navigation-menu-button").css("display", "");
-        $('#gui_version').text("v"+getVersion());
+        
+        if (isNative()) {
+        	$('#gui_version').text("v"+chrome.runtime.getManifest().version);
+        } else {
+        	$.ajax({
+        		  dataType: 'json',
+        		  url: 'manifest.json',
+        		  success: function(data) {
+        				$('#gui_version').text("v"+data.version);
+        		  }
+        	});
+        }
 
         $("#language").on("change", function () {
             var lang = $(this).val();
