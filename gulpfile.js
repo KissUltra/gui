@@ -262,6 +262,7 @@ function dist_src() {
     './js/libraries/i18n/*.js',
     './js/plugins/jquery.kiss.*.js',
     './js/chrome_serial.js',
+    './js/web_serial.js',
     './js/connection_handler.js',
     './js/gui.js',
     './js/input_validation.js',

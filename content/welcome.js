@@ -1,5 +1,13 @@
 'use strict';
 
+function  getVersion() {
+	if (isNative()) {
+		return chrome.runtime.getManifest().version;
+	} else {
+		return "3.3.3-FIXME";
+	}
+}
+
 CONTENT.welcome = {};
 
 CONTENT.welcome.initialize = function (callback) {
@@ -9,39 +17,13 @@ CONTENT.welcome.initialize = function (callback) {
         GUI.load("./content/welcome.html", htmlLoaded);
     });
 
-    function canDFU() {
-        if (navigator.appVersion.indexOf("Win") != -1) return false; else return true;
-    }
-
-    function checkDFU() {
-        if (dfuDetector) {
-            chrome.usb.getDevices(usbDevices.STM32DFU, function (result) {
-                if (result.length) {
-                    GUI.contentSwitchInProgress = true;
-                    GUI.contentSwitchCleanup(function () {
-                        CONTENT['flasher'].initialize();
-                    });
-                } else {
-                    if (GUI.activeContent == 'welcome') {
-                        setTimeout(checkDFU, 2000);
-                        $("#portArea").show();
-                    }
-                }
-            });
-        } else {
-            setTimeout(checkDFU, 2000);
-        }
-    }
-
+   
     function htmlLoaded() {
-        dfuDetector = true;
-        if (canDFU()) checkDFU();
-
         $("#language").val($.i18n.locale);
         $("#portArea").show();
         $('#menu').show();
         $(".navigation-menu-button").css("display", "");
-        $('#gui_version').text("v"+chrome.runtime.getManifest().version);
+        $('#gui_version').text("v"+getVersion());
 
         $("#language").on("change", function () {
             var lang = $(this).val();

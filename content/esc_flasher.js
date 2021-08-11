@@ -96,6 +96,12 @@ CONTENT.esc_flasher.initialize = function (callback) {
     }
 
     function htmlLoaded() {
+    	
+    	 
+        if (!isNative()) {
+        	$("#select_file").hide();
+        	$("#download_file").hide();
+        }
 
         var data = kissProtocol.data[kissProtocol.GET_SETTINGS];
         if (data.lipoConnected == 1) {
@@ -154,7 +160,7 @@ CONTENT.esc_flasher.initialize = function (callback) {
             $("#flashp").hide();
             $("#status").hide();
 
-            $.get(url, function (intel_hex) {
+            $.get(getProxyURL(url), function (intel_hex) {
                 console.log("Loaded ESC hex file");
                 self.pages = parseBootloaderHexFile(intel_hex);
 
@@ -271,6 +277,11 @@ CONTENT.esc_flasher.initialize = function (callback) {
                 });
             };
         });
+        
+        if (!isNative()) {
+          	$("#download_file").click();
+        }
+
 
         $("#flash").on("click", function () {
             if (!$(this).hasClass('disabled')) {

@@ -1,11 +1,22 @@
 'use strict';
 
-
 function setBackground(background) {
-	chrome.storage.local.set({'background': background});
+	if (window.localStorage) {
+		window.localStorage.setItem('background', background);
+	} else {
+		chrome.storage.local.set({'background': background});
+	}
 }
 
 function getBackground(callback) {
+	if (window.localStorage) {
+		var result = window.localStorage.getItem('background');
+		if ((result != null)) {
+            callback(result);
+        } else {
+            callback('images/osd/video1.mp4');
+        }
+	} else {
 	  chrome.storage.local.get('background', function (result) {
           if ((result !== undefined) && (result.background !== undefined)) {
               callback(result.background);
@@ -13,7 +24,9 @@ function getBackground(callback) {
               callback('images/osd/video1.mp4');
           }
       });
+	}
 }
+
 
 CONTENT.osd = {
 

@@ -7,39 +7,98 @@ var kissProtocolHandler = function (info) {
 }
 
 $(document).ready(function () {
-    $('#portArea a.connect').click(function () {
-        var selectedPort = String($('#port').val())
+	
+	
+	if (isNative()) {
+		$('#portArea a.connect').click(function () {
+			var selectedPort = String($('#port').val())
 
-        if (selectedPort != '0') {
+			if (selectedPort != '0') {
 
-            if (GUI.state == "CONNECT") {
-                GUI.switchToConnecting();
-                console.log('Connecting to: ' + selectedPort);
-                GUI.connectingTo = selectedPort;
-                serialDevice = getSerialDriverForPort(selectedPort);
-                serialDevice.connect(selectedPort, {
-                    bitrate: 115200
-                }, connected);
-            } else {
-                GUI.switchToConnect();
-                GUI.timeoutKillAll();
-                GUI.intervalKillAll();
-                GUI.contentSwitchCleanup();
-                GUI.contentSwitchInProgress = false;
-                kissProtocol.removePendingRequests();
-                serialDevice.disconnect(function () {
-                    kissProtocol.disconnectCleanup();
-                    disconnected();
-                    GUI.connectedTo = false;
-                    if (GUI.activeContent != 'firmware') {
-                        $('#content').empty();
-                        // load welcome content
-                        CONTENT.welcome.initialize();
-                    }
-                });
-            }
-        }
-    });
+				if (GUI.state == "CONNECT") {
+					GUI.switchToConnecting();
+					console.log('Connecting to: ' + selectedPort);
+					GUI.connectingTo = selectedPort;
+					serialDevice = getSerialDriverForPort(selectedPort);
+					serialDevice.connect(selectedPort, {
+						bitrate: 115200
+					}, connected);
+				} else {
+					GUI.switchToConnect();
+					GUI.timeoutKillAll();
+					GUI.intervalKillAll();
+					GUI.contentSwitchCleanup();
+					GUI.contentSwitchInProgress = false;
+					kissProtocol.removePendingRequests();
+					serialDevice.disconnect(function () {
+						kissProtocol.disconnectCleanup();
+						disconnected();
+						GUI.connectedTo = false;
+						if (GUI.activeContent != 'firmware') {
+							$('#content').empty();
+							// load welcome content
+							CONTENT.welcome.initialize();
+						}
+					});
+				}
+			}
+		});
+	} else {
+		// web
+
+//		navigator.serial.addEventListener("connect", (event) => {
+//			console.log("CONNECT!!!");
+//		});
+//
+//		navigator.serial.addEventListener("disconnect", (event) => {
+//			console.log("DISCONNECT!!!");
+//		});
+
+		var connectButton = document.getElementById('connect');
+
+		connectButton.addEventListener('click', async () => {
+			var selectedPort = String($('#port').val());
+			try {
+				if (GUI.state == "CONNECT") {
+					GUI.switchToConnecting();
+					console.log('Connecting to: ' + selectedPort);
+					GUI.connectingTo = selectedPort;
+					
+					let device;
+					let filters = [{ usbVendorId: 0x0483, usbProductId: 0x5740 }, {usbVendorId: 0x10c4  , usbProductId: 0xea60}]; // {usbVendorId: 0x10c4  , usbProductId: 0xea60}
+					device = await navigator.serial.requestPort({'filters': filters});
+					
+					serialDevice = getSerialDriverForPort(selectedPort);
+					serialDevice.connect(device, {
+						baudRate: 115200,
+						bufferSize: 16384
+					}, connected);
+				} else {
+					GUI.switchToConnect();
+					GUI.timeoutKillAll();
+					GUI.intervalKillAll();
+					GUI.contentSwitchCleanup();
+					GUI.contentSwitchInProgress = false;
+					kissProtocol.removePendingRequests();
+					serialDevice.disconnect(function () {
+						console.log("HANDLER!");
+					
+						kissProtocol.disconnectCleanup();
+						disconnected();
+						GUI.connectedTo = false;
+						if (GUI.activeContent != 'firmware') {
+							$('#content').empty();
+							// load welcome content
+							CONTENT.welcome.initialize();
+						}
+					});
+				}
+							
+			} catch (error) {
+				console.log('Connect error: ' + error.message);
+			}
+		});
+	}
 
     function connected(openInfo) {
     	console.log(openInfo);
@@ -121,4 +180,6 @@ $(document).ready(function () {
         } else { // Something went wrong
         }
     }
+    
+    
 });

@@ -226,14 +226,14 @@ CONTENT.configuration.initialize = function (callback) {
                                 if (callback) callback(json);
                             } else {
                             	console.log("Old kiss backup detected!");
-                            	
+                            	$(".modal-overlay").off('click');
+                            	$(".modal-overlay").on('click', function() {
+                            		hideModal();
+                            	});
                             	$(".modal-body").html("<p class='header'>This backup is outdated.</p>For safety reasons, importing of the old backups is prohibited.");
                             	$(".modal-footer").html("");
-                            	
-                			
                             	$(".modal-overlay").show();
-                            	$(".modal").show();
-                            	
+                            	$(".modal").show();                            	
                             	return;
                             }
                         } catch (e) {

@@ -3,15 +3,43 @@
 const MIN_CONFIG_VERSION = 126;
 const MAX_CONFIG_VERSION = 127;
 
+function isNative() {
+	if (typeof(nw) !== 'undefined') {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+function getProxyURL(url) {
+	if (isNative()) {
+		return url;
+	} else {
+		return "proxy.php?url=" + encodeURI(url);
+	}
+}
+
 function scrollTop() {
 	   $("#content").scrollTop(60);
 }
 
 function setLanguage(lang) {
-	chrome.storage.local.set({'language': lang});
+	if (window.localStorage) {
+		window.localStorage.setItem('language', lang);
+	} else {
+		chrome.storage.local.set({'language': lang});
+	}
 }
 
 function getLanguage(callback) {
+	if (window.localStorage) {
+		var result = window.localStorage.getItem('language');
+		if ((result != null)) {
+            callback(result);
+        } else {
+            callback('en');
+        }
+	} else {
 	  chrome.storage.local.get('language', function (result) {
           if ((result !== undefined) && (result.language !== undefined)) {
               callback(result.language);
@@ -19,6 +47,7 @@ function getLanguage(callback) {
               callback('en');
           }
       });
+	}
 }
 
 function changeLanguage() {
@@ -68,9 +97,10 @@ $(document).ready(function () {
     $.i18n.debug = true;
 
     changeLanguage();
-
-    // Check for update
-    checkGithubRelease(chrome.runtime.getManifest().version);
+    
+    if (isNative()) {
+    	checkGithubRelease(getVersion());
+    }
 
     PortHandler.initialize();
     CONTENT.welcome.initialize();
@@ -96,7 +126,7 @@ $(document).ready(function () {
 
     });
     
-    $(".update-close, .modal-overlay").on("click", function() {
+    $(".update-close").on("click", function() {
     	hideModal();
     });
     

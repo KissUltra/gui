@@ -51,13 +51,49 @@ var fcFlasherReadHandler = function (info) {
 
 var fcFlasherReadErrorHandler = function (info) {
 	var self = CONTENT.fc_flasher;
-	if (info.error == "device_lost") {
+	
+	if (info.error == "device_lost" || info.error.code == 19) {
 		console.log("Serial port lost during flashing, Ultra went to bootloader mode. Reconnecting...");
-		serialDevice.reconnect(2000, function(connectionInfo) {
-			serialDevice.onReceive.addListener(fcFlasherReadHandler);
-			console.log("Reconnected...");
-			self.reconnected = true;
-		});
+		
+		if (isNative()) {
+			serialDevice.reconnect(2000, function(connectionInfo) {
+				serialDevice.onReceive.addListener(fcFlasherReadHandler);
+				console.log("Reconnected...");
+				self.reconnected = true;
+			});
+		} else {
+			// show reconnect button!
+			$(".modal-body").html("<p class='header'>BOOTLOADER</p><br>Your KISS ULTRA is ready for flashing. Click <b>Reconnect</b> button to continue.<br><br><span id=bootloader_timer>&nbsp;<span>");
+        	$(".modal-footer").html("<a class='u-button' id='flash_serial_reconnect'>Reconnect</a>");
+        	$(".modal-overlay").show();
+        	$(".modal").show();
+        	
+        	$(".modal-overlay").off('click'); 
+        
+        	var connectButton = document.getElementById('flash_serial_reconnect');
+
+    		connectButton.addEventListener('click', async () => {
+    			var selectedPort = String($('#port').val());
+    			try {
+    					let device;
+    					let filters = [{ usbVendorId: 0x0483, usbProductId: 0x5740 }];
+    					device = await navigator.serial.requestPort({'filters': filters});
+    					serialDevice = getSerialDriverForPort(selectedPort);
+    					serialDevice.connect(device, {
+    						baudRate: 115200,
+    						bufferSize: 16384
+    					}, function() {
+    						serialDevice.onReceive.addListener(fcFlasherReadHandler);
+    						console.log("Reconnected...");
+    						self.reconnected = true;
+    						$(".modal-overlay").hide();
+    			        	$(".modal").hide();
+    					});
+    			} catch (error) {
+    				console.log('Connect error: ' + error.message);
+    			}
+    		});
+		}
 	}
 }
 
@@ -175,6 +211,12 @@ CONTENT.fc_flasher.initialize = function (callback) {
         serialDevice.onReceiveError.removeListener(fcFlasherReadErrorHandler);
         serialDevice.onReceiveError.addListener(fcFlasherReadErrorHandler);
         
+        
+        if (!isNative()) {
+        	$("#select_file").hide();
+        	$("#download_file").hide();
+        }
+        
 
         var selectedPort = String($('#port').val());
 
@@ -212,7 +254,7 @@ CONTENT.fc_flasher.initialize = function (callback) {
             $("#flashp").hide();
             $("#status").hide();
 
-            $.get(url, function (intel_hex) {
+            $.get(getProxyURL(url), function (intel_hex) {
                 console.log("Loaded ULTRA hex file");
                 self.parsed_hex = read_hex_file(intel_hex);
 
@@ -277,6 +319,11 @@ CONTENT.fc_flasher.initialize = function (callback) {
             })
 
         });
+        
+
+        if (!isNative()) {
+          	$("#download_file").click();
+        }
 
         $("#select_file").on("click", function () {
             if (!$(this).hasClass("disabled")) {
@@ -341,13 +388,12 @@ CONTENT.fc_flasher.initialize = function (callback) {
             	
                 console.log('Resetting FC...');
                 self.Write([79, 72, 82, 69, 83, 69, 84], 0); // reset fc
-
+                
                 self.rxState = 0;
                 console.log('Checking bootloader...');
                 
-                self.intcnt = 20;
-                
-                
+                self.intcnt = isNative() ? 20 : 60;
+               
                 self.Write([81, 255, 255, 125, 0], 0);       // check bootloader
                 
                 self.interval = setInterval(function() {
@@ -358,7 +404,32 @@ CONTENT.fc_flasher.initialize = function (callback) {
                 		clearInterval(self.interval);
                 		console.log('got no answer. check your com port selection and see if you have the fc with bootloader.');
                         $("#status").html("FAILURE: No response from bootloader!");
+                        
+                        if (!isNative()) {
+                        	$(".modal-overlay").hide();
+    			        	$(".modal").hide();
+    			        	
+    			           	GUI.switchToConnect();
+    						GUI.contentSwitchCleanup();
+        					GUI.contentSwitchInProgress = false;
+        					kissProtocol.removePendingRequests();
+        		
+        					GUI.timeoutKillAll();
+        					GUI.intervalKillAll();
+        						
+        					kissProtocol.disconnectCleanup();
+    					   	
+    						$('#content').empty();
+    						// load welcome content
+    						CONTENT.welcome.initialize();
+                        }
+                        
+                    
+						
                 	} else {
+                		
+                		$("#bootloader_timer").text("You have " + (self.intcnt >> 1) + " seconds left.");
+                		
                 		 if (self.flasherAvailable) {
                 			 clearInterval(self.interval);
                              console.log("Bootloader available, lets flash");
@@ -387,6 +458,7 @@ CONTENT.fc_flasher.initialize = function (callback) {
 
 CONTENT.fc_flasher.cleanup = function (callback) {
     console.log("cleanup flasher");
+    $("#portArea").children().removeClass('flashing-in-progress');
     serialDevice.onReceive.removeListener(fcFlasherReadHandler);
     serialDevice.onReceiveError.removeListener(fcFlasherReadErrorHandler);    
     if (callback) callback();

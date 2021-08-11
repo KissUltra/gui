@@ -15,6 +15,7 @@
     <script type="text/javascript" src="./js/input_validation.js"></script>
     <script type="text/javascript" src="./js/gui.js"></script>
     <script type="text/javascript" src="./js/chrome_serial.js"></script>
+    <script type="text/javascript" src="./js/web_serial.js"></script>
     <script type="text/javascript" src="./js/serial.js"></script>
     <script type="text/javascript" src="./js/port_handler.js"></script>
     <script type="text/javascript" src="./js/connection_handler.js"></script>
@@ -59,7 +60,7 @@
 			<div class="portSelector">
             	<select id="port" title="Port">
             	</select>
-            	<a class="connect" href="#" data-i18n="menu.connect">Connect</a>
+            	<a id="connect" class="connect" href="#" data-i18n="menu.connect">Connect</a>
             <!-- 	<a class="navigation-menu-button" href="#" data-i18n="menu.menu">Menu</a> -->
             </div>
         	
@@ -85,7 +86,11 @@
     <div class="modal-overlay" style="display:none"></div>
 	<div class="modal" style="display:none">
 	    <script>
-            $(document).ready(function () { nw.Window.get().on('new-win-policy', function (frame, url, policy) { policy.ignore(); nw.Shell.openExternal(url); }); });
+            $(document).ready(function () { 
+            	if (isNative()) {
+            		nw.Window.get().on('new-win-policy', function (frame, url, policy) { policy.ignore(); nw.Shell.openExternal(url); }); 
+            	}
+            });
         </script>
 		<div class="modal-content">
 			<div class="modal-body" >
