@@ -45,6 +45,7 @@ CONTENT.osd.initialize = function (callback) {
     self.chunkSize = 240;
     self.flags = 0;
     self.nvcounter = 0;
+    self.videoRunning = true;
     
 	var Buffer = require('buffer').Buffer
 	self.compressedBuffer = Buffer.alloc(128*288); // max osd in bytes
@@ -119,6 +120,8 @@ CONTENT.osd.initialize = function (callback) {
 				        }
 				    ]
 				});
+				
+				if (self.videoRunning) self.video.play(); else self.video.pause();
 			});
 		});
 
@@ -201,12 +204,14 @@ CONTENT.osd.initialize = function (callback) {
 							inFlight = false;
 						}
 						
-						if (inFlight != self.playing) {
-							self.playing = inFlight;
-							if (self.playing) {
-								self.video.play();
-							} else {
-								self.video.pause();
+						if (self.videoRunning) {
+							if (inFlight != self.playing) {
+								self.playing = inFlight;
+								if (self.playing) {
+									self.video.play();
+								} else {
+									self.video.pause();
+								}
 							}
 						}
 					}
@@ -220,6 +225,11 @@ CONTENT.osd.initialize = function (callback) {
 				}
 			}
 		}
+		
+		$("#osd_block").on("click", function() {
+			self.videoRunning = !self.videoRunning;
+			if (self.videoRunning) self.video.play(); else self.video.pause();
+		});
 
 		// setup graph
 		$(window).on('resize', self.resizeCanvas).resize();
