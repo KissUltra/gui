@@ -9,7 +9,7 @@ It runs as an app within Google Chrome, standalone application or web gui and al
 
 Depending on target operating system, _KISS ULTRA GUI_ is distributed as _standalone_ application or Chrome App.
 
-Web gui accessible at [Kiss Ultra WEB GUI](https://ultra.anuta.org) with latest Chrome and Edge browsers.
+Web gui accessible at [Kiss Ultra WEB GUI](https://kiss-ultra.com/gui/) with latest Chrome and Edge browsers.
 
 ## Supported Hardware
 
