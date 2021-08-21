@@ -96,6 +96,20 @@ CONTENT.configuration.initialize = function (callback) {
             });
         });
     });
+    
+    
+    function fcNotCompatible() {
+    	$(".modal-overlay").off('click');
+    	$(".modal-overlay").on('click', function() {
+    		$("#connect").click();
+    		$(".modal-overlay").off('click');
+    		hideModal();
+    	});
+    	$(".modal-body").html("<p class='header'>Warning!</p>This GUI is NOT compatible with your flight controller.<br><br>");
+    	$(".modal-footer").html("");
+    	$(".modal-overlay").show();
+    	$(".modal").show();      
+    }
 
     function copyTextToClipboard(text) {
         var copyFrom = $('<textarea/>');
@@ -296,6 +310,11 @@ CONTENT.configuration.initialize = function (callback) {
             }
             if ((data['CopterType'] == 7 || data['CopterType'] == 8) && (info.firmvareVersion.indexOf("KISSCC") != -1)) {
                 $('#pentaNoteCC').show();
+            }
+            
+            
+            if (!info.firmvareVersion.includes('ULTRA')) {
+            	fcNotCompatible();
             }
         });
 

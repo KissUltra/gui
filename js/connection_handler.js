@@ -65,7 +65,7 @@ $(document).ready(function () {
 					GUI.connectingTo = selectedPort;
 					
 					let device;
-					let filters = [{ usbVendorId: 0x0483, usbProductId: 0x5740 }, {usbVendorId: 0x10c4  , usbProductId: 0xea60}]; // {usbVendorId: 0x10c4  , usbProductId: 0xea60}
+					let filters = [{ usbVendorId: 0x0483, usbProductId: 0x5740 }];
 					device = await navigator.serial.requestPort({'filters': filters});
 					
 					serialDevice = getSerialDriverForPort(selectedPort);
@@ -81,8 +81,6 @@ $(document).ready(function () {
 					GUI.contentSwitchInProgress = false;
 					kissProtocol.removePendingRequests();
 					serialDevice.disconnect(function () {
-						console.log("HANDLER!");
-					
 						kissProtocol.disconnectCleanup();
 						disconnected();
 						GUI.connectedTo = false;
