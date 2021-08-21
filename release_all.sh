@@ -7,8 +7,6 @@ gulp release --linux32
 gulp release --linux64
 gulp release --chromeos
 
-./make_web.sh
-
 ./fix_win_icons.sh
 cd sign
 ./notarize.sh
