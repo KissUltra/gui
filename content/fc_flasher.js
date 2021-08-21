@@ -36,14 +36,17 @@ var fcFlasherReadHandler = function (info) {
                 }
             }
         } else if (self.rxState == 2) {
-            if (view.length == 5) {
-                if (view[0] == 81 && view[1] == 255 && view[2] == 255 && view[3] == 255 && view[4] != 0) {
-                    if (self.retryTimeout != null) clearTimeout(self.retryTimeout);
-                    self.curPage--;
-                    self.retryCount = 0;
-                    self.WritePage();
-                }
-            }
+        	
+        	 for (var i = 0; i < view.length; i++) self.receiveBuffer.push(view[i]);
+             if (self.receiveBuffer.length >= 5) {
+            	 var l = self.receiveBuffer.length;
+            	 if (self.receiveBuffer[l-5] == 81 && self.receiveBuffer[l-4] == 255 && self.receiveBuffer[l-3] == 255 && self.receiveBuffer[l-2] == 255 && self.receiveBuffer[l-1] != 0) {
+                     if (self.retryTimeout != null) clearTimeout(self.retryTimeout);
+                     self.curPage--;
+                     self.retryCount = 0;
+                     self.WritePage();
+                 }
+             }
         }
     }
 }
