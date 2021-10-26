@@ -861,7 +861,15 @@ kissProtocol.preparePacket = function (code, obj) {
     	case this.GET_OSD:
     		data.setUint16(0, obj.address, 0);
     		data.setUint16(2, obj.chunkSize, 0);
-    		blen = 4;
+    		
+    		if (obj.event !== undefined) {
+    			data.setUint8( 4, obj.event.e, 0);
+    			data.setUint16(5, obj.event.x, 0);
+    			data.setUint16(7, obj.event.y, 0);
+        		blen = 9;
+    		} else {
+        		blen = 4;
+     		}
     	break;
     	
     	case this.GET_OSD_CONFIG:

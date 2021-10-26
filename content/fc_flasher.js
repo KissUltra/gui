@@ -207,6 +207,46 @@ CONTENT.fc_flasher.initialize = function (callback) {
         $("#download_url").removeClass('disabled');
     }
 
+    
+    function handleFileSelect(evt) {
+    	var files = evt.target.files; 
+    	for (var i = 0, f; f = files[i]; i++) {
+    		var reader = new FileReader();
+
+    		reader.onprogress = function (e) {
+    			if (e.total > 1048576) {
+    				console.log('File limit (1 MB) exceeded, aborting');
+    				reader.abort();
+    			}
+    		};
+
+    		reader.onload = (function(theFile) {
+    			return function(e) {
+
+    				if (e.total != 0 && e.total == e.loaded) {
+    					console.log('File loaded');
+    					var intel_hex = e.target.result;
+    					self.parsed_hex = read_hex_file(intel_hex);
+
+    					
+    					if (self.parsed_hex) {
+    						
+    						console.log("HEX OK " + self.parsed_hex.bytes_total + " bytes");
+    						$("#file_info").html($.i18n("text.fc-flasher-loaded", self.parsed_hex.bytes_total, theFile.name));
+    						$("#flashp").show();
+    					} else {
+    						console.log("Corrupted firmware file");
+    						$("#file_info").html($.i18n("text.fc-flasher-invalid-firmware"));
+    						$("#flashp").hide();
+    					}
+    				}
+    			};
+    		})(f);
+    		reader.readAsText(f);
+
+    	}
+    }
+    
     function htmlLoaded() {
 
         serialDevice.onReceive.removeListener(fcFlasherReadHandler);
@@ -214,13 +254,10 @@ CONTENT.fc_flasher.initialize = function (callback) {
         serialDevice.onReceiveError.removeListener(fcFlasherReadErrorHandler);
         serialDevice.onReceiveError.addListener(fcFlasherReadErrorHandler);
         
-        
         if (!isNative()) {
-        	$("#select_file").hide();
-        	$("#download_file").hide();
+            document.getElementById('fcfiles').addEventListener('change', handleFileSelect, false);
         }
         
-
         var selectedPort = String($('#port').val());
 
         if ((selectedPort == KISSFC_WIFI) || (selectedPort == ANDROID_OTG_SERIAL)) {
@@ -323,53 +360,64 @@ CONTENT.fc_flasher.initialize = function (callback) {
 
         });
         
-
-        if (!isNative()) {
-          	$("#download_file").click();
-        }
-
         $("#select_file").on("click", function () {
-            if (!$(this).hasClass("disabled")) {
-                $("#status").html("");
-                chrome.fileSystem.chooseEntry({ type: 'openFile', accepts: [{ extensions: ['hex'] }] }, function (fileEntry) {
-                    if (chrome.runtime.lastError) {
-                        console.error(chrome.runtime.lastError.message);
-                        return;
-                    }
+        	if (!$(this).hasClass("disabled")) {
+        		$("#status").html("");
 
-                    chrome.fileSystem.getDisplayPath(fileEntry, function (path) {
-                        console.log('Loading ultra firmware from: ' + path);
-                        fileEntry.file(function (file) {
-                            var reader = new FileReader();
-                            reader.onprogress = function (e) {
-                                if (e.total > 1048576) {
-                                    console.log('File limit (1 MB) exceeded, aborting');
-                                    reader.abort();
-                                }
-                            };
-                            reader.onloadend = function (e) {
-                                if (e.total != 0 && e.total == e.loaded) {
-                                    console.log('File loaded');
-                                    var intel_hex = e.target.result;
-                                    self.parsed_hex = read_hex_file(intel_hex);
 
-                                    if (self.parsed_hex) {
-                                        console.log("HEX OK " + self.parsed_hex.bytes_total + " bytes");
-                                        $("#file_info").html($.i18n("text.fc-flasher-loaded", self.parsed_hex.bytes_total, path));
-                                        $("#flashp").show();
-                                    } else {
-                                        console.log("Corrupted firmware file");
-                                        $("#file_info").html($.i18n("text.fc-flasher-invalid-firmware"));
-                                        $("#flashp").hide();
-                                    }
-                                }
-                            }
-                            reader.readAsText(file);
-                        });
-                    });
-                });
-            };
+        		if (isNative()) {
+
+
+        			chrome.fileSystem.chooseEntry({ type: 'openFile', accepts: [{ extensions: ['hex'] }] }, function (fileEntry) {
+        				if (chrome.runtime.lastError) {
+        					console.error(chrome.runtime.lastError.message);
+        					return;
+        				}
+
+        				chrome.fileSystem.getDisplayPath(fileEntry, function (path) {
+        					console.log('Loading ultra firmware from: ' + path);
+        					fileEntry.file(function (file) {
+        						var reader = new FileReader();
+        						reader.onprogress = function (e) {
+        							if (e.total > 1048576) {
+        								console.log('File limit (1 MB) exceeded, aborting');
+        								reader.abort();
+        							}
+        						};
+        						reader.onloadend = function (e) {
+        							if (e.total != 0 && e.total == e.loaded) {
+        								console.log('File loaded');
+        								var intel_hex = e.target.result;
+        								self.parsed_hex = read_hex_file(intel_hex);
+
+        								if (self.parsed_hex) {
+        									console.log("HEX OK " + self.parsed_hex.bytes_total + " bytes");
+        									$("#file_info").html($.i18n("text.fc-flasher-loaded", self.parsed_hex.bytes_total, path));
+        									$("#flashp").show();
+        								} else {
+        									console.log("Corrupted firmware file");
+        									$("#file_info").html($.i18n("text.fc-flasher-invalid-firmware"));
+        									$("#flashp").hide();
+        								}
+        							}
+        						}
+        						reader.readAsText(file);
+        					});
+        				});
+        			});
+
+        		} else {
+        			$("#remote_fw").hide();
+        		    $("#file_info").html("");
+        	        $("#flashp").hide();
+        	        $("#status").hide();
+        	        $("#fcfiles").val('');
+        			$("#fcfiles").click();
+        		}
+        	}
         });
+        
+      
 
         $("#flash").on("click", function () {
             if (!$(this).hasClass('disabled')) {

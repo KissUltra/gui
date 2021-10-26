@@ -47,6 +47,38 @@ CONTENT.osd.initialize = function (callback) {
     self.nvcounter = 0;
     self.videoRunning = true;
     
+    
+    self.events = new Queue();
+    	
+    	/*
+    	 * var queue = new Queue();
+
+// enqueue an item
+queue.enqueue('item');
+
+// dequeue an item
+var item = queue.dequeue();
+The peek function can be used to inspect the item at the front of the queue without dequeuing it:
+
+1
+2
+// get the item at the front of the queue
+var item = queue.peek();
+Both the dequeue and peek functions return the value ‘undefined’ if the queue is empty. The getLength and isEmpty functions can be used to determine the current state of the queue:
+
+1
+2
+3
+4
+5
+// determine the number of items in the queue
+var length = queue.getLength();
+
+// determine whether the queue is empty
+var isEmpty = queue.isEmpty();
+
+    	 */
+    
 	var Buffer = require('buffer').Buffer
 	self.compressedBuffer = Buffer.alloc(128*288); // max osd in bytes
 	
@@ -54,6 +86,25 @@ CONTENT.osd.initialize = function (callback) {
 	GUI.switchContent('osd', function () {
 		GUI.load("./content/osd.html", function () {
 			htmlLoaded({});
+			
+			while (!self.events.isEmpty()) { self.events.dequeue(); };
+			
+			$(window).on("keydown", function(e) {
+				e.stopPropagation();
+				if (!event.repeat) {
+					self.events.enqueue({e:1, x:e.keyCode, y:0});
+				}
+			});
+			
+			$(window).on("keyup", function(e) {
+				e.stopPropagation();
+				self.events.enqueue({e:2, x:e.keyCode, y:0});
+			});
+				
+			$(window).on("keypress", function(e) {
+				e.stopPropagation();
+			});
+			
 			if (kissProtocol.data[kissProtocol.GET_SETTINGS].ver > 126) {
 				var tmp = {
 						'buffer': new ArrayBuffer(1),
@@ -63,8 +114,10 @@ CONTENT.osd.initialize = function (callback) {
 					console.log("Loaded OSD config");
 					//console.log(JSON.stringify(kissProtocol.data[kissProtocol.GET_OSD_CONFIG]));
 				});
+				
+				
 			} else {
-				console.log("OSD configis not supported");
+				console.log("OSD config is not supported");
 			}
 		});
 	});
@@ -243,7 +296,14 @@ CONTENT.osd.initialize = function (callback) {
 	                 'address': self.address,
 	                 'chunkSize': self.chunkSize
 	        };
-	             
+			
+			if (kissProtocol.data[kissProtocol.GET_SETTINGS].ver > 127) {
+				if (!self.events.isEmpty()) {
+					tmp.event = self.events.dequeue();
+					console.log("Dequeue " + JSON.stringify(tmp.event)); 
+				}
+			}
+				             
 			kissProtocol.send(kissProtocol.GET_OSD, kissProtocol.preparePacket(kissProtocol.GET_OSD, tmp), function () {
 				if (GUI.activeContent == 'osd') {
 					if (self.startedUIupdate == 0) {
@@ -274,6 +334,7 @@ CONTENT.osd.cleanup = function (callback) {
   //  $(window).off('resize', this.osdResize);
     window.clearTimeout(this.updateTimeout);
 	window.clearInterval(this.interval);
+	$(window).off("keydown,keyup,keypress");
     if (callback) callback();
     
     

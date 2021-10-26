@@ -260,6 +260,7 @@ function dist_src() {
     './js/libraries/background-video.js',
     './js/libraries/lz4.js',
     './js/libraries/i18n/*.js',
+    './js/libraries/queue.js',
     './js/plugins/jquery.kiss.*.js',
     './js/chrome_serial.js',
     './js/web_serial.js',

@@ -94,19 +94,56 @@ CONTENT.esc_flasher.initialize = function (callback) {
         }
 
     }
+    
+    function handleFileSelect(evt) {
+    	var files = evt.target.files; 
+    	for (var i = 0, f; f = files[i]; i++) {
+    		var reader = new FileReader();
+
+    		reader.onprogress = function (e) {
+    			if (e.total > 1048576) {
+    				console.log('File limit (1 MB) exceeded, aborting');
+    				reader.abort();
+    			}
+    		};
+    		
+    		reader.onload = (function(theFile) {
+    			return function(e) {
+
+                    if (e.total != 0 && e.total == e.loaded) {
+                        console.log('File loaded');
+                        var intel_hex = e.target.result;
+
+                        self.pages = parseBootloaderHexFile(intel_hex);
+
+                        if (self.pages !== undefined) {
+                            console.log("HEX OS OK " + self.pages.length + " blocks loaded");
+                            $("#file_info").html($.i18n("text.esc-flasher-loaded", self.pages.length, theFile.name));
+                            $("#flashp").show();
+                        } else {
+                            console.log("Corrupted esc firmware file");
+                            $("#file_info").html($.i18n("text.esc-flasher-invalid-firmware"));
+                            $("#flashp").hide();
+                        }
+                    }
+    			};
+    		})(f);
+    		reader.readAsText(f);
+
+    	}
+    }
+    
 
     function htmlLoaded() {
     	
-    	 
-        if (!isNative()) {
-        	$("#select_file").hide();
-        	$("#download_file").hide();
-        }
-
         var data = kissProtocol.data[kissProtocol.GET_SETTINGS];
         if (data.lipoConnected == 1) {
             $("#escSettingsDiv").show();
             $("#escInfoDiv").show();
+        }
+        
+        if (!isNative()) {
+            document.getElementById('escfiles').addEventListener('change', handleFileSelect, false);
         }
 
         var selectedPort = String($('#port').val());
@@ -219,7 +256,6 @@ CONTENT.esc_flasher.initialize = function (callback) {
                         if (escDetected != "" && board != escDetected) add = false;
                         var escBoardNames = {
                             'KISS32A':  "Kiss Racing 32A ESC",
-                            'ULTRA45A': "Kiss ULTRA 45A ESC",
                             'KISS24A':  "Kiss Racing 24A ESC",
                             'KISS16A':  "Kiss AIOv2 ESC",
                             'KISS8A':   "Kiss AIOv1 ESC",
@@ -235,52 +271,60 @@ CONTENT.esc_flasher.initialize = function (callback) {
         });
 
         $("#select_file").on("click", function () {
-            if (!$(this).hasClass("disabled")) {
-                $("#status").html("");
-                chrome.fileSystem.chooseEntry({ type: 'openFile', accepts: [{ extensions: ['hex'] }] }, function (fileEntry) {
-                    if (chrome.runtime.lastError) {
-                        console.error(chrome.runtime.lastError.message);
-                        return;
-                    }
+        	if (!$(this).hasClass("disabled")) {
+        		$("#status").html("");
 
-                    chrome.fileSystem.getDisplayPath(fileEntry, function (path) {
-                        console.log('Loading esc firmware from: ' + path);
-                        fileEntry.file(function (file) {
-                            var reader = new FileReader();
-                            reader.onprogress = function (e) {
-                                if (e.total > 1048576) {
-                                    console.log('File limit (1 MB) exceeded, aborting');
-                                    reader.abort();
-                                }
-                            };
-                            reader.onloadend = function (e) {
-                                if (e.total != 0 && e.total == e.loaded) {
-                                    console.log('File loaded');
-                                    var intel_hex = e.target.result;
+        		if (isNative()) {
 
-                                    self.pages = parseBootloaderHexFile(intel_hex);
+        			chrome.fileSystem.chooseEntry({ type: 'openFile', accepts: [{ extensions: ['hex'] }] }, function (fileEntry) {
+        				if (chrome.runtime.lastError) {
+        					console.error(chrome.runtime.lastError.message);
+        					return;
+        				}
 
-                                    if (self.pages !== undefined) {
-                                        console.log("HEX OS OK " + self.pages.length + " blocks loaded");
-                                        $("#file_info").html($.i18n("text.esc-flasher-loaded", self.pages.length, path));
-                                        $("#flashp").show();
-                                    } else {
-                                        console.log("Corrupted esc firmware file");
-                                        $("#file_info").html($.i18n("text.esc-flasher-invalid-firmware"));
-                                        $("#flashp").hide();
-                                    }
-                                }
-                            };
-                            reader.readAsText(file);
-                        });
-                    });
-                });
-            };
+        				chrome.fileSystem.getDisplayPath(fileEntry, function (path) {
+        					console.log('Loading esc firmware from: ' + path);
+        					fileEntry.file(function (file) {
+        						var reader = new FileReader();
+        						reader.onprogress = function (e) {
+        							if (e.total > 1048576) {
+        								console.log('File limit (1 MB) exceeded, aborting');
+        								reader.abort();
+        							}
+        						};
+        						reader.onloadend = function (e) {
+        							if (e.total != 0 && e.total == e.loaded) {
+        								console.log('File loaded');
+        								var intel_hex = e.target.result;
+
+        								self.pages = parseBootloaderHexFile(intel_hex);
+
+        								if (self.pages !== undefined) {
+        									console.log("HEX OS OK " + self.pages.length + " blocks loaded");
+        									$("#file_info").html($.i18n("text.esc-flasher-loaded", self.pages.length, path));
+        									$("#flashp").show();
+        								} else {
+        									console.log("Corrupted esc firmware file");
+        									$("#file_info").html($.i18n("text.esc-flasher-invalid-firmware"));
+        									$("#flashp").hide();
+        								}
+        							}
+        						};
+        						reader.readAsText(file);
+        					});
+        				});
+        			});
+        		} else {
+        			
+        			$("#remote_fw").hide();
+        		    $("#file_info").html("");
+        	        $("#flashp").hide();
+        	        $("#status").hide();
+        	        $("#escfiles").val('');
+        			$("#escfiles").click();
+        		}
+        	};
         });
-        
-        if (!isNative()) {
-          	$("#download_file").click();
-        }
 
 
         $("#flash").on("click", function () {
