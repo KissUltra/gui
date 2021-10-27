@@ -46,39 +46,10 @@ CONTENT.osd.initialize = function (callback) {
     self.flags = 0;
     self.nvcounter = 0;
     self.videoRunning = true;
-    
+  
     
     self.events = new Queue();
-    	
-    	/*
-    	 * var queue = new Queue();
-
-// enqueue an item
-queue.enqueue('item');
-
-// dequeue an item
-var item = queue.dequeue();
-The peek function can be used to inspect the item at the front of the queue without dequeuing it:
-
-1
-2
-// get the item at the front of the queue
-var item = queue.peek();
-Both the dequeue and peek functions return the value ‘undefined’ if the queue is empty. The getLength and isEmpty functions can be used to determine the current state of the queue:
-
-1
-2
-3
-4
-5
-// determine the number of items in the queue
-var length = queue.getLength();
-
-// determine whether the queue is empty
-var isEmpty = queue.isEmpty();
-
-    	 */
-    
+    	    
 	var Buffer = require('buffer').Buffer
 	self.compressedBuffer = Buffer.alloc(128*288); // max osd in bytes
 	
@@ -88,7 +59,7 @@ var isEmpty = queue.isEmpty();
 			htmlLoaded({});
 			
 			while (!self.events.isEmpty()) { self.events.dequeue(); };
-			
+		
 			$(window).on("keydown", function(e) {
 				e.stopPropagation();
 				if (!event.repeat) {
@@ -112,7 +83,7 @@ var isEmpty = queue.isEmpty();
 				};
 				kissProtocol.send(kissProtocol.GET_OSD_CONFIG, kissProtocol.preparePacket(kissProtocol.GET_OSD_CONFIG, tmp), function () {
 					console.log("Loaded OSD config");
-					//console.log(JSON.stringify(kissProtocol.data[kissProtocol.GET_OSD_CONFIG]));
+					console.log(JSON.stringify(kissProtocol.data[kissProtocol.GET_OSD_CONFIG]));
 				});
 				
 				
