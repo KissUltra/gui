@@ -76,6 +76,10 @@ CONTENT.osd.initialize = function (callback) {
 				e.stopPropagation();
 			});
 			
+			if (kissProtocol.data[kissProtocol.GET_SETTINGS].ver > 127) {
+				$("#osdkc").show();
+			}
+			
 			if (kissProtocol.data[kissProtocol.GET_SETTINGS].ver > 126) {
 				var tmp = {
 						'buffer': new ArrayBuffer(1),
