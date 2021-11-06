@@ -419,6 +419,7 @@ kissProtocol.processPacket = function (code, obj) {
                 obj.ver = 0;
                 obj.reverseMotors = 0;
                 obj.launchMode = 0;
+                obj.dshotMapping = [];
             }
 
             obj.G_P[0] = data.getUint16(0, 0) / 1000;
@@ -594,6 +595,24 @@ kissProtocol.processPacket = function (code, obj) {
                 obj.rthMinThrottle = data.getUint16(196, 0);
                 obj.rthHomeAction = data.getUint8(198, 0);
                 obj.rthReturnSpeed = data.getUint8(199, 0);
+                
+                if (obj.ver >= 129) {
+                	obj.dshotMapping[0] = data.getUint8(200, 0);
+                	obj.dshotMapping[1] = data.getUint8(201, 0);
+                	obj.dshotMapping[2] = data.getUint8(202, 0);
+                	obj.dshotMapping[3] = data.getUint8(203, 0);
+                	obj.dshotMapping[4] = data.getUint8(204, 0);
+                	obj.dshotMapping[5] = data.getUint8(205, 0);
+                	obj.dshotMapping[6] = data.getUint8(206, 0);
+                	obj.dshotMapping[7] = data.getUint8(207, 0);
+                	obj.loggerSpeed = data.getUint8(208, 0);
+                	obj.ccPinMode = data.getUint8(209, 0);
+                	obj.currentSensorDivider = data.getUint16(210, 0);
+                	obj.mspCanvas = data.getUint8(212, 0);
+                	obj.brakingFactor = data.getUint8(213, 0);
+                	obj.gimbalPTMode = data.getUint8(214, 0);
+                	obj.throttleScaling = data.getUint8(215, 0);
+                }
      
                 
                  // ??? blen = 208;
@@ -1061,6 +1080,25 @@ kissProtocol.preparePacket = function (code, obj) {
                 data.setUint8(187,  obj.rthHomeAction);
                 data.setUint8(188,  obj.rthReturnSpeed);
                 blen = 197;
+            }
+            
+            if (obj.ver >= 129) { // Ultra
+            	data.setUint8(189,  obj.dshotMapping[0]);
+            	data.setUint8(190,  obj.dshotMapping[1]);
+            	data.setUint8(191,  obj.dshotMapping[2]);
+            	data.setUint8(192,  obj.dshotMapping[3]);
+            	data.setUint8(193,  obj.dshotMapping[4]);
+            	data.setUint8(194,  obj.dshotMapping[5]);
+            	data.setUint8(195,  obj.dshotMapping[6]);
+            	data.setUint8(196,  obj.dshotMapping[7]);
+             	data.setUint8(197,  obj.loggerSpeed);
+            	data.setUint8(198,  obj.ccPinMode);
+            	data.setUint16(199, obj.currentSensorDivider);
+                data.setUint8(201,  obj.mspCanvas);
+                data.setUint8(202,  obj.brakingFactor);
+                data.setUint8(203,  obj.gimbalPTMode);
+                data.setUint8(204,  obj.throttleScaling);
+                blen = 213;
             }
             console.log (data)
             break;

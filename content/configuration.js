@@ -156,7 +156,7 @@ CONTENT.configuration.initialize = function (callback) {
     						chosenFileEntry = fileEntryWritable;
     						var config = kissProtocol.data[kissProtocol.GET_SETTINGS];
     						var json = JSON.stringify(config, function (k, v) {
-    							if (k === 'buffer' || k === 'isActive' || k === 'actKey' || k === 'SN') {
+    							if (k === 'buffer' || k === 'isActive' || k === 'actKey' || k === 'SN' || k === 'lipoConnected') {
     								return undefined;
     							} else {
     								return v;
@@ -195,7 +195,7 @@ CONTENT.configuration.initialize = function (callback) {
     		// web
     		var config = kissProtocol.data[kissProtocol.GET_SETTINGS];
     		var json = JSON.stringify(config, function (k, v) {
-    			if (k === 'buffer' || k === 'isActive' || k === 'actKey' || k === 'SN') {
+    			if (k === 'buffer' || k === 'isActive' || k === 'actKey' || k === 'SN' || k === 'lipoConnected' ) {
     				return undefined;
     			} else {
     				return v;
@@ -216,7 +216,7 @@ CONTENT.configuration.initialize = function (callback) {
     			a.attr("href", link);
     			$("body").append(a);
     			a[0].click();
-    			$("body").remove(a);
+    			a.remove();	
     		}
     	}
     };
@@ -423,9 +423,19 @@ CONTENT.configuration.initialize = function (callback) {
         // apply configuration values to GUI elements
         // uav type and receiver
         mixer_list_e.val(data['CopterType']).change();
-        $('.rxType').val(data['RXType']);
+        $('#rxType').val(data['RXType']);
 
-        $('.rxType').on('change', function () {
+        $('#rxType').on('change', function () {
+        	
+        	 if (data['ver'] >= 129) {
+                          
+             	if ($('#rxType').val() == 17)  {
+             		$('#gimbalPTMode').show();
+             	} else {
+             		$('#gimbalPTMode').hide();
+             	}
+             }
+        	 
             contentChange();
         });
 
@@ -688,6 +698,28 @@ CONTENT.configuration.initialize = function (callback) {
                 contentChange();
                 UpdateMixerImage(data['CopterType'], parseInt($('select[name="ESCOutputLayout"]').val()), data['reverseMotors']);
             })
+            
+            
+            
+            if (data['ver'] >= 129) {
+            	$('#gimbalPTMode').val(data['gimbalPTMode']);
+            	
+            	$('#gimbalPTMode').on('change', function () {
+                    contentChange();
+                });
+            
+            	if ($('#rxType').val() == 17)  {
+            			$('#gimbalPTMode').show();
+            	}
+            	
+            	$('input[name="throttleScaling"]').prop('checked', data['throttleScaling']);
+            	$('.scaling').show();
+            	
+            } else {
+            	$('.scaling').hide();
+            }
+            
+            
        $(".unsafe_active").prop('disabled', true);
 
         // END Custom ESC Orientation
@@ -771,7 +803,7 @@ CONTENT.configuration.initialize = function (callback) {
         	
             // uav type and receiver
             data['CopterType'] = parseInt($('select.mixer').val());
-            data['RXType'] = parseInt($('.rxType').val());
+            data['RXType'] = parseInt($('#rxType').val());
 
             // general settings
             data['MinThrottle16'] = parseInt($('input[name="minThrottle"]').val());
@@ -869,6 +901,11 @@ CONTENT.configuration.initialize = function (callback) {
             }
             if (data['ver'] >= 121) {
                 data['AUX'][13] = $("#aux13").kissAux('value');
+            }
+            
+            if (data['ver'] >= 129) {
+                data['gimbalPTMode'] = +$("#gimbalPTMode").val();
+                data['throttleScaling'] = parseInt($('input[name="throttleScaling"]').prop('checked') ? 1 : 0);
             }
 
         }

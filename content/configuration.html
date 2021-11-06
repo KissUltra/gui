@@ -54,7 +54,7 @@
 					<dt>Type:</dt>
 					<dd>
 
-						<select class="rxType unsafe">
+						<select id="rxType" class="rxType unsafe">
 							<option value="6" style="display: none" data-i18n="rx-type.6"
 								id="rxdsm1">Spekt. Sat. DSM2</option>
 							<option value="7" style="display: none" data-i18n="rx-type.7"
@@ -83,6 +83,14 @@
 								id="rxsbusfast">Futaba FAST S-BUS / DJI</option>
 							<option value="21" style="display: none" data-i18n="rx-type.21"
 								id="rxghost">IRC GHOST</option>
+						</select>
+					
+						<select id="gimbalPTMode" class="rxType unsafe" style="display: none">
+							<option value="0" data-i18n="gimbal-pt-mode.0">OpenTX/FreedomTX</option>
+							<option value="1" data-i18n="gimbal-pt-mode.1">Mode 1</option>
+							<option value="2" data-i18n="gimbal-pt-mode.2">Mode 2</option>
+							<option value="3" data-i18n="gimbal-pt-mode.3">Mode 3</option>
+							<option value="4" data-i18n="gimbal-pt-mode.4">Mode 4</option>
 						</select>
 					</dd>
 				</dl>
@@ -308,6 +316,8 @@
 					<dd>
 						<input class="unsafe" type="number" lang="en-150" step="1"
 							name="minThrottle" data-step="1" min="0" max="2200" />
+							
+							&nbsp;<input class="unsafe scaling" type="checkbox" name="throttleScaling" /> <span class="scaling" data-i18n="column.throttle-scaling">Scaling</span>
 					</dd>
 				</dl>
 				<dl>
@@ -327,14 +337,15 @@
 							name="minCommand" data-step="1" min="0" max="2200" />
 					</dd>
 				</dl>
-				<dl>
+				<input type="hidden" name="midCommand" />
+				<!-- <dl >
 					<dt title="the ESC's middle command for 3D mode use"
 						data-i18n="column.mid-command">Mid. Command</dt>
 					<dd>
 						<input class="unsafe" type="number" lang="en-150" step="1"
 							name="midCommand" data-step="1" min="0" max="2200" />
 					</dd>
-				</dl>
+				</dl> -->
 				<dl>
 					<dt class="tricopter" data-i18n="column.tri-yaw-mid">Tri Yaw
 						Mid.</dt>
@@ -356,12 +367,13 @@
 					</dt>
 					<dd>
 						<select class="unsafe" name="outputMode" id="outputMode">
-							<option value="8" data-i18n="output.8">FETtec OneWire</option>
+						
 							<option value="7" data-i18n="output.7">Dshot 2400</option>
 							<option value="6" data-i18n="output.6">Dshot 1200</option>
 							<option value="5" data-i18n="output.5">Dshot 600</option>
 							<option value="4" data-i18n="output.4">Dshot 300</option>
 							<option value="3" data-i18n="output.3">Dshot 150</option>
+							<option value="8" data-i18n="output.8">FETtec OneWire</option>
 						<!-- 	<option value="2" data-i18n="output.2">OneShot 42</option>
 							<option value="1" data-i18n="output.1" selected>OneShot
 								125</option>
@@ -369,13 +381,13 @@
 						</select>
 					</dd>
 				</dl>
-				<dl>
+			<!-- 	<dl>
 					<dt data-i18n="column.3d-mode">3D Mode</dt>
 					<dd>
 						<input class="unsafe" type="checkbox" disabled="true"
 							name="3dMode" />
 					</dd>
-				</dl>
+				</dl> -->
 			</div>
 		</div>
 

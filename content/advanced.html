@@ -307,18 +307,28 @@
 	
 	<div class="column column-right">
 		
-		<div id="setpointintod" class="block">
-			<div class="title">Setpoint weight in Dterm</div>
+		<div  class="block">
+			<div class="title">Flight performance</div>
 			<div class="body">
 			<dl>
 				<dt>
-					<span data-i18n="column.setpoint-weight">Setpoint weight (%)</span>
+					<span data-i18n="column.setpoint-weight">Setpoint weight in Dterm(%)</span>
 				</dt>
 				<input disabled="true" type="number" lang="en-150" step="1" name="SID" data-step="1" min="0" max="100"
 				 data-precision="0" value="100" />
 			</dl>
+			
+			<dl id="brakingFactor">
+				<dt>
+					<span data-i18n="column.braking-factor">Braking Factor (%)</span>
+				</dt>
+				<input disabled="true" type="number" lang="en-150" step="1" name="brakingFactor" data-step="1" min="0" max="100"
+				 data-precision="0" value="100" />
+			</dl>
 			</div>
 		</div>
+		
+		
 
 		<div id="AdaptiveFilter" class="block">
 			<div class="title" data-i18n="title.adaptive-filter">Adaptive Filter</div>
@@ -542,13 +552,14 @@
 					<input type="number" lang="en-150" step="1" name="rthMinThrottle" data-step="1" min="0" max="2000" data-precision="0" value="0" />
 				</dd>
 			</dl>
+			<input type="hidden" name="rthReturnSpeed" />
 			
-			<dl>
+			<!-- <dl>
 				<dt title="Return speed" style="width:220px" data-i18n="column.rth.return.speed">Return speed</dt>
 				<dd>
 					<input type="number" lang="en-150" step="1" name="rthReturnSpeed" data-step="1" min="0" max="255" data-precision="0" value="0" />
 				</dd>
-			</dl>
+			</dl> -->
 			
 			<dl>
 				<dt title="Home action" style="width:220px" data-i18n="column.rth.home.action">Home action</dt>

@@ -318,6 +318,15 @@ CONTENT.advanced.initialize = function (callback) {
                 // remove Laptimer
                 $('#lapTimer').hide();
             }
+            
+            if (data['ver'] >= 129) {
+            	   $('input[name="brakingFactor"]').removeAttr("disabled");
+                   $('input[name="brakingFactor"]').val(data['brakingFactor']);
+            	$('#brakingFactor').show();
+            } else {
+            	$('#brakingFactor').hide();
+            }
+
 
             // Function for CSC changebox changes
             $('input[name="CSC"]').on('change', function () {
@@ -611,6 +620,8 @@ CONTENT.advanced.initialize = function (callback) {
             console.log("Set rthHomeAction: " + rthAction);
 
             data['rthHomeAction'] = rthAction;
+            
+            data['brakingFactor'] = parseInt($('input[name="brakingFactor"]').val());
         }
 
         function contentChange() {
