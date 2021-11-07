@@ -319,6 +319,8 @@ CONTENT.advanced.initialize = function (callback) {
                 }
             });
 
+            
+            var foundGPS = false;
             if (data['ver'] >= 121) {
                 // set osd data
                 var osdConfig = +data['osdConfig'];
@@ -329,6 +331,7 @@ CONTENT.advanced.initialize = function (callback) {
                 $("select[name='djiLayout']").val(osdConfig & 7);
                 // check do we have msp enabled or not
                 $("#serial").hide();
+                $("#rth").hide();
                 for (i = 0; i < serialsFunctions.length; i++) {
                     if (serialsFunctions[i] == 8) {
                         $("#djiosd").show();
@@ -336,11 +339,14 @@ CONTENT.advanced.initialize = function (callback) {
                     if (serialsFunctions[i] == 1) {
                         $("#serial,#loggerDebug").show();
                     }
+                    if (serialsFunctions[i] == 7) {
+                    	$("#rth").show()
+                    }
                 }
             }
 
             if (data['ver'] >= 122) {
-                $("#rth").show()
+//                $("#rth").show()
                 $('input[name="rthReturnAltitude"]').val(+data['rthReturnAltitude']);
                 $('input[name="rthHomeAltitude"]').val(+data['rthHomeAltitude']);
                 $('input[name="rthDescentRadius"]').val(+data['rthDescentRadius']);
@@ -422,6 +428,7 @@ CONTENT.advanced.initialize = function (callback) {
                 var bitShiftCounter = 28;
                 var foundDJI = false;
                 var foundLogger = false;
+                var foundGPS = false;
                 for (i = 0; i < 8; i++) {
                     // update serialFunctions
                     serialsFunctions[i] = $("#serial" + i).kissSerial('value');
@@ -437,9 +444,13 @@ CONTENT.advanced.initialize = function (callback) {
                     if (serialsFunctions[i] == 8) {
                         foundDJI = true;
                     }
+                    if (serialsFunctions[i] == 7) {
+                        foundGPS = true;
+                    }
                 }
                 if (foundDJI) $("#djiosd").show(); else $("#djiosd").hide();
                 if (foundLogger) $("#serial").show(); else $("#serial").hide();
+                if (foundGPS) $("#rth").show(); else $("#rth").hide();
                 contentChange();
             }
         }
