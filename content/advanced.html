@@ -150,11 +150,11 @@
 							<option value="1">250000 </option>
 							<option value="2">1500000 </option>
 							<option value="3">2000000 </option>
-							<option value="4">2470000 </option>
+							<option value="4">2470000</option>
 						</select>
 					</dd>
 				</dl>
-			
+
 				<dl class="general-settings" id="loggerDebug">
 					<dt class="logger-debug" data-i18n="column.debug-fields">Debug fields</dt>
 					<dd class="logger-debug-variables">
@@ -478,6 +478,38 @@
 			</dl>
 			</div>
 		</div>
+
+		<div id="analogCurrent" class="block">
+			<div class="title" data-i18n="title.analog-current">Analog current sensor</div>
+			<div class="body">
+			<dl>
+				<dt style="width:220px">
+					<span data-i18n="column.cc-mode">CC pad mode</span>
+				</dt>
+				<dd>
+					<select class="unsafe" name="ccPadMode" id="ccPadMode">
+						<option value="0" data-i18n="cc-mode.0">Camera control</option>
+						<option value="1" data-i18n="cc-mode.1">Current sensor</option>
+					</select>
+				</dd>
+			</dl>
+			
+			<dl id="currentSensorDivider">
+				<dt  style="width:220px" data-i18n="column.current-sensor-divider">Current sensor divider </dt>
+				<dd>
+					<input type="number" lang="en-150" step="1" name="currentSensorDivider" data-step="1" min="1" max="65535" data-precision="0"
+					 value="0" />
+				</dd>
+			</dl>
+			
+			</div>
+		</div>
+
+
+
+
+
+
 		
 		<div id="djiosd" style="display:none" class="block">
 			<div class="title" data-i18n="title.dji.osd">DJI OSD</div>

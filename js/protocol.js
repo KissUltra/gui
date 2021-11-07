@@ -606,7 +606,7 @@ kissProtocol.processPacket = function (code, obj) {
                 	obj.dshotMapping[6] = data.getUint8(206, 0);
                 	obj.dshotMapping[7] = data.getUint8(207, 0);
                 	obj.loggerSpeed = data.getUint8(208, 0);
-                	obj.ccPinMode = data.getUint8(209, 0);
+                	obj.ccPadMode = data.getUint8(209, 0);
                 	obj.currentSensorDivider = data.getUint16(210, 0);
                 	obj.mspCanvas = data.getUint8(212, 0);
                 	obj.brakingFactor = data.getUint8(213, 0);
@@ -1092,7 +1092,7 @@ kissProtocol.preparePacket = function (code, obj) {
             	data.setUint8(195,  obj.dshotMapping[6]);
             	data.setUint8(196,  obj.dshotMapping[7]);
              	data.setUint8(197,  obj.loggerSpeed);
-            	data.setUint8(198,  obj.ccPinMode);
+            	data.setUint8(198,  obj.ccPadMode);
             	data.setUint16(199, obj.currentSensorDivider);
                 data.setUint8(201,  obj.mspCanvas);
                 data.setUint8(202,  obj.brakingFactor);

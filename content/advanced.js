@@ -95,7 +95,14 @@ CONTENT.advanced.initialize = function (callback) {
             $("#launchMode").hide();
         }
         
-    	
+        if (data['ver'] >= 129) {
+        	if (data['ccPadMode'] == 0) {
+        	    $("#currentSensorDivider").hide();
+        	} else {
+        		$("#currentSensorDivider").show();
+        	}
+        }
+       
     	
         $('select[name="loggerConfig"]').on('change', function () {
             var tmp = +$(this).val();
@@ -263,6 +270,20 @@ CONTENT.advanced.initialize = function (callback) {
             else
                 $("select[name='lapTimerTransponderId']").show();
         });
+        
+
+        if (data['ver'] >= 129) {
+        	$('select[name="ccPadMode"]').val(data['ccPadMode']);
+
+        	$('select[name="ccPadMode"]').on("change", function () {
+        		if ($(this).val() == 0)
+        			$("#currentSensorDivider").hide();
+        		else
+        			$("#currentSensorDivider").show();
+        	});
+        }
+        
+        
 
         if (data.CopterType > 3) {
             if (data.lapTimerTypeAndInterface == 18 || data.lapTimerTypeAndInterface == 19) {
@@ -307,9 +328,13 @@ CONTENT.advanced.initialize = function (callback) {
                 if ((osdConfig & 1024) == 1024) $("select[name='djiUnits']").val(1); else $("select[name='djiUnits']").val(0);
                 $("select[name='djiLayout']").val(osdConfig & 7);
                 // check do we have msp enabled or not
+                $("#serial").hide();
                 for (i = 0; i < serialsFunctions.length; i++) {
                     if (serialsFunctions[i] == 8) {
                         $("#djiosd").show();
+                    }
+                    if (serialsFunctions[i] == 1) {
+                        $("#serial,#loggerDebug").show();
                     }
                 }
             }
@@ -345,9 +370,13 @@ CONTENT.advanced.initialize = function (callback) {
             	$('input[name="brakingFactor"]').removeAttr("disabled");
                 $('input[name="brakingFactor"]').val(data['brakingFactor']);
             	$('#brakingFactor').show();
+            	$("#analogCurrent").show();
+            	$('input[name="currentSensorDivider"]').val(data['currentSensorDivider']);
+            	  
             } else {
             	$('#brakingFactor').hide();
             	$("#loggerSpeed").hide();
+            	$("#analogCurrent").hide();
             }
 
 
@@ -392,6 +421,7 @@ CONTENT.advanced.initialize = function (callback) {
                 data['SerialSetup'] = 0; // reset serialsetup
                 var bitShiftCounter = 28;
                 var foundDJI = false;
+                var foundLogger = false;
                 for (i = 0; i < 8; i++) {
                     // update serialFunctions
                     serialsFunctions[i] = $("#serial" + i).kissSerial('value');
@@ -400,6 +430,7 @@ CONTENT.advanced.initialize = function (callback) {
                     bitShiftCounter -= 4;
                     // Set Logger to 100% if disabled but logger is set at least one serial
                     if (serialsFunctions[i] == 1) {
+                    	foundLogger = true;
                         if ($('select[name="loggerConfig"]').val() == 0)
                             $('select[name="loggerConfig"]').val(10);
                     }
@@ -408,6 +439,7 @@ CONTENT.advanced.initialize = function (callback) {
                     }
                 }
                 if (foundDJI) $("#djiosd").show(); else $("#djiosd").hide();
+                if (foundLogger) $("#serial").show(); else $("#serial").hide();
                 contentChange();
             }
         }
@@ -646,6 +678,9 @@ CONTENT.advanced.initialize = function (callback) {
             
             data['brakingFactor'] = parseInt($('input[name="brakingFactor"]').val());
             data['loggerSpeed'] = parseInt($('select[name="loggerSpeed"]').val());
+            
+            data['currentSensorDivider'] = $('input[name="currentSensorDivider"]').val();
+            data['ccPadMode'] = $('select[name="ccPadMode"]').val();
         }
 
         function contentChange() {
