@@ -67,11 +67,19 @@ CONTENT.advanced.initialize = function (callback) {
             $('input[name="SID"]').removeAttr("disabled");
             $('input[name="SID"]').val(data['setpointIntoD']);
         }
-
-        if (data['loggerConfig'] > 0 && data['loggerConfig'] < 11)
+ 
+        if (data['loggerConfig'] > 0 && data['loggerConfig'] < 11) {
             $("#loggerDebug").show();
-        else
+        	if (data['ver'] >= 129) {
+        		$("#loggerSpeed").show();
+        	}
+        } else {
             $("#loggerDebug").hide();
+        	if (data['ver'] >= 129) {
+        		$("#loggerSpeed").hide();
+        	}
+        }
+    		
 
         $('select[name="loggerConfig"]').val(data['loggerConfig']);
 
@@ -86,14 +94,22 @@ CONTENT.advanced.initialize = function (callback) {
         if (data['ver'] < 119) { // Hide Launchmode
             $("#launchMode").hide();
         }
-
+        
+    	
+    	
         $('select[name="loggerConfig"]').on('change', function () {
             var tmp = +$(this).val();
             if (tmp < 11) {
                 if (tmp > 0) {
                     $("#loggerDebug").show();
+                	if (data['ver']>=129) {
+                		$("#loggerSpeed").show();
+                	}
                 } else {
                     $("#loggerDebug").hide();
+                	if (data['ver']>=129) {
+                		$("#loggerSpeed").hide();
+                	}
                 }
                 if (data['ver'] == 108) {
                     if ($("select[name='vtxType']").val() == "2") {
@@ -102,6 +118,9 @@ CONTENT.advanced.initialize = function (callback) {
                 }
             } else {
                 $("#loggerDebug").hide();
+            	if (data['ver']>=129) {
+            		$("#loggerSpeed").hide();
+            	}
             }
         });
 
@@ -138,9 +157,9 @@ CONTENT.advanced.initialize = function (callback) {
             }
         });
 
-        for (var i = 0; i < 64; i++) {
-            $("select[name='lapTimerTransponderId']").append("<option value='" + i + "'>" + ((i == 0) ? '--' : i) + "</option>");
-        }
+//        for (var i = 0; i < 64; i++) {
+//            $("select[name='lapTimerTransponderId']").append("<option value='" + i + "'>" + ((i == 0) ? '--' : i) + "</option>");
+//        }
 
         $("select[name='vtxChannel']").val(data['vtxChannel']);
 
@@ -320,11 +339,15 @@ CONTENT.advanced.initialize = function (callback) {
             }
             
             if (data['ver'] >= 129) {
-            	   $('input[name="brakingFactor"]').removeAttr("disabled");
-                   $('input[name="brakingFactor"]').val(data['brakingFactor']);
+            	
+            	$('select[name="loggerSpeed"]').val(data['loggerSpeed']);
+            	 
+            	$('input[name="brakingFactor"]').removeAttr("disabled");
+                $('input[name="brakingFactor"]').val(data['brakingFactor']);
             	$('#brakingFactor').show();
             } else {
             	$('#brakingFactor').hide();
+            	$("#loggerSpeed").hide();
             }
 
 
@@ -622,6 +645,7 @@ CONTENT.advanced.initialize = function (callback) {
             data['rthHomeAction'] = rthAction;
             
             data['brakingFactor'] = parseInt($('input[name="brakingFactor"]').val());
+            data['loggerSpeed'] = parseInt($('select[name="loggerSpeed"]').val());
         }
 
         function contentChange() {

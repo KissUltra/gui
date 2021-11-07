@@ -896,9 +896,9 @@ CONTENT.configuration.initialize = function (callback) {
                 data['ESCOutputLayout'] = parseInt($('select[name="ESCOutputLayout"]').val());
                 console.log('Store ESCOutputLayout:' + data['ESCOutputLayout']);
             }
-            if (data['ver'] >= 117) {
-                data['AUX'][12] = $("#aux12").kissAux('value');
-            }
+//            if (data['ver'] >= 117) {
+//                data['AUX'][12] = $("#aux12").kissAux('value');
+//            }
             if (data['ver'] >= 121) {
                 data['AUX'][13] = $("#aux13").kissAux('value');
             }
@@ -906,7 +906,10 @@ CONTENT.configuration.initialize = function (callback) {
             if (data['ver'] >= 129) {
                 data['gimbalPTMode'] = +$("#gimbalPTMode").val();
                 data['throttleScaling'] = parseInt($('input[name="throttleScaling"]').prop('checked') ? 1 : 0);
+                data['AUX'][12] = 0; // not supported on ultras.
             }
+            
+        
 
         }
         settingsFilled = 1;
