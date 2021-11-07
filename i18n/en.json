@@ -424,10 +424,10 @@
     "serialtype.5": "Runcam",
     "serialtype.6": "VTX + ESC TLM",
     "serialtype.7": "GPS",
-    "serialtype.8": "DJI MSP",
+    "serialtype.8": "DJI/SharkByte OSD",
     "serialtype.9": "DISABLED",
     "column.rth": "RTH",
-    "title.dji.osd": "DJI OSD",
+    "title.dji.osd": "DJI/SharkByte OSD",
   	"column.dji.osd.layout": "Layout",
 	"column.dji.osd.units": "Units",
 	"column.dji.osd.crosshair": "Crosshair",
@@ -485,7 +485,8 @@
 	"column.cc-mode": "CC pad mode",
 	"cc-mode.0": "Camera control",
 	"cc-mode.1": "Current sensor",
-	"column.current-sensor-divider": "Current sensor divider"
+	"column.current-sensor-divider": "Current sensor divider",
+	"column.dji.osd.canvas": "Mode"
     
 			
 }

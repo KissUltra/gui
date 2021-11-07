@@ -508,7 +508,18 @@
 		<div id="djiosd" style="display:none" class="block">
 			<div class="title" data-i18n="title.dji.osd">DJI OSD</div>
 			<div class="body">
-			<dl>
+			
+			<dl id="mspCanvas">
+				<dt title="osd layout" style="width:220px" data-i18n="column.dji.osd.canvas">OSD Mode</dt>
+				<dd>
+					<select class="unsafe" style="width:95px" name="mspCanvas">
+						<option value="0">MSP</option>
+						<option value="1">Canvas</option>
+					</select>
+				</dd>
+			</dl>
+
+			<dl class="msposd">
 				<dt title="osd layout" style="width:220px" data-i18n="column.dji.osd.layout">Layout</dt>
 				<dd>
 					<select class="unsafe" style="width:95px" name="djiLayout">
@@ -523,7 +534,7 @@
 					</select>
 				</dd>
 			</dl>
-			<dl>
+			<dl class="msposd">
 				<dt title="osd units" style="width:220px" data-i18n="column.dji.osd.units">Units</dt>
 				<dd>
 					<select class="unsafe" style="width:95px" name="djiUnits">
@@ -532,13 +543,13 @@
 					</select>
 				</dd>
 			</dl>
-			<dl>
+			<dl class="msposd">
 				<dt title="crosshair" style="width:220px" data-i18n="column.dji.osd.crosshair">Show crosshair</dt>
 				<dd>
 					<input class="unsafe" type="checkbox" name="djiCrosshair" />
 				</dd>
 			</dl>
-			<dl>
+			<dl class="msposd">
 				<dt title="gps" style="width:220px" data-i18n="column.dji.osd.gps">GPS data</dt>
 				<dd>
 					<input class="unsafe" type="checkbox" name="djiGPS" />

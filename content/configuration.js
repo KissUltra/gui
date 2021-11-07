@@ -450,6 +450,11 @@ CONTENT.configuration.initialize = function (callback) {
         });
         $('input[name="minCommand"]').val(data['MinCommand16']);
         $('input[name="minCommand"]').on('input', function () {
+        	if ($(this).val() == 1000) {
+        		$("input[name='throttleScaling']").prop("disabled", false);
+        	} else {
+        		$("input[name='throttleScaling']").prop("disabled", true);
+        	}
             contentChange();
         });
         $('input[name="midCommand"]').val(data['MidCommand16']);
@@ -714,6 +719,15 @@ CONTENT.configuration.initialize = function (callback) {
             	
             	$('input[name="throttleScaling"]').prop('checked', data['throttleScaling']);
             	$('.scaling').show();
+            	
+            	
+            	console.log(data['minCommand']);
+            	
+            	if (data['MinCommand16'] == 1000) {
+            		$("input[name='throttleScaling']").prop("disabled", false);
+            	} else {
+            		$("input[name='throttleScaling']").prop("disabled", true);
+            	}
             	
             } else {
             	$('.scaling').hide();

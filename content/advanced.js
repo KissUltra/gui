@@ -95,14 +95,32 @@ CONTENT.advanced.initialize = function (callback) {
             $("#launchMode").hide();
         }
         
+        $("#mspCanvas").hide();
         if (data['ver'] >= 129) {
+        	
+        	
         	if (data['ccPadMode'] == 0) {
         	    $("#currentSensorDivider").hide();
         	} else {
         		$("#currentSensorDivider").show();
         	}
+        	$("#mspCanvas").show();
+        	
+        	$('select[name="mspCanvas"]').val(data['mspCanvas']);
+        	if (data['mspCanvas'] == 1) {
+        		$(".msposd").hide();
+        	} else {
+        		$(".msposd").show();
+        	}
         }
        
+        $('select[name="mspCanvas"]').on('change', function() {
+        	if ($(this).val() == 1) {
+        		$(".msposd").hide();
+        	} else {
+        		$(".msposd").show();
+        	}
+        });
     	
         $('select[name="loggerConfig"]').on('change', function () {
             var tmp = +$(this).val();
@@ -692,6 +710,7 @@ CONTENT.advanced.initialize = function (callback) {
             
             data['currentSensorDivider'] = $('input[name="currentSensorDivider"]').val();
             data['ccPadMode'] = $('select[name="ccPadMode"]').val();
+            data['mspCanvas'] = $('select[name="mspCanvas"]').val();
         }
 
         function contentChange() {
