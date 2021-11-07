@@ -136,6 +136,8 @@ CONTENT.esc_flasher.initialize = function (callback) {
 
     function htmlLoaded() {
     	
+        $("#dont-tab").hide();
+        
         var data = kissProtocol.data[kissProtocol.GET_SETTINGS];
         if (data.lipoConnected == 1) {
             $("#escSettingsDiv").show();
@@ -336,6 +338,11 @@ CONTENT.esc_flasher.initialize = function (callback) {
                 $("#select_file").addClass('disabled');
                 $("#download_file").addClass('disabled');
                 $("#download_url").addClass('disabled');
+                
+                if (!isNative()) {
+                    $("#dont-tab").show();
+                }
+                
                 self.flasherAvailable = false;
                 console.log('Setting KISS FC to ESC write mode');
                 var flasherAvailable = false;

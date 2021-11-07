@@ -388,7 +388,7 @@ CONTENT.advanced.initialize = function (callback) {
             }
             
             if (data['ver'] >= 129) {
-            	
+            	$('input[name="CDR"]').removeAttr("disabled"); //make checkbox changeable
             	$('select[name="loggerSpeed"]').val(data['loggerSpeed']);
             	 
             	$('input[name="brakingFactor"]').removeAttr("disabled");
@@ -403,13 +403,13 @@ CONTENT.advanced.initialize = function (callback) {
             	$("#analogCurrent").hide();
             }
 
-
+          
             // Function for CSC changebox changes
             $('input[name="CSC"]').on('change', function () {
                 if ($('input[name="CSC"]').prop('checked') ? 1 : 0 == 1) {
                     populateSerialFields();
                     $("#newserial").show();
-                    $(".warning-disclaimer").show();
+                    $("#serialDisclaimer").show();
                 } else {
                     data['SerialSetup'] = defaultSerialConfig; // reset to default
                     $("#newserial").hide();
@@ -417,7 +417,50 @@ CONTENT.advanced.initialize = function (callback) {
                 }
 
             });
+            
+            if (data['ver'] >= 129) {
+            	
+            	var changed = false;
+            	for (var i=0; i<8; i++) {
+            		if (i != data['dshotMapping'][i]) {
+            			changed = true;
+            		}
+            		$("select[name='ds"+(i+1)+"']").val(data['dshotMapping'][i]);
+            	}
+            	
+            	
+            	
+            	if (changed) {
+            		$('input[name="CDR"]').prop('checked', 1);
+            		$("#drouter").show();
+            	} else {
+            		$('input[name="CDR"]').prop('checked', 0);
+            		$("#drouter").hide();
+            	}
+            } else {
+            	$("#dshotRouter").hide();
+            }
 
+
+            
+            // Function for CDR changebox changes
+            $('input[name="CDR"]').on('change', function () {
+                if ($('input[name="CDR"]').prop('checked') ? 1 : 0 == 1) {
+                    //populateSerialFields();
+                    $("#drouter").show();
+                    $("#dshotDisclaimer").show();
+                } else {
+                	for (var i=0; i<8; i++) {
+                		$("select[name='ds"+(i+1)+"']").val(i);
+                	}
+                    $("#drouter").hide();
+                    contentChange();
+                }
+
+            });
+            
+            
+            
             function populateSerialFields() {
                 for (i = 0; i < serialsFunctions.length; i++) {
                     $("#serial" + i).kissSerial({
@@ -711,6 +754,11 @@ CONTENT.advanced.initialize = function (callback) {
             data['currentSensorDivider'] = $('input[name="currentSensorDivider"]').val();
             data['ccPadMode'] = $('select[name="ccPadMode"]').val();
             data['mspCanvas'] = $('select[name="mspCanvas"]').val();
+            
+            for (var i=0; i<8; i++) {
+            	data['dshotMapping'][i] = $("select[name='ds"+(i+1)+"']").val();
+        	}
+        	
         }
 
         function contentChange() {

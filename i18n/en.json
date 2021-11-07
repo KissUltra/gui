@@ -298,7 +298,7 @@
     "text.release-notes": "Release notes",
     "text.serial-clipboard": "Serial number has been copied to clipboard",
     "text.serial-number": "Serial number",
-    "text.serial-warning": "Please note that this are advanced features. If you adjust serials you might have to wire diffently acording to the manual.<br/><br/>If you want to revert back to default please uncheck and save configuration.<br/><br/>",
+    "text.serial-warning": "Please note that this are advanced features. If you adjust serials you might have to wire differently acording to the manual.<br/><br/>If you want to revert back to default please uncheck and save configuration.<br/><br/>",
     "text.sn": "S/N:",
     "text.voltage-prefix": "With battery voltage",
     "text.voltage-suffix": "its influence on PIDS will be",
@@ -486,7 +486,11 @@
 	"cc-mode.0": "Camera control",
 	"cc-mode.1": "Current sensor",
 	"column.current-sensor-divider": "Current sensor divider",
-	"column.dji.osd.canvas": "Mode"
+	"column.dji.osd.canvas": "Mode",
+	"title.dshot.router": "DShot router",
+	"column.dshot.router": "Route outputs",
+	"column.use-custom-dshot-router": "Use custom DShot routing",
+	"text.dshot-warning": "Please note that this are advanced features. If you change DShot routing you might have to wire motors differently.<br/><br/>If you want to revert back to default please uncheck and save configuration.<br/><br/>"
     
 			
 }

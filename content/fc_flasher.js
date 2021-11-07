@@ -254,6 +254,8 @@ CONTENT.fc_flasher.initialize = function (callback) {
         serialDevice.onReceiveError.removeListener(fcFlasherReadErrorHandler);
         serialDevice.onReceiveError.addListener(fcFlasherReadErrorHandler);
         
+        $("#dont-tab").hide();
+        
         if (!isNative()) {
             document.getElementById('fcfiles').addEventListener('change', handleFileSelect, false);
         }
@@ -433,6 +435,10 @@ CONTENT.fc_flasher.initialize = function (callback) {
                 $("#select_file").addClass('disabled');
                 $("#download_file").addClass('disabled');
                 $("#download_url").addClass('disabled');
+                
+                if (!isNative()) {
+                    $("#dont-tab").show();
+                }
 
                 self.flasherAvailable = false;
             	self.reconnected = false;

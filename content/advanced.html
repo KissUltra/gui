@@ -631,6 +631,157 @@
 			</div>
 		</div>
 		
+		
+		<div id="dshotRouter"  class="block">
+			<div class="title" data-i18n="title.dshot.router">DShot router</div>
+			<div class="body">
+			
+			<table>
+				<tbody><tr>
+					<td width="100%" colspan="4">
+						<input class="unsafe" type="checkbox" disabled="disabled" name="CDR">&nbsp;
+						<span data-i18n="column.use-custom-dshot-router" class="display:inline-block">Use custom DShot router</span>
+					</td>
+				</tr>
+			</tbody></table>
+			
+			<dl id="drouter">
+				<dt style="width:220px" data-i18n="column.dshot.router">Route channels</dt>
+				<dd style="height: unset;  vertical-align: top;">
+					<table>
+						<tr>
+							<th>1</th>
+							<th>2</th>
+							<th>3</th>
+							<th>4</th>
+						
+						</tr>
+						<tr>
+							<td>
+								<select class="unsafe" style="width:60px" name="ds1">
+									<option value="0">Pin 1</option>
+									<option value="1">Pin 2</option>
+									<option value="2">Pin 3</option>
+									<option value="3">Pin 4</option>
+									<option value="4">Pad 5</option>
+									<option value="5">Pad 6</option>
+									<option value="6">Pad 7</option>
+									<option value="7">Pad 8</option>
+								</select>
+							</td>
+							
+							<td>
+								<select class="unsafe" style="width:60px" name="ds2">
+									<option value="0">Pin 1</option>
+									<option value="1">Pin 2</option>
+									<option value="2">Pin 3</option>
+									<option value="3">Pin 4</option>
+									<option value="4">Pad 5</option>
+									<option value="5">Pad 6</option>
+									<option value="6">Pad 7</option>
+									<option value="7">Pad 8</option>
+								</select>
+							</td>
+							
+							<td>
+								<select class="unsafe" style="width:60px" name="ds3">
+									<option value="0">Pin 1</option>
+									<option value="1">Pin 2</option>
+									<option value="2">Pin 3</option>
+									<option value="3">Pin 4</option>
+									<option value="4">Pad 5</option>
+									<option value="5">Pad 6</option>
+									<option value="6">Pad 7</option>
+									<option value="7">Pad 8</option>
+								</select>
+							</td>
+							
+							<td>
+								<select class="unsafe" style="width:60px" name="ds4">
+									<option value="0">Pin 1</option>
+									<option value="1">Pin 2</option>
+									<option value="2">Pin 3</option>
+									<option value="3">Pin 4</option>
+									<option value="4">Pad 5</option>
+									<option value="5">Pad 6</option>
+									<option value="6">Pad 7</option>
+									<option value="7">Pad 8</option>
+								</select>
+							</td>
+						</tr>
+						
+							<tr>
+							<th>5</th>
+							<th>6</th>
+							<th>7</th>
+							<th>8</th>
+						
+						</tr>
+						<tr>
+							<td>
+								<select class="unsafe" style="width:60px" name="ds5">
+									<option value="0">Pin 1</option>
+									<option value="1">Pin 2</option>
+									<option value="2">Pin 3</option>
+									<option value="3">Pin 4</option>
+									<option value="4">Pad 5</option>
+									<option value="5">Pad 6</option>
+									<option value="6">Pad 7</option>
+									<option value="7">Pad 8</option>
+								</select>
+							</td>
+							
+							<td>
+								<select class="unsafe" style="width:60px" name="ds6">
+									<option value="0">Pin 1</option>
+									<option value="1">Pin 2</option>
+									<option value="2">Pin 3</option>
+									<option value="3">Pin 4</option>
+									<option value="4">Pad 5</option>
+									<option value="5">Pad 6</option>
+									<option value="6">Pad 7</option>
+									<option value="7">Pad 8</option>
+								</select>
+							</td>
+							
+							<td>
+								<select class="unsafe" style="width:60px" name="ds7">
+									<option value="0">Pin 1</option>
+									<option value="1">Pin 2</option>
+									<option value="2">Pin 3</option>
+									<option value="3">Pin 4</option>
+									<option value="4">Pad 5</option>
+									<option value="5">Pad 6</option>
+									<option value="6">Pad 7</option>
+									<option value="7">Pad 8</option>
+								</select>
+							</td>
+							
+							<td>
+								<select class="unsafe" style="width:60px" name="ds8">
+									<option value="0">Pin 1</option>
+									<option value="1">Pin 2</option>
+									<option value="2">Pin 3</option>
+									<option value="3">Pin 4</option>
+									<option value="4">Pad 5</option>
+									<option value="5">Pad 6</option>
+									<option value="6">Pad 7</option>
+									<option value="7">Pad 8</option>
+								</select>
+							</td>
+						</tr>
+					</table>
+					
+					
+				
+				</dd>
+			</dl>
+			</div>
+		</div>
+		
+		
+		
+		
 	</div>
 </div>
 
@@ -640,10 +791,22 @@
 	</div>
 		
 
-<div class="warning-disclaimer">
+<div id="serialDisclaimer" class="warning-disclaimer">
 	<div class="warning-disclaimer-inner">
 		<div class="warning1" data-i18n="title.warning"></div>
 		<div class="warning2" data-i18n="[html]text.serial-warning">
+
+		</div>
+		<br />
+		<br />
+		<a class="warning-button" href="#" data-i18n="text.motor-test-button"></a>
+	</div>
+</div> 
+
+<div id="dshotDisclaimer" class="warning-disclaimer">
+	<div class="warning-disclaimer-inner">
+		<div class="warning1" data-i18n="title.warning"></div>
+		<div class="warning2" data-i18n="[html]text.dshot-warning">
 
 		</div>
 		<br />
