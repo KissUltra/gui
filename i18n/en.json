@@ -443,7 +443,7 @@
     "column.distance": "Distance:",
     "column.direction": "Direction:",
     "column.relativeAlt": "Altitude:",	
-	"title.rth": "Kiss RTH",
+	"title.rth": "RTH",
 	"column.rth.return.altitude": "Return altitude (m) (0 - auto)",
 	"column.rth.home.altitude": "Home altitude (m)",
 	"column.rth.descent.radius": "Descent radius (m)",
@@ -490,7 +490,11 @@
 	"title.dshot.router": "DShot router",
 	"column.dshot.router": "Route outputs",
 	"column.use-custom-dshot-router": "Use custom DShot routing",
-	"text.dshot-warning": "Please note that this are advanced features. If you change DShot routing you might have to wire motors differently.<br/><br/>If you want to revert back to default please uncheck and save configuration.<br/><br/>"
-    
+	"text.dshot-warning": "Please note that this are advanced features. If you change DShot routing you might have to wire motors differently.<br/><br/>If you want to revert back to default please uncheck and save configuration.<br/><br/>",
+
+	"column.rth.altitude.source": "Altitude source",
+	"title.gps": "GPS",
+	"column.gps.protocol": "Protocol",
+	"column.gps.timezonel": "Timezone"
 			
 }

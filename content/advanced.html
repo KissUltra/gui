@@ -558,6 +558,79 @@
 			</div>
 		</div>
 		
+		<div id="gps" class="block"">
+			<div class="title" data-i18n="title.gps">GPS</div>
+			<div class="body">
+
+			<dl class="general-settings" id="gpsprotocol">
+				<dt title="GPS protocol" style="width:220px" data-i18n="column.gps.protocol">GPS protocol</dt>
+				<dd>
+					<select class="unsafe" style="width:80px" name="gpsprotocol">
+						<option value="0">NMEA</option>
+						<option value="1">UBX</option>
+					</select>
+				</dd>
+			</dl>
+			
+			<dl class="general-settings" id="gpstimezone">
+				<dt title="GPS timezone" style="width:220px" data-i18n="column.gps.timezonel">GPS timezone</dt>
+				<dd>
+					<select class="unsafe" style="width:80px" name="tzIndex">
+							<option value="0">-12:00</option>
+							<option value="1">-11:30</option>
+							<option value="2">-11:00</option>
+							<option value="3">-10:30</option>
+							<option value="4">-10:00</option>
+							<option value="5">-09:30</option>
+							<option value="6">-09:00</option>
+							<option value="7">-08:30</option>
+							<option value="8">-08:00</option>
+							<option value="9">-07:30</option>
+							<option value="10">-07:00</option>
+							<option value="11">-06:30</option>
+							<option value="12">-06:00</option>
+							<option value="13">-05:30</option>
+							<option value="14">-05:00</option>
+							<option value="15">-04:30</option>
+							<option value="16">-04:00</option>
+							<option value="17">-03:30</option>
+							<option value="18">-03:00</option>
+							<option value="19">-02:30</option>
+							<option value="20">-02:00</option>
+							<option value="21">-01:30</option>
+							<option value="22">-01:00</option>
+							<option value="23">-00:30</option>
+							<option value="24">GMT</option>
+							<option value="25">+00:30</option>
+							<option value="26">+01:00</option>
+							<option value="27">+01:30</option>
+							<option value="28">+02:00</option>
+							<option value="29">+02:30</option>
+							<option value="30">+03:00</option>
+							<option value="31">+03:30</option>
+							<option value="32">+04:00</option>
+							<option value="33">+04:30</option>
+							<option value="34">+05:00</option>
+							<option value="35">+05:30</option>
+							<option value="36">+06:00</option>
+							<option value="37">+06:30</option>
+							<option value="38">+07:00</option>
+							<option value="39">+07:30</option>
+							<option value="40">+08:00</option>
+							<option value="41">+08:30</option>
+							<option value="42">+09:00</option>
+							<option value="43">+09:30</option>
+							<option value="44">+10:00</option>
+							<option value="45">+10:30</option>
+							<option value="46">+11:00</option>
+							<option value="47">+11:30</option>
+							<option value="48">+12:00</option>
+						</select>
+				</dd>
+			</dl>
+			</div>
+		</div>
+		
 		<div id="rth" class="block" style="display:none">
 			<div class="title" data-i18n="title.rth">RTH</div>
 			<div class="body">
@@ -626,6 +699,16 @@
 				<dt title="Failsafe Action" style="width:220px" data-i18n="column.rth.failsafe.action">RTH on Failsafe</dt>
 				<dd>
 					<input class="unsafe" type="checkbox" name="rtfFailsafeAction" />
+				</dd>
+			</dl>
+			
+			<dl class="general-settings" id="rthaltsource">
+				<dt title="RTH Altitude source" style="width:220px" data-i18n="column.rth.altitude.source">RTH altitude source</dt>
+				<dd>
+					<select class="unsafe" style="width:60px" name="rthaltsource">
+						<option value="0">GPS</option>
+						<option value="1">BARO</option>
+					</select>
 				</dd>
 			</dl>
 			</div>

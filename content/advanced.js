@@ -338,7 +338,6 @@ CONTENT.advanced.initialize = function (callback) {
             });
 
             
-            var foundGPS = false;
             if (data['ver'] >= 121) {
                 // set osd data
                 var osdConfig = +data['osdConfig'];
@@ -348,8 +347,7 @@ CONTENT.advanced.initialize = function (callback) {
                 if ((osdConfig & 1024) == 1024) $("select[name='djiUnits']").val(1); else $("select[name='djiUnits']").val(0);
                 $("select[name='djiLayout']").val(osdConfig & 7);
                 // check do we have msp enabled or not
-                $("#serial").hide();
-                $("#rth").hide();
+                $("#serial,#rth,#gps,#rthaltsource").hide();
                 for (i = 0; i < serialsFunctions.length; i++) {
                     if (serialsFunctions[i] == 8) {
                         $("#djiosd").show();
@@ -358,7 +356,10 @@ CONTENT.advanced.initialize = function (callback) {
                         $("#serial,#loggerDebug").show();
                     }
                     if (serialsFunctions[i] == 7) {
-                    	$("#rth").show()
+                    	$("#rth").show();
+                    	if (data['ver']>=129) {
+                    		$("#gps,#rthaltsource").show()
+                    	}
                     }
                 }
             }
@@ -395,8 +396,10 @@ CONTENT.advanced.initialize = function (callback) {
                 $('input[name="brakingFactor"]').val(data['brakingFactor']);
             	$('#brakingFactor').show();
             	$("#analogCurrent").show();
-            	$('input[name="currentSensorDivider"]').val(data['currentSensorDivider']);
-            	  
+            	$('select[name="tzIndex"]').val(data['tzIndex']);
+            	$('select[name="gpsprotocol"]').val((+data['gpsOptions'] >> 0) & 1);
+            	$('select[name="rthaltsource"]').val((+data['gpsOptions'] >> 1) & 1);
+            	$('select[name="loggerSpeed"]').val(data['loggerSpeed']);
             } else {
             	$('#brakingFactor').hide();
             	$("#loggerSpeed").hide();
@@ -427,9 +430,7 @@ CONTENT.advanced.initialize = function (callback) {
             		}
             		$("select[name='ds"+(i+1)+"']").val(data['dshotMapping'][i]);
             	}
-            	
-            	
-            	
+
             	if (changed) {
             		$('input[name="CDR"]').prop('checked', 1);
             		$("#drouter").show();
@@ -511,7 +512,14 @@ CONTENT.advanced.initialize = function (callback) {
                 }
                 if (foundDJI) $("#djiosd").show(); else $("#djiosd").hide();
                 if (foundLogger) $("#serial").show(); else $("#serial").hide();
-                if (foundGPS) $("#rth").show(); else $("#rth").hide();
+                if (foundGPS) {
+                	$("#rth").show();
+                	if (data['ver']>=129) {
+                		$("#gps,#rthaltsource").show();
+                	}
+                } else {
+                	$("#rth,#gps,#rthaltsource").hide();
+                }
                 contentChange();
             }
         }
@@ -747,18 +755,26 @@ CONTENT.advanced.initialize = function (callback) {
             console.log("Set rthHomeAction: " + rthAction);
 
             data['rthHomeAction'] = rthAction;
+
             
-            data['brakingFactor'] = parseInt($('input[name="brakingFactor"]').val());
-            data['loggerSpeed'] = parseInt($('select[name="loggerSpeed"]').val());
-            
-            data['currentSensorDivider'] = $('input[name="currentSensorDivider"]').val();
-            data['ccPadMode'] = $('select[name="ccPadMode"]').val();
-            data['mspCanvas'] = $('select[name="mspCanvas"]').val();
-            
-            for (var i=0; i<8; i++) {
-            	data['dshotMapping'][i] = $("select[name='ds"+(i+1)+"']").val();
-        	}
-        	
+            if (data['ver'] >= 129) {
+            	data['tzIndex'] = $('select[name="tzIndex"]').val();
+            	data['gpsOptions'] = 0;
+            	data['gpsOptions']  |= (+$('select[name="gpsprotocol"]').val() << 0);
+            	data['gpsOptions']  |= (+$('select[name="rthaltsource"]').val() << 1);
+
+            	data['brakingFactor'] = parseInt($('input[name="brakingFactor"]').val());
+            	data['loggerSpeed'] = parseInt($('select[name="loggerSpeed"]').val());
+
+            	data['currentSensorDivider'] = $('input[name="currentSensorDivider"]').val();
+            	data['ccPadMode'] = $('select[name="ccPadMode"]').val();
+            	data['mspCanvas'] = $('select[name="mspCanvas"]').val();
+
+            	for (var i=0; i<8; i++) {
+            		data['dshotMapping'][i] = $("select[name='ds"+(i+1)+"']").val();
+            	}
+            }
+
         }
 
         function contentChange() {

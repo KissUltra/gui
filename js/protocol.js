@@ -612,6 +612,8 @@ kissProtocol.processPacket = function (code, obj) {
                 	obj.brakingFactor = data.getUint8(213, 0);
                 	obj.gimbalPTMode = data.getUint8(214, 0);
                 	obj.throttleScaling = data.getUint8(215, 0);
+                	obj.tzIndex = data.getUint8(216, 0);
+                	obj.gpsOptions = data.getUint8(217, 0);
                 }
      
                 
@@ -811,8 +813,10 @@ kissProtocol.processPacket = function (code, obj) {
             			obj.lipoSize = chunkData.getUint16(p, 0); p+=2;
             			obj.lipoWarning = chunkData.getUint8(p, 0);  p+=1;
             			obj.cellWarning = chunkData.getUint16(p, 0) / 100; p+=2;
-            			obj.tzIndex = chunkData.getUint16(p, 0); p+=2;
-            			obj.gpsOptions = chunkData.getUint8(p, 0);  p+=1;
+            			var tmp = 0;
+            			tmp = chunkData.getUint16(p, 0); p+=2;
+            			tmp = chunkData.getUint8(p, 0);  p+=1;
+            			
             			obj.customLayout = [];
 
             			for (var i=0; i<26; i++) {
@@ -874,6 +878,9 @@ kissProtocol.preparePacket = function (code, obj) {
 
     var crc = 0;
     var crcCounter = 0;
+    
+//    console.log("Saving...");
+//    console.log(obj);
 
     switch (code) {
     
@@ -1098,7 +1105,9 @@ kissProtocol.preparePacket = function (code, obj) {
                 data.setUint8(202,  obj.brakingFactor);
                 data.setUint8(203,  obj.gimbalPTMode);
                 data.setUint8(204,  obj.throttleScaling);
-                blen = 213;
+                data.setUint8(205,  obj.tzIndex);
+                data.setUint8(206,  obj.gpsOptions);
+                blen = 215;
             }
             console.log (data)
             break;
