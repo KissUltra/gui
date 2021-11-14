@@ -105,8 +105,8 @@ $(document).ready(function () {
     	if ((navigator.serial === undefined) || ((navigator.userAgent.match(/Opera|OPR\//) ? true : false))) {
     		$(".modal-body").html("<p class='header'>WRONG BROWSER!</p>Kiss Ultra Web GUI works only in the browsers with Web Serial support.<br><br>" +
     				"Please install latest version of Google Chrome or Microsoft Edge.<br><br>" +
-    				"If you are unable to use one of those browsers, feel free to install standalone GUI from github.");
-        	$(".modal-footer").html("<a class='u-button' href='https://github.com/KissUltra/gui/releases/latest'>Download Standalone GUI</a>");
+    				"If you are unable to use one of those browsers, feel free to install native GUI from github.");
+        	$(".modal-footer").html("<a class='u-button' href='https://github.com/KissUltra/gui/releases/latest'>Download Native GUI</a>");
         	$(".modal-overlay").show();
         	$(".modal").css({'top':'100px'}).show();
         	$(".modal-overlay").off('click'); 

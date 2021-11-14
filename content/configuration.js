@@ -72,6 +72,7 @@ CONTENT.configuration.initialize = function (callback) {
     } 
 
     GUI.switchContent('configuration', function () {
+    	$("#footer").hide();
         kissProtocol.send(kissProtocol.GET_SETTINGS, [kissProtocol.GET_SETTINGS], function () {
             GUI.load("./content/configuration.html", function () {
                 htmlLoaded(kissProtocol.data[kissProtocol.GET_SETTINGS])

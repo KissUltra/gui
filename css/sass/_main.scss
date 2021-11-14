@@ -320,8 +320,18 @@ select, button, input, textarea {
 	position: fixed;
 	right: 10px;
 	height: 20px;
-	bottom: 25px;
+	bottom: 20px;
 	padding: 0px;
-	width: 250px;
+	//width: 250px;
 	text-align: right;
+}
+
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  text-align: right;
+  height: 40px;
+  border-top: 1px solid $kiss_accent;
 }
