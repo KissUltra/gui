@@ -115,6 +115,8 @@ $(document).ready(function () {
 
     PortHandler.initialize();
     CONTENT.welcome.initialize();
+    
+    $(".navigation-menu-button").removeClass('unlocked');
 
 
     $(".navigation-menu-button").on("click", function () {
