@@ -161,10 +161,12 @@ CONTENT.advanced.initialize = function (callback) {
 
         $('input[name="CBO"]').prop('checked', cbo);
         if (cbo) {
+        	$("#CBODATA").show();
             $('input[name="CBO0"]').removeAttr("disabled");
             $('input[name="CBO1"]').removeAttr("disabled");
             $('input[name="CBO2"]').removeAttr("disabled");
         } else {
+         	$("#CBODATA").hide();
             $('input[name="CBO0"]').prop('disabled', 'true');
             $('input[name="CBO1"]').prop('disabled', 'true');
             $('input[name="CBO2"]').prop('disabled', 'true');
@@ -175,10 +177,12 @@ CONTENT.advanced.initialize = function (callback) {
                 $('input[name="CBO0"]').removeAttr("disabled");
                 $('input[name="CBO1"]').removeAttr("disabled");
                 $('input[name="CBO2"]').removeAttr("disabled");
+             	$("#CBODATA").show();
             } else {
                 $('input[name="CBO0"]').prop('disabled', 'true');
                 $('input[name="CBO1"]').prop('disabled', 'true');
                 $('input[name="CBO2"]').prop('disabled', 'true');
+             	$("#CBODATA").hide();
             }
         });
 
