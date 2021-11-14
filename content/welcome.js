@@ -11,6 +11,13 @@ CONTENT.welcome.initialize = function (callback) {
 
    
     function htmlLoaded() {
+    	if (isNative()) {
+    		$("#web_gui").show();
+    		$("#native_gui").hide();
+    	} else {
+    		$("#web_gui").hide();
+    		$("#native_gui").show();
+    	}
         $("#language").val($.i18n.locale);
         $("#portArea").show();
         $('#menu').show();
