@@ -98,6 +98,7 @@ CONTENT.advanced.initialize = function (callback) {
         $("#mspCanvas").hide();
         if (data['ver'] >= 129) {
         	
+        	$('input[name="currentSensorDivider"]').val(+data['currentSensorDivider']);
         	
         	if (data['ccPadMode'] == 0) {
         	    $("#currentSensorDivider").hide();
