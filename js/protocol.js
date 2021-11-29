@@ -419,7 +419,7 @@ kissProtocol.processPacket = function (code, obj) {
                 obj.ver = 0;
                 obj.reverseMotors = 0;
                 obj.launchMode = 0;
-                obj.dshotMapping = [];
+                obj.dshotMapping = [0, 1, 2, 3, 4, 5, 6, 7];
             }
 
             obj.G_P[0] = data.getUint16(0, 0) / 1000;
