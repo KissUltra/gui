@@ -283,6 +283,7 @@ function dist_src() {
     './eventPage.js',
     './cordova.js', // For cordova
     './*.html',
+    './presets.json',
     './content/*.html',
     './images/*',
     './images/**/*',
