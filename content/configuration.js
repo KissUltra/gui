@@ -1078,14 +1078,29 @@ CONTENT.configuration.initialize = function (callback) {
             url: './presets.json',
             cache: true,
             dataType: 'json',
-            success: function (data) {
+            success: function (pdata) {
                 console.log('presetPIDs request success');
-                console.log(data);
-                self.PRESETS = data;
+                console.log(pdata);
+                self.PRESETS = pdata;
            	 	var presets = $('#presets');
-           	 	presets.append('<option value=""></option>');
-                $.each(data, function(key, value) {
-                	 presets.append('<option value="' + key + '">' + value.name + '</option>');
+           	 	presets.append('<option value="">User settings</option>');
+                $.each(pdata, function(key, value) {
+                	
+                	var selected = '';
+                	
+                	if ((+data['G_P'][0] == value.roll.p) &&
+                    		(+data['G_P'][1] == value.pitch.p) &&
+                    		(+data['G_P'][2] == value.yaw.p) &&
+                    		(+data['G_I'][0] == value.roll.i) &&
+                    		(+data['G_I'][1] == value.pitch.i) &&
+                    		(+data['G_I'][2] == value.yaw.i) &&
+                    		(+data['G_D'][0] == value.roll.d) &&
+                    		(+data['G_D'][1] == value.pitch.d) &&
+                    		(+data['G_D'][2] == value.yaw.d) ) {
+                		selected = 'selected';
+                	}
+                	
+                	 presets.append('<option value="' + key + '" ' + selected + '>' + value.name + '</option>');
                 });
                 $('.presets').show();
             },
