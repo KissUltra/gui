@@ -1113,6 +1113,8 @@ kissProtocol.preparePacket = function (code, obj) {
             break;
 
         case this.MOTOR_TEST:
+            var ver = +kissProtocol.data[kissProtocol.GET_SETTINGS].ver;
+
             data.setUint8(0, obj.motorTestEnabled, 0);
             data.setUint8(1, obj.motorTest[0], 0);
             data.setUint8(2, obj.motorTest[1], 0);
@@ -1121,9 +1123,15 @@ kissProtocol.preparePacket = function (code, obj) {
             data.setUint8(5, obj.motorTest[4], 0);
             data.setUint8(6, obj.motorTest[5], 0);
             blen = 7;
+            if (ver >= 130) {
+                data.setUint8(7, obj.motorTest[6], 0);
+                data.setUint8(8, obj.motorTest[7], 0);
+                blen += 2;
+            } 
             break;
 
         case this.SET_ESC_SETTINGS:
+        	var ver = +kissProtocol.data[kissProtocol.GET_SETTINGS].ver;
             data.setUint8(0, obj.escSettings[0], 0);
             data.setUint8(1, obj.escSettings[1], 0);
             data.setUint8(2, obj.escSettings[2], 0);
@@ -1131,6 +1139,11 @@ kissProtocol.preparePacket = function (code, obj) {
             data.setUint8(4, obj.escSettings[4], 0);
             data.setUint8(5, obj.escSettings[5], 0);
             blen = 6;
+            if (ver >= 130) {
+                data.setUint8(6, obj.escSettings[6], 0);
+                data.setUint8(7, obj.escSettings[7], 0);
+                blen += 2;
+            }
             break;
 
         case this.ESC_INFO:

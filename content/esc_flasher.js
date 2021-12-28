@@ -376,7 +376,7 @@ CONTENT.esc_flasher.initialize = function (callback) {
         }
 
         $("#save").on("click", function () {
-            var escSettings = [0x10, 0x20, 0x30, 0x40, 0x50, 0x60]; // Make CS complex
+            var escSettings = [0x10, 0x20, 0x30, 0x40, 0x50, 0x60, 0x70, 0x80]; // Make CS complex
             $(".direction").each(function (motor, elm) {
                 escSettings[motor] += $(elm).is(':checked') ? 1 : 0;
             });
@@ -384,7 +384,7 @@ CONTENT.esc_flasher.initialize = function (callback) {
                 escSettings[motor] += $(elm).is(':checked') ? 2 : 0;
             });
             var tmp = {
-                'buffer': new ArrayBuffer(6),
+                'buffer': new ArrayBuffer(8),
                 'escSettings': escSettings
             };
             $('#save').removeClass("saveAct");
