@@ -4,11 +4,31 @@ CONTENT.welcome = {};
 
 CONTENT.welcome.initialize = function (callback) {
     var self = this;
+    
+    self.curPic = 0;
+    self.picCnt = 2;
+    self.timeout;
 
     GUI.switchContent('welcome', function () {
         GUI.load("./content/welcome.html", htmlLoaded);
     });
 
+    function changePicture() {
+    	self.curPic++;
+    	if (self.curPic >= self.picCnt) {
+    		self.curPic = 0;
+    	}
+    	
+    	for (var i=0; i<self.picCnt; i++) {
+    		if (i != self.curPic) {
+    			$("#fc_image_"+i).fadeOut(2000);
+    		}
+    	}
+    	
+    	$("#fc_image_" + self.curPic).fadeIn(2000, function() {
+    		self.timeout = setTimeout(changePicture, 7500);
+    	});
+    }
    
     function htmlLoaded() {
     	if (isNative()) {
@@ -43,10 +63,16 @@ CONTENT.welcome.initialize = function (callback) {
         });
         
         scrollTop();
+        
+        window.clearTimeout(self.timeout);
+     
+        self.timeout = setTimeout(changePicture, 5000);
     }
 };
 
 CONTENT.welcome.cleanup = function (callback) {
-    if (callback)
+	window.clearTimeout(this.timeout);
+    if (callback) {
         callback();
+    }
 };

@@ -2,7 +2,8 @@
 
 CONTENT.configuration = {
     USER_PIDs: [],
-    PRESET_PIDs: [],
+    PRESETS: {},
+    legacyChecked: false
 };
 
 
@@ -12,7 +13,7 @@ CONTENT.configuration.initialize = function (callback) {
     var self = this;
     
     self.hwTimeout = 0;
-    
+   
     function updateMixers() {
     	console.log("Update mixers");
     	var is4Motors = false;
@@ -74,6 +75,7 @@ CONTENT.configuration.initialize = function (callback) {
     GUI.switchContent('configuration', function () {
     	$("#footer").hide();
         kissProtocol.send(kissProtocol.GET_SETTINGS, [kissProtocol.GET_SETTINGS], function () {
+        	
             GUI.load("./content/configuration.html", function () {
                 htmlLoaded(kissProtocol.data[kissProtocol.GET_SETTINGS])
                 
@@ -296,8 +298,26 @@ CONTENT.configuration.initialize = function (callback) {
     	}
     };
     
+    function isLegacyDefaults(data) {
+    	
+    	if ((+data['G_P'][0] == 3) &&
+    		(+data['G_P'][1] == 3) &&
+    		(+data['G_P'][2] == 8) &&
+    		(+data['G_I'][0] == 0.035) &&
+    		(+data['G_I'][1] == 0.035) &&
+    		(+data['G_I'][2] == 0.050) &&
+    		(+data['G_D'][0] == 10) &&
+    		(+data['G_D'][1] == 10) &&
+    		(+data['G_D'][2] == 5) &&
+    		(+data['AUX'][0] == 0)) {
+    		return true;
+    	} 
+    	return false;
+    }
+    
    
     function htmlLoaded(data) {
+    	    	     	
         validateBounds('#content input[type="number"]');
         var settingsFilled = 0;
 
@@ -319,7 +339,27 @@ CONTENT.configuration.initialize = function (callback) {
             }
         });
 
+        $("#presets").change(function() {
+        	var c = $(this).val();
+        	if (c != "") {
+        		console.log('Change to ' + c);
+        		var tmp = CONTENT.configuration.PRESETS[c];
 
+        		$('tr.roll input').eq(0).val(tmp.roll.p);
+        		$('tr.roll input').eq(1).val(tmp.roll.i);
+        		$('tr.roll input').eq(2).val(tmp.roll.d);
+
+        		$('tr.pitch input').eq(0).val(tmp.pitch.p);
+        		$('tr.pitch input').eq(1).val(tmp.pitch.i);
+        		$('tr.pitch input').eq(2).val(tmp.pitch.d);
+
+        		$('tr.yaw input').eq(0).val(tmp.yaw.p);
+        		$('tr.yaw input').eq(1).val(tmp.yaw.i);
+        		$('tr.yaw input').eq(2).val(tmp.yaw.d);
+
+        		contentChange();
+        	}
+        });
 
         document.getElementById('rxdsm1').style.display = "inline";
         document.getElementById('rxdsm2').style.display = "inline";
@@ -742,7 +782,6 @@ CONTENT.configuration.initialize = function (callback) {
         console.log("===");
         console.log(data);
         
-
         if (data['ver'] > MAX_CONFIG_VERSION) {
             $("#navigation").hide();
             $("#gui_version_mismatch").html("The version of your KISS Ultra Firmware is <b>NEWER</b> than GUI can handle.<br><br>Please visit download page and upgrade your GUI.<br><br><br>");
@@ -809,6 +848,59 @@ CONTENT.configuration.initialize = function (callback) {
                 }, 1000);
             });
 
+        }  else if (isLegacyDefaults(data) && !CONTENT.configuration.legacyChecked) {
+        	
+        	$("#navigation").show();
+        	
+        	CONTENT.configuration.legacyChecked = true;
+        	   
+        	$(".modal-overlay").off('click');
+			$(".modal-overlay").on('click', function() {
+				hideModal();
+			});
+			$(".modal-body").html("<p class='header'>Information</p>You are using legacy <b>KISS</b> default PIDs. Would you like to switch to <b>ULTRA</b> default PIDs?");
+			$(".modal-footer").html("<a class='u-button' id='switch_to_ultra'>Yes</a>&nbsp;&nbsp;<a class='u-button' id='switch_to_kiss'>No</a>");
+			$(".modal-overlay").show();
+			
+			
+			$("#switch_to_ultra").click(function() {
+				// Switching to golden starting point
+				
+				var tmp = CONTENT.configuration.PRESETS['default_ultra'];
+						
+		        $('tr.roll input').eq(0).val(tmp.roll.p);
+		        $('tr.roll input').eq(1).val(tmp.roll.i);
+		        $('tr.roll input').eq(2).val(tmp.roll.d);
+		        
+		        $('tr.pitch input').eq(0).val(tmp.pitch.p);
+		        $('tr.pitch input').eq(1).val(tmp.pitch.i);
+		        $('tr.pitch input').eq(2).val(tmp.pitch.d);
+		        
+		        $('tr.yaw input').eq(0).val(tmp.yaw.p);
+		        $('tr.yaw input').eq(1).val(tmp.yaw.i);
+		        $('tr.yaw input').eq(2).val(tmp.yaw.d);
+				
+				contentChange();
+				
+				grabData();
+				
+			    kissProtocol.send(kissProtocol.SET_SETTINGS, kissProtocol.preparePacket(kissProtocol.SET_SETTINGS, kissProtocol.data[kissProtocol.GET_SETTINGS]));
+                kissProtocol.send(kissProtocol.GET_SETTINGS, [kissProtocol.GET_SETTINGS], function () {
+                	GUI.load("./content/configuration.html", function () {
+                         htmlLoaded(kissProtocol.data[kissProtocol.GET_SETTINGS]);
+                         updateInfo();
+                     });
+                 });
+
+				hideModal();
+			});
+			
+			$("#switch_to_kiss").click(function() {
+				hideModal();
+			});
+			
+			$(".modal").show();                 
+			
         } else {
             $("#navigation").show();
         }
@@ -981,65 +1073,25 @@ CONTENT.configuration.initialize = function (callback) {
         	}
         }
 
-        
-
+       
         $.ajax({
-            url: getProxyURL('http://ultraesc.de/PREPID/?getPIDs'),
-            cache: false,
-            dataType: "text",
-            success: function (data) {
-                console.log('userPIDs request success');
-                var uPIDSettings = data.split('[');
-                for (var i = 1; i < uPIDSettings.length; i++) {
-                    self.USER_PIDs[i] = [];
-                    var udeteilSettings = uPIDSettings[i].split(',');
-                    self.USER_PIDs[i]['name'] = [udeteilSettings[0]];
-                    for (var y = 1; y < udeteilSettings.length; y++) {
-                        var uDetailValue = udeteilSettings[y].split(':');
-                        self.USER_PIDs[i][uDetailValue[0]] = uDetailValue[1];
-                    }
-                }
-                var userPIDselect = $('#userSel');
-                for (var i = 1; i < self.USER_PIDs.length; i++) {
-                    var newSetName = String(self.USER_PIDs[i].name);
-                    newSetName = newSetName.replace(/�/g, ':');
-                    newSetName = newSetName.replace(/�/g, '[');
-                    newSetName = newSetName.replace(/�/g, ']');
-                    newSetName = newSetName.replace(/�/g, ',');
-                    userPIDselect.append('<option value="' + i + '">' + newSetName + '</option>');
-                }
-            },
-            error: function () {
-                console.log('userPIDs request failed');
-                $('#userSel').append('<option value="0">could not connect to server</option>');
-            }
-
-        });
-
-        $.ajax({
-            url: './PRESET_PID.txt',
-            cache: false,
-            dataType: "text",
+            url: './presets.json',
+            cache: true,
+            dataType: 'json',
             success: function (data) {
                 console.log('presetPIDs request success');
-                var PIDSettings = data.split('[');
-                for (var i = 1; i < PIDSettings.length; i++) {
-                    self.PRESET_PIDs[i] = [];
-                    var deteilSettings = PIDSettings[i].split(',');
-                    self.PRESET_PIDs[i]['name'] = [deteilSettings[0]];
-                    for (var y = 1; y < deteilSettings.length; y++) {
-                        var DetailValue = deteilSettings[y].split(':');
-                        self.PRESET_PIDs[i][DetailValue[0]] = DetailValue[1];
-                    }
-                }
-                var userPIDselect = $('#presetSel');
-                for (var i = 1; i < self.PRESET_PIDs.length; i++) {
-                    userPIDselect.append('<option value="' + i + '">' + self.PRESET_PIDs[i].name + '</option>');
-                }
+                console.log(data);
+                self.PRESETS = data;
+           	 	var presets = $('#presets');
+           	 	presets.append('<option value=""></option>');
+                $.each(data, function(key, value) {
+                	 presets.append('<option value="' + key + '">' + value.name + '</option>');
+                });
+                $('.presets').show();
             },
             error: function () {
                 console.log('presetPIDs request failed');
-                $('#presetSel').append('<option value="0">could not load PESET_PID.txt</option>');
+                $('.presets').hide();
             }
 
         });

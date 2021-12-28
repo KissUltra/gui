@@ -179,6 +179,8 @@ GUI.switchToConnect = function () {
     $('a.connect').removeClass('active');
     $('#navigation button:not([data-name="welcome"])').removeClass('unlocked');
     $('#navigation').show();
+    hideModal();
+	CONTENT.configuration.legacyChecked = false;
     GUI.state = "CONNECT";
 }
 
@@ -193,5 +195,6 @@ GUI.switchToDisconnect = function () {
     // set button to disconnect
     $('a.connect').text($.i18n("menu.disconnect")).addClass('active');
     $('#navigation button').addClass('unlocked');
+    hideModal();
     GUI.state = "DISCONNECT";
 }
