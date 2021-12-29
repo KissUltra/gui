@@ -1075,7 +1075,7 @@ CONTENT.configuration.initialize = function (callback) {
 
        
         $.ajax({
-            url: './presets.json',
+            url: 'https://kiss-ultra.com/gui/presets.json',
             cache: true,
             dataType: 'json',
             success: function (pdata) {

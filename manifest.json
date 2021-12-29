@@ -25,6 +25,7 @@
         "https://*.github.com/",
         "https://*.githubusercontent.com/",
         "https://*.amazonaws.com/",
+        "https://kiss-ultra.com/",
         {
             "fileSystem": [
                 "write"
