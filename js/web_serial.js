@@ -277,16 +277,16 @@ var webSerial = {
         return this.byteToHex(byte >> 8 & 0xff) + this.byteToHex(byte & 0xff);
     },
     dump: function (direction, data) {
-      /*  var view = new Uint8Array(data);
-        var line = '';
-        for (var i = 0; i < view.length; i++) {
-            if (i%16==0) {
-                if (i>0) console.log(line);
-                line=direction + ' ' + this.wordToHex(i) + ': ';
-            }
-            line +=  this.byteToHex(view[i]) + ' ';
-         }
-        console.log(line);*/
+//        var view = new Uint8Array(data);
+//        var line = '';
+//        for (var i = 0; i < view.length; i++) {
+//            if (i%16==0) {
+//                if (i>0) console.log(line);
+//                line=direction + ' ' + this.wordToHex(i) + ': ';
+//            }
+//            line +=  this.byteToHex(view[i]) + ' ';
+//         }
+//        console.log(line);
     },
     reconnect: function(timeout, callback) {
     	  var self = this;

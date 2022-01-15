@@ -60,7 +60,8 @@ var kissProtocol = {
 	
 	GET_OSD: 0x7F,
 	GET_HARDWARE_INFO: 0x75,
-	GET_OSD_CONFIG: 0x76,
+	GET_OSD_CONFIG: 0x76, // chunked
+	SET_OSD_CONFIG: 0x77, // chunked
 
     block: false,
     ready: false,
@@ -92,7 +93,7 @@ kissProtocol.read = function (readInfo) {
             switch (this.state) {
                 case 0:
                     // wait for start byte
-                    if ((data[i] == 5) || (data[i] == kissProtocol.GET_GPS) || (data[i] == kissProtocol.GET_HARDWARE_INFO) || (data[i] == kissProtocol.GET_HOME_INFO) || (data[i] == kissProtocol.GET_OSD) || (data[i] == kissProtocol.GET_OSD_CONFIG)) this.state++;
+                    if ((data[i] == 5) || (data[i] == kissProtocol.GET_GPS) || (data[i] == kissProtocol.GET_HARDWARE_INFO) || (data[i] == kissProtocol.GET_HOME_INFO) || (data[i] == kissProtocol.GET_OSD) || (data[i] == kissProtocol.GET_OSD_CONFIG)|| (data[i] == kissProtocol.SET_OSD_CONFIG)) this.state++;
                     else this.state = 0;
                     this.errCase++;
                     if (this.errCase > 3) {
@@ -212,7 +213,7 @@ kissProtocol.clearPendingRequests = function (callback) {
 }
 
 kissProtocol.proceedRequest = function () {
-    //console.log("process request: " + this.receiving);
+   //console.log("process request: " + this.receiving);
     if (!this.receiving) {
         //console.log("Not receiving");
 
@@ -224,6 +225,10 @@ kissProtocol.proceedRequest = function () {
             //console.log("Got request to send");
             //console.log(this.processingRequest);
             serialDevice.send(this.processingRequest.buffer, function (sendInfo) {
+//            	if ( this.processingRequest.callback)  {
+//            		console.log("Calling callback");
+//            		this.processingRequest.callback();
+//            	}
                 kissProtocol.proceedRequest();
             });
 
@@ -628,6 +633,10 @@ kissProtocol.processPacket = function (code, obj) {
         case this.SET_SETTINGS:
             console.log('Settings saved');
             break;
+            
+        case this.SET_OSD_CONFIG:
+            console.log('OSD settings saved');
+            break;
 
         case this.MOTOR_TEST:
             console.log('Motor test');
@@ -679,8 +688,10 @@ kissProtocol.processPacket = function (code, obj) {
                         info.type = 'KISS 32A';
                     } else if (type == 9) {
                         info.type = 'KISS 25A';
-                    } else if (type == 45) {
-                        info.type = 'KISS ULTRA 45A';
+                    } else if (type == 20) {
+                        info.type = 'KISS 50A';
+                    } else if (type == 21) {
+                        info.type = 'KISS MINI 40A';
                     } else {
                         info.type = 'ESC ID: ' + type;
                     }
@@ -760,14 +771,7 @@ kissProtocol.processPacket = function (code, obj) {
                 		var crc1 = chunkData.getUint8(len - 1, 0);
                 		var crc2 = 0;
                 		for (var i=0; i<(len - 1); i++) {
-                			crc2 ^= chunkData.getUint8(i, 0);
-                			for (var j = 0; j < 8; j++) {
-                				if ((crc2 & 0x80) != 0) {
-                					crc2 = ((crc2 << 1) ^ 0xD5) & 0xFF;
-                				} else {
-                					crc2 <<= 1;
-                				}
-                			}
+                			crc2 = kissProtocol.updateCRC(crc2, chunkData.getUint8(i, 0));
                 		}
                 		if (crc1 == crc2) {
                 			crcOk = true;
@@ -813,13 +817,10 @@ kissProtocol.processPacket = function (code, obj) {
             			obj.lipoSize = chunkData.getUint16(p, 0); p+=2;
             			obj.lipoWarning = chunkData.getUint8(p, 0);  p+=1;
             			obj.cellWarning = chunkData.getUint16(p, 0) / 100; p+=2;
-            			var tmp = 0;
-            			tmp = chunkData.getUint16(p, 0); p+=2;
-            			tmp = chunkData.getUint8(p, 0);  p+=1;
-            			
+            		
             			obj.customLayout = [];
 
-            			for (var i=0; i<26; i++) {
+            			for (var i=0; i<28; i++) {
             				var sensor = {};
             				sensor.x =  chunkData.getUint16(p, 0); p+=2;
             				sensor.y =  chunkData.getUint16(p, 0); p+=2;
@@ -830,6 +831,8 @@ kissProtocol.processPacket = function (code, obj) {
             				sensor.style =  chunkData.getUint8(p, 0);  p+=1;
             				obj.customLayout.push(sensor);
             			}
+            			
+            			obj.stickOverlay = chunkData.getUint8(p, 0);  p+=1;
 
             			// end parsing
             			obj.callback = obj.delayedCallback;
@@ -870,6 +873,18 @@ kissProtocol.processPacket = function (code, obj) {
     if (obj.callback) obj.callback();
 };
 
+kissProtocol.updateCRC = function(crc, byte) {
+	crc ^= byte;
+	for (var j = 0; j < 8; j++) {
+		if ((crc & 0x80) != 0) {
+			crc = ((crc << 1) ^ 0xD5) & 0xFF;
+		} else {
+			crc <<= 1;
+		}
+	}
+	return crc;
+}
+
 kissProtocol.preparePacket = function (code, obj) {
     var buffer = new ArrayBuffer(255); // clean buffer!
     var blen = 0;
@@ -879,9 +894,6 @@ kissProtocol.preparePacket = function (code, obj) {
     var crc = 0;
     var crcCounter = 0;
     
-//    console.log("Saving...");
-//    console.log(obj);
-
     switch (code) {
     
     	case this.GET_OSD:
@@ -1183,6 +1195,127 @@ kissProtocol.preparePacket = function (code, obj) {
 
     return outputU8;
 };
+
+kissProtocol.prepareChunkedPacket = function (code, obj, chunk) {
+    var buffer = new ArrayBuffer(1024); // clean buffer!
+    var data = new DataView(buffer, 0);
+    var blen = 0;
+
+    var crc = 0;
+    var crcCounter = 0;
+    
+    switch (code) {
+
+    case this.SET_OSD_CONFIG:
+    	var p = 0;
+    	data.setUint16(p, obj.syncLevel, 0); p+=2;
+    	data.setUint16(p, obj.blackLevel, 0); p+=2;
+    	data.setUint16(p, obj.whiteLevel, 0); p+=2;
+    	data.setUint8(p, obj.options1, 0); p+=1;
+    	data.setUint8(p, obj.options2, 0); p+=1;
+    	data.setUint8(p, obj.options3, 0); p+=1;
+    	for (var i=0; i<16; i++) { 
+    		data.setUint8(p, obj.callsign.charCodeAt(i), 0); p+=1;
+    	}
+    	data.setUint16(p, obj.ccRestVoltage * 1000, 0); p+=2;
+    	data.setUint16(p, obj.ccLeftVoltage * 1000, 0); p+=2;
+    	data.setUint16(p, obj.ccRightVoltage * 1000, 0); p+=2;
+    	data.setUint16(p, obj.ccUpVoltage * 1000, 0); p+=2;
+    	data.setUint16(p, obj.ccDownVoltage * 1000, 0); p+=2;
+    	data.setUint16(p, obj.ccSelectVoltage * 1000, 0); p+=2;
+
+    	data.setUint8(p, obj.hdFrameOptions, 0); p+=1;
+    	data.setUint16(p, obj.hdFrameLeft, 0); p+=2;
+    	data.setUint16(p, obj.hdFrameTop, 0); p+=2;
+    	data.setUint16(p, obj.hdFrameRight, 0); p+=2;
+    	data.setUint16(p, obj.hdFrameBottom, 0); p+=2;
+
+    	data.setUint16(p, obj.rssiWarning, 0); p+=2;
+    	data.setUint16(p, obj.lqWarning, 0); p+=2;
+    	data.setUint16(p, obj.satWarning, 0); p+=2;
+    	data.setUint16(p, obj.altitudeWarning, 0); p+=2;
+    	data.setUint16(p, obj.snrWarning, 0); p+=2;
+    	data.setUint16(p, obj.currentWarning, 0); p+=2;
+    	data.setUint16(p, obj.lipoSize, 0); p+=2;
+    	data.setUint8(p, obj.lipoWarning, 0); p+=1;
+    	data.setUint16(p, obj.cellWarning * 100, 0); p+=2;
+
+    	for (var i=0; i<28; i++) {
+    		var sensor = obj.customLayout[i];
+    		data.setUint16(p, sensor.x, 0); p+=2;
+    		data.setUint16(p, sensor.y, 0); p+=2;
+    		data.setUint8(p, sensor.visible, 0); p+=1;
+    		data.setUint8(p, sensor.align, 0); p+=1;
+    		data.setUint8(p, sensor.font, 0); p+=1;
+    		data.setUint8(p, sensor.proportional, 0); p+=1;
+    		data.setUint8(p, sensor.style, 0); p+=1;
+    	}
+    	
+    	data.setUint8(p, obj.stickOverlay, 0); p+=1;
+
+    	// all crc
+    	var allcrc = 0;
+    	for (var i = 0; i < p; i++) {
+    		allcrc = kissProtocol.updateCRC(allcrc, data.getUint8(i, 0));
+    	}
+    	data.setUint8(p, allcrc, 0); p+=1;
+
+    	blen = p;
+    	break;    	
+    }
+
+	var idx = 200 * chunk; 
+	var len = blen - idx;
+	
+	var left = Math.floor(len / 200); 
+	if ((len % 200) > 0) left++;
+	if (left > 0) left--;
+	
+	if (len > 200) len = 200;
+	
+	var outputBuffer = new ArrayBuffer(len + 6);
+	var outputU8 = new Uint8Array(outputBuffer);
+	
+    outputU8[0] = code;
+    outputU8[1] = 5;
+    outputU8[2] = len + 2; // +2 for chunk info
+    outputU8[3] = chunk;
+    outputU8[4] = left;
+    
+    crc = kissProtocol.updateCRC(crc, chunk);
+    crc = kissProtocol.updateCRC(crc, left);
+      
+	for (var i = 0; i < len; i++) {
+		outputU8[5 + i] = data.getUint8(idx + i, 0);
+		crc = kissProtocol.updateCRC(crc, outputU8[5 + i]);
+	}
+	
+    outputU8[outputU8.length - 1] = crc & 0xFF;
+    
+    console.log(outputU8);
+
+    return { 'data':outputU8, 'left': left, 'chunk': chunk };
+};
+
+
+kissProtocol.sendChunked = function(code, json, chunk, callback) {
+
+	console.log("Sending " + code + " chunk " + chunk);
+	var packet = kissProtocol.prepareChunkedPacket(code, json, chunk);
+	
+	kissProtocol.send(kissProtocol.SET_OSD_CONFIG, packet.data, function() {
+		console.log('SEND');
+		if (packet.left == 0) {
+			console.log("No more chunks to send, callback called");
+			if (callback) {
+				callback();
+			}
+		} else {
+			kissProtocol.sendChunked(code, json, packet.chunk + 1, callback);
+		}
+	});
+};
+
 
 kissProtocol.readString = function (buffer, offset) {
     var ret = "";

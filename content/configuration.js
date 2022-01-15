@@ -1254,6 +1254,7 @@ CONTENT.configuration.initialize = function (callback) {
         			});
         		});
         	} else {
+        		document.getElementById('files').files = new DataTransfer().files;
         		$("#files").click();
         	}
         });

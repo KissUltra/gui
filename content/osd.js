@@ -32,8 +32,6 @@ CONTENT.osd = {
 
 };
 
-
-
 CONTENT.osd.initialize = function (callback) {
     var self = this;
 
@@ -46,8 +44,9 @@ CONTENT.osd.initialize = function (callback) {
     self.flags = 0;
     self.nvcounter = 0;
     self.videoRunning = true;
+    self.blackLevel = 0;
+    self.whiteLevel = 255;
   
-    
     self.events = new Queue();
     	    
 	var Buffer = require('buffer').Buffer
@@ -80,20 +79,6 @@ CONTENT.osd.initialize = function (callback) {
 				$("#osdkc").show();
 			}
 			
-			if (kissProtocol.data[kissProtocol.GET_SETTINGS].ver > 126) {
-				var tmp = {
-						'buffer': new ArrayBuffer(1),
-						'chunk': 0
-				};
-				kissProtocol.send(kissProtocol.GET_OSD_CONFIG, kissProtocol.preparePacket(kissProtocol.GET_OSD_CONFIG, tmp), function () {
-					console.log("Loaded OSD config");
-					console.log(JSON.stringify(kissProtocol.data[kissProtocol.GET_OSD_CONFIG]));
-				});
-				
-				
-			} else {
-				console.log("OSD config is not supported");
-			}
 		});
 	});
 	
@@ -110,6 +95,231 @@ CONTENT.osd.initialize = function (callback) {
 		"images/osd/video2.mp4",
 		"images/osd/video4.mp4"
 	];
+	
+	function grabData() {
+		
+	}
+	
+	function saveOSDConfig(json, callback) {
+		// check versions?
+		console.log("SAVING");
+		
+		kissProtocol.sendChunked(kissProtocol.SET_OSD_CONFIG, json, 0,  function() {
+			console.log("Send complete!");
+			callback(true);
+		});
+	}
+	
+	function handleFileSelect(evt) {
+		var files = evt.target.files; 
+		for (var i = 0, f; f = files[i]; i++) {
+			var reader = new FileReader();
+			reader.onload = (function(theFile) {
+				return function(e) {
+					var json = JSON.parse(e.target.result);
+					console.log(json);
+					if (json.kissultraosd) {
+						saveOSDConfig(json, function(status) {
+							console.log("Saved: " + status);
+						});
+					} else {
+						console.log("Old kiss osd backup detected!");
+						$(".modal-overlay").off('click');
+						$(".modal-overlay").on('click', function() {
+							hideModal();
+						});
+						$(".modal-body").html("<p class='header'>This backup is outdated.</p>For safety reasons, importing of the old backups is prohibited.");
+						$(".modal-footer").html("");
+						$(".modal-overlay").show();
+						$(".modal").show();                            	
+						return;
+					}
+				};
+			})(f);
+			reader.readAsText(f);
+		}
+	}
+
+	  
+	function backupConfig() {
+		if (isNative()) {
+			var chosenFileEntry = null;
+
+			var accepts = [{
+				extensions: ['txt']
+			}];
+
+			chrome.fileSystem.chooseEntry({
+				type: 'saveFile',
+				suggestedName: 'kissultra-osd-backup',
+				accepts: accepts
+			}, function (fileEntry) {
+				if (chrome.runtime.lastError) {
+					console.error(chrome.runtime.lastError.message);
+					return;
+				}
+
+				if (!fileEntry) {
+					console.log('No file selected.');
+					return;
+				}
+
+				chosenFileEntry = fileEntry;
+
+				chrome.fileSystem.getDisplayPath(chosenFileEntry, function (path) {
+					console.log('Export to file: ' + path);
+				});
+
+				chrome.fileSystem.getWritableEntry(chosenFileEntry, function (fileEntryWritable) {
+
+					chrome.fileSystem.isWritableEntry(fileEntryWritable, function (isWritable) {
+						if (isWritable) {
+							chosenFileEntry = fileEntryWritable;
+							var config = kissProtocol.data[kissProtocol.GET_OSD_CONFIG];
+							config.kissultraosd = true;
+							config.ver = +kissProtocol.data[kissProtocol.GET_SETTINGS]['ver'];
+							var json = JSON.stringify(config, function (k, v) {
+								if (k === 'dont_export_me' ) {
+									return undefined;
+								} else {
+									return v;
+								}
+							}, 2);
+							var blob = new Blob([json], {
+								type: 'text/plain'
+							});
+
+							chosenFileEntry.createWriter(function (writer) {
+								writer.onerror = function (e) {
+									console.error(e);
+								};
+
+								var truncated = false;
+								writer.onwriteend = function () {
+									if (!truncated) {
+										truncated = true;
+										writer.truncate(blob.size);
+										return;
+									}
+									console.log('Config has been exported');
+								};
+
+								writer.write(blob);
+							}, function (e) {
+								console.error(e);
+							});
+						} else {
+							console.log('Cannot write to read only file.');
+						}
+					});
+				});
+			});
+		} else {
+			// web
+			var config = kissProtocol.data[kissProtocol.GET_OSD_CONFIG];
+			config.kissultraosd = true;
+			config.ver = +kissProtocol.data[kissProtocol.GET_SETTINGS]['ver'];
+			var json = JSON.stringify(config, function (k, v) {
+				if (k === 'dont_export_me' ) {
+					return undefined;
+				} else {
+					return v;
+				}
+			}, 2);
+			var blob = new Blob([json], {
+				type: 'text/plain;charset=utf-8'
+			});
+			//Check the Browser.
+			var isIE = false || !!document.documentMode;
+			if (isIE) {
+				window.navigator.msSaveBlob(blob, "kissultra-osd-backup.txt");
+			} else {
+				var url = window.URL || window.webkitURL;
+				var link = url.createObjectURL(blob);
+				var a = $("<a />");
+				a.attr("download", "kissultra-osd-backup.txt");
+				a.attr("href", link);
+				$("body").append(a);
+				a[0].click();
+				a.remove();	
+			}
+		}
+	};
+	
+	function restoreConfig(callback) {
+
+		if (isNative()) {
+			var chosenFileEntry = null;
+
+			var accepts = [{
+				extensions: ['txt']
+			}];
+
+			chrome.fileSystem.chooseEntry({
+				type: 'openFile',
+				accepts: accepts
+			}, function (fileEntry) {
+				if (chrome.runtime.lastError) {
+					console.error(chrome.runtime.lastError.message);
+					return;
+				}
+
+				if (!fileEntry) {
+					console.log('No file selected, restore aborted.');
+					return;
+				}
+
+				chosenFileEntry = fileEntry;
+
+				chrome.fileSystem.getDisplayPath(chosenFileEntry, function (path) {
+					console.log('Import config from: ' + path);
+				});
+
+				chosenFileEntry.file(function (file) {
+					var reader = new FileReader();
+
+					reader.onprogress = function (e) {
+						if (e.total > 16384) {
+							console.log('File limit (16k KB) exceeded, aborting');
+							reader.abort();
+						}
+					};
+
+					reader.onloadend = function (e) {
+						if (e.total != 0 && e.total == e.loaded) {
+							console.log('Read OK');
+							try {
+								var json = JSON.parse(e.target.result);
+
+								console.log(json);
+								
+								if (json.kissultraosd) {
+									if (callback) callback(json);
+								} else {
+									console.log("Old kiss backup detected!");
+									$(".modal-overlay").off('click');
+									$(".modal-overlay").on('click', function() {
+										hideModal();
+									});
+									$(".modal-body").html("<p class='header'>This backup is outdated.</p>For safety reasons, importing of the old backups is prohibited.");
+									$(".modal-footer").html("");
+									$(".modal-overlay").show();
+									$(".modal").show();                            	
+									return;
+								}
+							} catch (e) {
+								console.log('Wrong file');
+								return;
+							}
+						}
+					};
+					reader.readAsText(file);
+				});
+			});
+		} else {
+			// web
+		}
+	};
 
 	function htmlLoaded(data) {
 		
@@ -170,6 +380,8 @@ CONTENT.osd.initialize = function (callback) {
 				if (addr == 0xffff) {
 					self.compressedSize = len;
 					self.address = 0;
+					self.whiteLevel = lineData[15]; // + 256 * lineData[14];
+					self.blackLevel = lineData[13]; // + 256 * lineDara[12];
 					self.flags  = lineData[16];
 				} else {
 					if (len == 0) {
@@ -188,7 +400,10 @@ CONTENT.osd.initialize = function (callback) {
 						var p = ctx.createImageData(512, 288);
 
 						var scr = new Uint8Array(uncompressedBuffer);
-
+						
+						var wl = (self.whiteLevel - 60) * 1.83; if (wl>255) wl = 255; if (wl<0) wl = 0;
+						var bl = (self.blackLevel - 60) * 1.83; if (bl>255) bl = 255; if (bl<0) bl = 0;
+						
 						for (var y=0; y<288; y++) {
 							for (var x=0; x<512; x++) {
 								var pixaddr = y*128 + (x >> 2);
@@ -198,14 +413,14 @@ CONTENT.osd.initialize = function (callback) {
 								var col = c & 0xc0;
 
 								if (col == 0x80) {
-									p.data[dstaddr + 0]	=	255;
-									p.data[dstaddr + 1]	=	255;
-									p.data[dstaddr + 2]	=	255;
+									p.data[dstaddr + 0]	=	wl;
+									p.data[dstaddr + 1]	=	wl;
+									p.data[dstaddr + 2]	=	wl;
 									p.data[dstaddr + 3]	=	255;
 								} else if (col == 0x40) {
-									p.data[dstaddr + 0]	=	0;
-									p.data[dstaddr + 1]	=	0;
-									p.data[dstaddr + 2]	=	0;
+									p.data[dstaddr + 0]	=	bl;
+									p.data[dstaddr + 1]	=	bl;
+									p.data[dstaddr + 2]	=	bl;
 									p.data[dstaddr + 3]	=	255;
 								} else if (col == 0xc0) {
 									p.data[dstaddr + 0]	=	0;
@@ -291,7 +506,47 @@ CONTENT.osd.initialize = function (callback) {
 				}
 			});
 		}
+		
+		if (+kissProtocol.data[kissProtocol.GET_SETTINGS]['ver'] > 129) {
+			$(".footer").show();
+			$('#backup').on('click', function () {
 
+				$(this).blur();
+
+				if (kissProtocol.data[kissProtocol.GET_SETTINGS].ver > 126) { // TODO: 129
+					var tmp = {
+							'buffer': new ArrayBuffer(1),
+							'chunk': 0
+					};
+					kissProtocol.send(kissProtocol.GET_OSD_CONFIG, kissProtocol.preparePacket(kissProtocol.GET_OSD_CONFIG, tmp), function () {
+						console.log("Loaded OSD config");
+						grabData();
+						backupConfig();
+					});
+				} 
+			});
+
+			$('#restore').on('click', function () {
+				if (isNative()) {
+					restoreConfig(function (json) {
+						saveOSDConfig(json, function(status) {
+							console.log("Saved: " + status);
+						});
+					});
+				} else {
+					document.getElementById('files').files = new DataTransfer().files;
+					$("#files").click();
+				}
+				$(this).blur();
+			});
+
+			if (!isNative()) {
+				document.getElementById('files').addEventListener('change', handleFileSelect, false);
+			}
+		} else {
+			$(".footer").hide();
+		}
+        
 		$(window).on('resize', self.resizeOSD).resize();
 
 		fastDataPoll();
