@@ -1061,7 +1061,7 @@ CONTENT.configuration.initialize = function (callback) {
         					$(".modal-overlay").on('click', function() {
         						hideModal();
         					});
-        					$(".modal-body").html("<p class='header'>This backup is outdated.</p>For safety reasons, importing of the old backups is prohibited.");
+        					$(".modal-body").html("<p class='header'>This backup is invalid.</p>For safety reasons, import of invalid backups is prohibited.");
         					$(".modal-footer").html("");
         					$(".modal-overlay").show();
         					$(".modal").show();                            	
