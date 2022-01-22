@@ -1,7 +1,7 @@
 'use strict';
 
 const MIN_CONFIG_VERSION = 126;
-const MAX_CONFIG_VERSION = 130;
+const MAX_CONFIG_VERSION = 131;
 
 function isNative() {
 	if (typeof(nw) !== 'undefined') {

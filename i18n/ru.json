@@ -460,6 +460,9 @@
 	"title.dshot.router": "DShot router",
 	"column.dshot.router": "Route outputs",
 	"column.use-custom-dshot-router": "Use custom DShot routing",
-	"text.dshot-warning": "Please note that this are advanced features. If you change DShot routing you might have to wire motors differently.<br/><br/>If you want to revert back to default please uncheck and save configuration.<br/><br/>"
+	"text.dshot-warning": "Please note that this are advanced features. If you change DShot routing you might have to wire motors differently.<br/><br/>If you want to revert back to default please uncheck and save configuration.<br/><br/>",
+	
+	"title.limits": "Ограничения",
+	"column.altlimit": "Максимальная Высота (м)"
     
 }

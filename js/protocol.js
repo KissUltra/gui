@@ -425,6 +425,7 @@ kissProtocol.processPacket = function (code, obj) {
                 obj.reverseMotors = 0;
                 obj.launchMode = 0;
                 obj.dshotMapping = [0, 1, 2, 3, 4, 5, 6, 7];
+                obj.altLimit = 0;
             }
 
             obj.G_P[0] = data.getUint16(0, 0) / 1000;
@@ -620,9 +621,12 @@ kissProtocol.processPacket = function (code, obj) {
                 	obj.tzIndex = data.getUint8(216, 0);
                 	obj.gpsOptions = data.getUint8(217, 0);
                 }
-     
                 
-                 // ??? blen = 208;
+                if (obj.ver >= 131) {
+                	obj.altLimit = data.getUint16(218, 0);
+                }
+                
+                // ??? blen = 208;
                 // next free 200
             } catch (Exception) {
                 console.log("Exception while reading packet");
@@ -1121,7 +1125,12 @@ kissProtocol.preparePacket = function (code, obj) {
                 data.setUint8(206,  obj.gpsOptions);
                 blen = 215;
             }
-            console.log (data)
+            
+            if (obj.ver >= 131) { 
+            	data.setUint16(207,  obj.altLimit);
+            	blen = 217;
+            }
+
             break;
 
         case this.MOTOR_TEST:
@@ -1135,11 +1144,11 @@ kissProtocol.preparePacket = function (code, obj) {
             data.setUint8(5, obj.motorTest[4], 0);
             data.setUint8(6, obj.motorTest[5], 0);
             blen = 7;
-//            if (ver >= 131) {
-//                data.setUint8(7, obj.motorTest[6], 0);
-//                data.setUint8(8, obj.motorTest[7], 0);
-//                blen += 2;
-//            } 
+            if (ver >= 131) {
+                data.setUint8(7, obj.motorTest[6], 0);
+                data.setUint8(8, obj.motorTest[7], 0);
+                blen = 9;
+            } 
             break;
 
         case this.SET_ESC_SETTINGS:
@@ -1151,11 +1160,11 @@ kissProtocol.preparePacket = function (code, obj) {
             data.setUint8(4, obj.escSettings[4], 0);
             data.setUint8(5, obj.escSettings[5], 0);
             blen = 6;
-//            if (ver >= 131) {
-//                data.setUint8(6, obj.escSettings[6], 0);
-//                data.setUint8(7, obj.escSettings[7], 0);
-//                blen += 2;
-//            }
+            if (ver >= 131) {
+                data.setUint8(6, obj.escSettings[6], 0);
+                data.setUint8(7, obj.escSettings[7], 0);
+                blen = 8;
+            }
             break;
 
         case this.ESC_INFO:

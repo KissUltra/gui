@@ -447,6 +447,11 @@ CONTENT.advanced.initialize = function (callback) {
             	$("#dshotRouter").hide();
             }
 
+            
+            if (data['ver'] >= 129) {
+            	$("#limits").show();
+                $('input[name="altLimit"]').val(+data['altLimit']);
+            }
 
             
             // Function for CDR changebox changes
@@ -779,7 +784,10 @@ CONTENT.advanced.initialize = function (callback) {
             		data['dshotMapping'][i] = $("select[name='ds"+(i+1)+"']").val();
             	}
             }
-
+            
+            if (data['ver'] >= 131) {
+            	data['altLimit'] = +$("input[name='altLimit']").val();
+            }
         }
 
         function contentChange() {
