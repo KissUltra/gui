@@ -448,7 +448,7 @@ CONTENT.advanced.initialize = function (callback) {
             }
 
             
-            if (data['ver'] >= 129) {
+            if (data['ver'] >= 131) {
             	$("#limits").show();
                 $('input[name="altLimit"]').val(+data['altLimit']);
             }

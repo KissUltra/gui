@@ -273,7 +273,7 @@ CONTENT.data_output.initialize = function (callback) {
         });
 
         var legendItems = $('dl.legend dd');
-        var meterScale = { 'min': 800, 'max': 2200 };
+        var meterScale = { 'min': 1000, 'max': 2000 };
 
         function updateUI() {
             var data = kissProtocol.data[kissProtocol.GET_TELEMETRY];

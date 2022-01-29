@@ -122,8 +122,8 @@ CONTENT.rates.initialize = function (callback) {
         // creation
 
         var meterScale = {
-            'min': 800,
-            'max': 2200
+            'min': 1000,
+            'max': 2000
         };
 
         function grabData() {
