@@ -689,9 +689,22 @@ CONTENT.configuration.initialize = function (callback) {
                 change: function () { contentChange(); },
                 value: data['AUX'][13]
             });
+            
+            if (data['ver'] >= 132) {
+            	$("#aux14").kissAux({
+            		name: $.i18n("column.prearm"),
+            		change: function () { contentChange(); },
+            		value: data['AUX'][14]
+            	});
+            	$("#aux14").show();
+            } else {
+            	$("#aux14").hide();
+            }
    
         if (data['CopterType'] == 7 || data['CopterType'] == 8) $("#aux11").show();
         else $("#aux11").hide();
+        
+        
 
   
             if (data['LPF'] == data['DLpF'] && data['LPF'] == data['yawLpF']) {
@@ -1008,6 +1021,10 @@ CONTENT.configuration.initialize = function (callback) {
 //            }
             if (data['ver'] >= 121) {
                 data['AUX'][13] = $("#aux13").kissAux('value');
+            }
+            
+            if (data['ver'] >= 132) {
+                data['AUX'][14] = $("#aux14").kissAux('value');
             }
             
             if (data['ver'] >= 129) {

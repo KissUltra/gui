@@ -626,6 +626,16 @@ kissProtocol.processPacket = function (code, obj) {
                 	obj.altLimit = data.getUint16(218, 0);
                 }
                 
+                if (obj.ver >= 132) {
+                	obj.AUX[14] = data.getUint8(220, 0); // PREARM
+                }
+                
+                if (obj.ver >= 133) {
+                	obj.voltageSensorOffset = data.getUint8(221, 0);
+                }
+                
+                console.log(obj);
+                
                 // ??? blen = 208;
                 // next free 200
             } catch (Exception) {
@@ -1129,6 +1139,16 @@ kissProtocol.preparePacket = function (code, obj) {
             if (obj.ver >= 131) { 
             	data.setUint16(207,  obj.altLimit);
             	blen = 217;
+            }
+            
+            if (obj.ver >= 132) { 
+            	data.setUint8(209,  obj.AUX[14]);
+            	blen = 218;
+            }
+            
+            if (obj.ver >= 133) { 
+            	data.setUint8(210,  obj.voltageSensorOffset);
+            	blen = 219;
             }
 
             break;

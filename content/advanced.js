@@ -452,8 +452,12 @@ CONTENT.advanced.initialize = function (callback) {
             	$("#limits").show();
                 $('input[name="altLimit"]').val(+data['altLimit']);
             }
-
             
+            if (data['ver'] >= 133) {
+            	$("#adjustments").show();
+                $('select[name="voltageSensorOffset"]').val(+data['voltageSensorOffset']);
+            }
+
             // Function for CDR changebox changes
             $('input[name="CDR"]').on('change', function () {
                 if ($('input[name="CDR"]').prop('checked') ? 1 : 0 == 1) {
@@ -469,8 +473,6 @@ CONTENT.advanced.initialize = function (callback) {
                 }
 
             });
-            
-            
             
             function populateSerialFields() {
                 for (i = 0; i < serialsFunctions.length; i++) {
@@ -787,6 +789,10 @@ CONTENT.advanced.initialize = function (callback) {
             
             if (data['ver'] >= 131) {
             	data['altLimit'] = +$("input[name='altLimit']").val();
+            }
+            
+            if (data['ver'] >= 133) {
+            	data['voltageSensorOffset'] = +$("select[name='voltageSensorOffset']").val();
             }
         }
 

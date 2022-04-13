@@ -463,6 +463,10 @@
 	"text.dshot-warning": "Please note that this are advanced features. If you change DShot routing you might have to wire motors differently.<br/><br/>If you want to revert back to default please uncheck and save configuration.<br/><br/>",
 	
 	"title.limits": "Limits",
-	"column.altlimit": "Maximum Altitude (m)"
+	"column.altlimit": "Maximum Altitude (m)",
+	"column.prearm": "PreArm",
+	
+	"title.adjustments": "Adjustments",
+	"column.voltage.sensor.offset": "Voltage sensor offset"
     
 }  
