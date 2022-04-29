@@ -493,5 +493,9 @@
 	"column.prearm": "PreArm",
 	
 	"title.adjustments": "Adjustments",
-	"column.voltage.sensor.offset": "Voltage sensor offset"
+	"column.voltage.sensor.offset": "Voltage sensor offset",
+
+	"column.prearm-mode": "PreArm Mode",
+	"prearm.0": "First Arm Only",
+	"prearm.1": "Every Arm"
 }

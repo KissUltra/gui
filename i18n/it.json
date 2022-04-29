@@ -190,7 +190,7 @@
 	"menu.connect": "Connetti",
 	"menu.connecting": "Connessione...",
 	"menu.data-output": "Output Dati",
-	"menu.disconnect": "Disconetti",
+	"menu.disconnect": "Disconnetti",
 	"menu.esc-flasher": "AGGIORNA ESC KISS",
 	"menu.fc-flasher": "AGGIORNA KISS ULTRA FC",
 	"menu.lang": "Lingua",
@@ -515,5 +515,9 @@
 	"column.prearm": "PreArm",
 
 	"title.adjustments": "Variazioni",
-	"column.voltage.sensor.offset": "Taratura Voltaggio"
+	"column.voltage.sensor.offset": "Taratura Voltaggio",
+
+	"column.prearm-mode": "Modalità PreArm",
+    "prearm.0": "Solo al primo Arm",
+    "prearm.1": "Ad ogni Arm"
 }

@@ -634,6 +634,10 @@ kissProtocol.processPacket = function (code, obj) {
                 	obj.voltageSensorOffset = data.getUint8(221, 0);
                 }
                 
+                if (obj.ver >= 134) {
+                	obj.prearm_mode = data.getUint8(222, 0);
+                }
+                
                 console.log(obj);
                 
                 // ??? blen = 208;
@@ -1149,6 +1153,11 @@ kissProtocol.preparePacket = function (code, obj) {
             if (obj.ver >= 133) { 
             	data.setUint8(210,  obj.voltageSensorOffset);
             	blen = 219;
+            }
+            
+            if (obj.ver >= 134) { 
+            	data.setUint8(211,  obj.prearm_mode);
+            	blen = 220;
             }
 
             break;

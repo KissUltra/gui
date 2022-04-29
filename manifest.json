@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "minimum_chrome_version": "38",
-    "version": "3.0.9",
+    "version": "3.0.10",
     "author": "Flyduino & Alexander Fedorov & Carsten Wache",
     "name": "KISS ULTRA GUI",
     "short_name": "KISSULTRAGUI",

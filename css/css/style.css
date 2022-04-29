@@ -266,6 +266,10 @@ select.kiss-aux-mode {
   margin-left: 5px;
   width: 100px; }
 
+select.prearm_mode {
+  margin-left: 0px;
+  width: 158px; }
+
 * {
   margin: 0;
   padding: 0;

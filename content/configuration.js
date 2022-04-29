@@ -696,7 +696,27 @@ CONTENT.configuration.initialize = function (callback) {
             		change: function () { contentChange(); },
             		value: data['AUX'][14]
             	});
+
             	$("#aux14").show();
+            	
+            	if (data['ver'] >= 134) {
+            		$("#aux14").find('select').on('input', function() {
+            			if (+$(this).val() == 0) {
+            				$("#prearm_mode_row").hide();
+            			} else {
+            				$("#prearm_mode_row").show();
+            			}
+            		});
+            		if (+$("#aux14").find('select').val() != 0) {
+            			$("#prearm_mode_row").show();
+            		}
+            		
+            		$('#prearm_mode').val(+data['prearm_mode']);
+            		
+            		$('#prearm_mode').on('change', function () {
+                     	contentChange();
+                    });
+            	}
             } else {
             	$("#aux14").hide();
             }
@@ -714,9 +734,9 @@ CONTENT.configuration.initialize = function (callback) {
                 $('select[name="lpf"]').val(7);
             }
       
-        $('select[name="lpf"]').on('change', function () {
-            contentChange();
-        });
+            $('select[name="lpf"]').on('change', function () {
+            	contentChange();
+            });
 
   
             $("#aux12").kissAux({
@@ -1033,7 +1053,9 @@ CONTENT.configuration.initialize = function (callback) {
                 data['AUX'][12] = 0; // not supported on ultras.
             }
             
-        
+            if (data['ver'] >= 134) {
+                data['prearm_mode'] = +$("#prearm_mode").val();
+            }
 
         }
         settingsFilled = 1;
