@@ -519,5 +519,6 @@
 
 	"column.prearm-mode": "Modalità PreArm",
     "prearm.0": "Solo al primo Arm",
-    "prearm.1": "Ad ogni Arm"
+    "prearm.1": "Ad ogni Arm",
+	"column.softarm-mode": "Soft"
 }

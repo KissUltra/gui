@@ -506,6 +506,7 @@
 
 	"column.prearm-mode": "PreArm Mode",
 	"prearm.0": "First Arm Only",
-	"prearm.1": "Every Arm"
+	"prearm.1": "Every Arm",
+	"column.softarm-mode": "Soft"
 			
 }

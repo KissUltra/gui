@@ -717,6 +717,16 @@ CONTENT.configuration.initialize = function (callback) {
                      	contentChange();
                     });
             	}
+            	
+            	if (data['ver'] >= 135) {
+            		$("#aux0").append(" &nbsp;<input id='softarm_mode' class='unsafe' type='checkbox' /> <span class='softarm_mode' data-i18n='column.softarm-mode'>Soft</span>");
+            		
+            		$('#softarm_mode').prop('checked', data['softarm_mode']);
+            		
+            		$('#softarm_mode').on('change', function () {
+                     	contentChange();
+                    });
+            	}
             } else {
             	$("#aux14").hide();
             }
@@ -1056,7 +1066,10 @@ CONTENT.configuration.initialize = function (callback) {
             if (data['ver'] >= 134) {
                 data['prearm_mode'] = +$("#prearm_mode").val();
             }
-
+            
+            if (data['ver'] >= 135) {
+                data['softarm_mode'] = +$("#softarm_mode").prop('checked') ? 1 : 0;
+            }
         }
         settingsFilled = 1;
 

@@ -638,7 +638,9 @@ kissProtocol.processPacket = function (code, obj) {
                 	obj.prearm_mode = data.getUint8(222, 0);
                 }
                 
-                console.log(obj);
+                if (obj.ver >= 135) {
+                	obj.softarm_mode = data.getUint8(223, 0);
+                }
                 
                 // ??? blen = 208;
                 // next free 200
@@ -1158,6 +1160,11 @@ kissProtocol.preparePacket = function (code, obj) {
             if (obj.ver >= 134) { 
             	data.setUint8(211,  obj.prearm_mode);
             	blen = 220;
+            }
+            
+            if (obj.ver >= 135) { 
+            	data.setUint8(212,  obj.softarm_mode);
+            	blen = 221;
             }
 
             break;

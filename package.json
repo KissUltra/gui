@@ -1,8 +1,8 @@
 {
   "name": "kissultra-gui",
   "main": "start.js",
-  "version": "3.0.10",
-  "description": "KISS ULTRA FCFC Configuration tool",
+  "version": "3.0.11",
+  "description": "KISS ULTRA configuration tool",
   "single-instance": true,
   "scripts": {
     "start": "node node_modules/gulp/bin/gulp.js debug",
@@ -12,7 +12,7 @@
     "build_all": "node node_modules/gulp/bin/gulp.js release --osx64 --win32 --win64 --linux64 --chromeos"
   },
   "window": {
-    "title": "KISS ULTRA FCFC GUI",
+    "title": "KISS ULTRA GUI",
     "icon": "images/icon_128.png",
     "min_width": 900,
     "min_height": 600,
