@@ -108,7 +108,7 @@ CONTENT.advanced.initialize = function (callback) {
         	$("#mspCanvas").show();
         	
         	$('select[name="mspCanvas"]').val(data['mspCanvas']);
-        	if (data['mspCanvas'] == 1) {
+        	if (data['mspCanvas'] != 0) {
         		$(".msposd").hide();
         	} else {
         		$(".msposd").show();
@@ -116,7 +116,7 @@ CONTENT.advanced.initialize = function (callback) {
         }
        
         $('select[name="mspCanvas"]').on('change', function() {
-        	if ($(this).val() == 1) {
+        	if ($(this).val() != 0) {
         		$(".msposd").hide();
         	} else {
         		$(".msposd").show();
