@@ -457,7 +457,7 @@ CONTENT.advanced.initialize = function (callback) {
             	$("#adjustments").show();
                 $('select[name="voltageSensorOffset"]').val(+data['voltageSensorOffset']);
             }
-
+            
             // Function for CDR changebox changes
             $('input[name="CDR"]').on('change', function () {
                 if ($('input[name="CDR"]').prop('checked') ? 1 : 0 == 1) {
@@ -482,6 +482,19 @@ CONTENT.advanced.initialize = function (callback) {
                         value: serialsFunctions[i],
                         version: data['ver']
                     });
+                }
+
+                // check if we have non crossfire receiver,
+                // if so, remove receivers from all but 2 and 
+                // disable ser2 change
+                if (+data['RXType'] != 17) {
+                	  for (i = 0; i < serialsFunctions.length; i++) {
+                		  if (i != 2) {
+                			  $("#serial" + i + " select option[value='2']").remove();
+                		  } else {
+                			  $("#serial2 select").prop("disabled", true);
+                		  }
+                	  }
                 }
                 
                 if (data.lipoConnected == 1) {

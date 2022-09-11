@@ -59,7 +59,7 @@ CONTENT.configuration.initialize = function (callback) {
           } else if (brd == 2) {
           	$("#hwversion").text("FCFC_ULTRA_MINI rev. " + rev);
           } else if (brd == 3) {
-          	$("#hwversion").text("FCFC_ULTRAx rev. " + rev);
+          	$("#hwversion").text("FCFC_ULTRA_2 rev. " + rev);
           } else {
           	$("#hwversion").text("UNKNOWN rev. " + rev);
           }
