@@ -83,7 +83,7 @@ var webSerial = {
 
             self.onReceiveError.addListener(function watchForOnReceiveErrors(info) {
             	console.log("ERROR!!!");
-                console.log(info);
+                console.log(JSON.stringify(info));
                 if (info.error.code == 19) {
                 	   self.emptyOutputBuffer();
 

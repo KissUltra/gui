@@ -692,9 +692,13 @@ kissProtocol.processPacket = function (code, obj) {
                         CPUID += ((SN[r] < 16) ? '0' : '') + SN[r].toString(16).toUpperCase();
                     }
                     info.SN = CPUID;
-                    info.version = data.getUint8(p++) / 100;
+                    
+                    var v1 =  data.getUint8(p++);
+                    info.version = v1 / 100;
                     var found = info.version != 0;
-                    info.version += String.fromCharCode(data.getUint8(p++));
+                    var v2 = data.getUint8(p++);
+                    info.version += String.fromCharCode(v2);
+                    
                     var type = +data.getUint8(p++);
                     if (type == 1) {
                         info.type = 'KISS 8A';
@@ -712,6 +716,10 @@ kissProtocol.processPacket = function (code, obj) {
                         info.type = 'KISS 50A';
                     } else if (type == 21) {
                         info.type = 'KISS MINI 40A';
+                    } else if (type == 254) {
+                        info.type = 'BLHELI32';
+                        if (v2 % 10 == 0) v2/=10;
+                        info.version = v1+"."+v2;
                     } else {
                         info.type = 'ESC ID: ' + type;
                     }

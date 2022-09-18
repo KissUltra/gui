@@ -62,9 +62,14 @@ CONTENT.esc_flasher.initialize = function (callback) {
         if (self.pollEscInfo) {
             $("#escInfoDiv").show();
 
-
+            console.log("REQUEST INFO");
             kissProtocol.send(kissProtocol.GET_INFO, [kissProtocol.GET_INFO], function () {
                 var info = kissProtocol.data[kissProtocol.GET_INFO];
+                
+                console.log("GOT INFO");
+                console.log(JSON.stringify(info));
+                
+                try {
                 $("#escInfo").empty();
                 if (info['escInfoCount'] === undefined || info['escInfoCount'] == 0) {
                     self.pollEscInfo = false;
@@ -77,6 +82,12 @@ CONTENT.esc_flasher.initialize = function (callback) {
                                 console.log("Esc: " + escDetected);
                             }
                             var li = $("<li/>").html((i + 1) + ": " + info.escInfo[i].type + " " + info.escInfo[i].version + " " + $.i18n("text.sn") + " " + info.escInfo[i].SN);
+                        
+                            if (info.escInfo[i].type=='BLHELI32') {
+                            	$("#select_file,#download_file").hide();
+                            	$("#status").html("Please use BLHeli Suite to flash these ESC.");
+                            }
+                            
                         } else {
                             var li = $("<li/>").html((i + 1) + ": --");
                         }
@@ -89,6 +100,10 @@ CONTENT.esc_flasher.initialize = function (callback) {
                             }
                         }
                     }
+                }
+                } catch (e) {
+                	console.log("Error occured");
+                	console.log(e);
                 }
             });
         }
@@ -159,7 +174,7 @@ CONTENT.esc_flasher.initialize = function (callback) {
                 $("#esc-flasher-disclaimer").hide();
                 var data = kissProtocol.data[kissProtocol.GET_SETTINGS];
                 if (data.lipoConnected == 1) {
-                    kissProtocol.send(kissProtocol.ESC_INFO, [kissProtocol.ESC_INFO], function () { self.pollEscInfo = true; pollEscInfo(); });
+                    kissProtocol.send(kissProtocol.ESC_INFO, [kissProtocol.ESC_INFO], function () { self.pollEscInfo = true; pollEscInfo(); } );
                 }
             });
         });
