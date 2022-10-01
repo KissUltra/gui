@@ -498,5 +498,8 @@
 	"column.prearm-mode": "PreArm Mode",
 	"prearm.0": "First Arm Only",
 	"prearm.1": "Every Arm",
-	"column.softarm-mode": "Soft"
+	"column.softarm-mode": "Soft",
+	
+	"column.inflight.action": "Tuning selector",
+	"column.inflight.value": "Tuning knob"
 }

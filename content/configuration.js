@@ -448,18 +448,6 @@ CONTENT.configuration.initialize = function (callback) {
             var val = parseInt($(this).val());
             contentChange();
             if (val == 0) $(".tricopter").show(); else $(".tricopter").hide();
-            if (val == 7 || val == 8) {
-                if (val != 8) {
-                    $("#aux11 > dt").text($.i18n("column.PentaForward"));
-                } else {
-                    $("#aux11 > dt").text($.i18n("column.PentaHover"));
-                }
-                $("#aux11").show();
-                $('input[name="3dMode"]').prop('disabled', true);
-            } else {
-                $("#aux11").hide();
-                $('input[name="3dMode"]').prop('disabled', false);
-            }
             UpdateMixerImage(val, data['ESCOutputLayout'], data['reverseMotors']);
         });
 
@@ -668,24 +656,6 @@ CONTENT.configuration.initialize = function (callback) {
             });
 
 
-            if (data['CopterType'] != 8) {
-                $("#aux11").kissAux({
-                    name: $.i18n("column.PentaForward"),
-                    change: function () { contentChange(); },
-                    value: data['AUX'][11],
-                    knobOnly: true
-                });
-            } else {
-                $("#aux11").kissAux({
-                    name: $.i18n("column.PentaHover"),
-                    change: function () { contentChange(); },
-                    value: data['AUX'][11],
-                    knobOnly: true
-                });
-            }
-     
-        
-     
             $("#aux13").kissAux({
                 name: $.i18n("column.rth"),
                 change: function () { contentChange(); },
@@ -732,12 +702,30 @@ CONTENT.configuration.initialize = function (callback) {
             } else {
             	$("#aux14").hide();
             }
-   
-        if (data['CopterType'] == 7 || data['CopterType'] == 8) $("#aux11").show();
-        else $("#aux11").hide();
-        
-        
+            
+            // inflight tuning
+            if (data['ver'] >= 136) { // CHANGE ME!
+            	$("#aux11").kissAux({
+            		name: $.i18n("column.inflight.action"),
+            		change: function () { contentChange(); },
+            		value: data['AUX'][11]
+            	});
 
+            	$("#aux11").show();
+            	
+            	$("#aux12").kissAux({
+            		name: $.i18n("column.inflight.value"),
+            		change: function () { contentChange(); },
+            		knobOnly: true,
+            		value: data['AUX'][12]
+            	});
+
+            	$("#aux12").show();
+            } else {
+            	$("#aux11").hide();
+            	$("#aux12").hide();
+            }
+            
   
             if (data['LPF'] == data['DLpF'] && data['LPF'] == data['yawLpF']) {
                 $('select[name="lpf"]').val(data['LPF']);
@@ -750,13 +738,6 @@ CONTENT.configuration.initialize = function (callback) {
             	contentChange();
             });
 
-  
-            $("#aux12").kissAux({
-                name: $.i18n("column.RealPit"),
-                change: function () { contentChange(); },
-                value: data['AUX'][12]
-            });
-            $("#aux12").show();
     
 
         // Temp fix
@@ -1040,17 +1021,12 @@ CONTENT.configuration.initialize = function (callback) {
                 data['AUX'][10] = $("#aux10").kissAux('value');
             }
 
-            if (data['ver'] > 110 && (data['CopterType'] == 7 || data['CopterType'] == 8)) {
-                data['AUX'][11] = $("#aux11").kissAux('value');
-            }
-
+          
             if (data['ver'] >= 113) {
                 data['ESCOutputLayout'] = parseInt($('select[name="ESCOutputLayout"]').val());
                 console.log('Store ESCOutputLayout:' + data['ESCOutputLayout']);
             }
-//            if (data['ver'] >= 117) {
-//                data['AUX'][12] = $("#aux12").kissAux('value');
-//            }
+
             if (data['ver'] >= 121) {
                 data['AUX'][13] = $("#aux13").kissAux('value');
             }
@@ -1059,18 +1035,17 @@ CONTENT.configuration.initialize = function (callback) {
                 data['AUX'][14] = $("#aux14").kissAux('value');
             }
             
-            if (data['ver'] >= 129) {
-                data['gimbalPTMode'] = +$("#gimbalPTMode").val();
-                data['throttleScaling'] = parseInt($('input[name="throttleScaling"]').prop('checked') ? 1 : 0);
-                data['AUX'][12] = 0; // not supported on ultras.
-            }
-            
             if (data['ver'] >= 134) {
                 data['prearm_mode'] = +$("#prearm_mode").val();
             }
             
             if (data['ver'] >= 135) {
                 data['softarm_mode'] = +$("#softarm_mode").prop('checked') ? 1 : 0;
+            }
+            
+            if (data['ver'] >= 136) {
+        	  data['AUX'][11] = $("#aux11").kissAux('value');
+        	  data['AUX'][12] = $("#aux12").kissAux('value');
             }
         }
         settingsFilled = 1;
