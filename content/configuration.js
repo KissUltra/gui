@@ -1031,6 +1031,10 @@ CONTENT.configuration.initialize = function (callback) {
                 data['AUX'][13] = $("#aux13").kissAux('value');
             }
             
+            if (data['ver'] >= 129) {
+                data['throttleScaling'] = +$("input[name='throttleScaling']").prop('checked') ? 1 : 0;
+            }
+        
             if (data['ver'] >= 132) {
                 data['AUX'][14] = $("#aux14").kissAux('value');
             }
