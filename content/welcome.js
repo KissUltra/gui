@@ -6,7 +6,7 @@ CONTENT.welcome.initialize = function (callback) {
     var self = this;
     
     self.curPic = 0;
-    self.picCnt = 2;
+    self.picCnt = 3;
     self.timeout;
 
     GUI.switchContent('welcome', function () {
