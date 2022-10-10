@@ -119,17 +119,17 @@ CONTENT.data_output.initialize = function (callback) {
             var name = receiverNames[i];
 
             receiverContainer.append('\
-                <ul>\
-                    <li class="name">' + name + '</li>\
-                    <li class="meter">\
+                <div class="bar-row">\
+                    <div class="name">' + name + '</div>\
+                    <div class="meter">\
                         <div class="meter-bar">\
                             <div class="label"></div>\
                             <div class="fill">\
                                 <div class="label"></div>\
                             </div>\
                         </div>\
-                    </li>\
-                </ul>\
+                    </div>\
+                </div>\
             ');
         }
 
@@ -142,12 +142,7 @@ CONTENT.data_output.initialize = function (callback) {
         });
 
         var octoCotperType = [9,10];
-        // generate motor bars
-//        if (data['ver'] >= 123 && octoCotperType.indexOf(data['CopterType']) !== -1) {
-//            var motorNames = ['M1', 'M2', 'M3', 'M4', 'M5', 'M6', 'M7', 'M8'];
-//        } else {
-//            var motorNames = ['M1', 'M2', 'M3', 'M4', 'M5', 'M6'];
-//        }
+
         var motorNames = [];
         
         for (var i=0; i<self.motors; i++) {
@@ -162,20 +157,22 @@ CONTENT.data_output.initialize = function (callback) {
             var name = motorNames[i];
 
             motorContainer.append('\
-                <ul>\
-                    <li class="name">' + name + '</li>\
-                    <li class="motor">\
+                <div class="bar-row">\
+                    <div class="name">' + name + '</div>\
+                    <div class="motor">\
                         <div class="meter-bar">\
                             <div class="label"></div>\
                             <div class="fill">\
                                 <div class="label"></div>\
                             </div>\
                         </div>\
-                    </li>\
-                    <li class="test"><input style="display:none" type="checkbox" class="motor-test" value="'+ i + '"></li> \
-                </ul>\
+                    </div>\
+                    <div class="test"><input style="display:none" type="checkbox" class="motor-test" value="'+ i + '"></div> \
+                </div>\
             ');
         }
+        
+ 
 
         $('.motor .fill', motorContainer).each(function () {
             motorFillArray.push($(this));
@@ -184,10 +181,6 @@ CONTENT.data_output.initialize = function (callback) {
         $('.motor', motorContainer).each(function () {
             motorLabelArray.push($('.label', this));
         });
-
-        if (kissProtocol.data[kissProtocol.GET_SETTINGS].ver < 102) {
-            $(".motor-test-button").hide();
-        }
 
         $(".motor-test").on('change', function () {
             if (self.motorTestEnabled) {
@@ -233,19 +226,11 @@ CONTENT.data_output.initialize = function (callback) {
         });
 
         self.barResize = function () {
-            var containerWidth = $('.meter:first', receiverContainer).width(),
-                labelWidth = $('.meter .label:first', receiverContainer).width(),
-                margin = (containerWidth / 2) - (labelWidth / 2);
-
-            for (var i = 0; i < receiverLabelArray.length; i++) {
-                receiverLabelArray[i].css('margin-left', margin);
-            }
-
-            for (var i = 0; i < motorLabelArray.length; i++) {
-                motorLabelArray[i].css('margin-left', margin);
-            }
+        	$(".meter-bar .label, .meter-bar .fill .label").each(function(index) {
+        		$(this).css("margin-left",  ($(this).closest(".meter-bar").width() / 2) - ($(this).width() / 2));
+        	});
         };
-
+        
         $(window).on('resize', self.barResize).resize(); // trigger so labels
         // get correctly
         // aligned on
@@ -352,12 +337,15 @@ CONTENT.data_output.initialize = function (callback) {
             for (var i = 0; i < receiverLabelArrayLength; i++) {
                 receiverFillArray[i].css('width', ((data['RXcommands'][i] - meterScale.min) / (meterScale.max - meterScale.min) * 100).clamp(0, 100) + '%');
                 receiverLabelArray[i].text(data['RXcommands'][i]);
+            
             }
             var motorLabelArrayLength = motorLabelArray.length;
             for (var i = 0; i < motorLabelArrayLength; i++) {
                 motorFillArray[i].css('width', ((data['PWMOutVals'][i] - meterScale.min) / (meterScale.max - meterScale.min) * 100).clamp(0, 100) + '%');
                 motorLabelArray[i].text(data['PWMOutVals'][i]);
             }
+            
+            self.barResize();
 
             // other
             if (data['mode'] == 0) $("#omode").text($.i18n('text.acro'));

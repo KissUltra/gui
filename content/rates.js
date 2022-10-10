@@ -84,17 +84,17 @@ CONTENT.rates.initialize = function (callback) {
             var name = receiverNames[i];
 
             receiverContainer.append('\
-                <ul>\
-                    <li class="name">' + name + '</li>\
-                    <li class="meter">\
+                <div class="bar-row">\
+                    <div class="name">' + name + '</div>\
+                    <div class="meter">\
                         <div class="meter-bar">\
                             <div class="label"></div>\
                             <div class="fill">\
                                 <div class="label"></div>\
                             </div>\
                         </div>\
-                    </li>\
-                </ul>\
+                    </div>\
+                </div>\
             ');
         }
 
@@ -107,15 +107,11 @@ CONTENT.rates.initialize = function (callback) {
         });
 
         self.barResize = function () {
-            var containerWidth = $('.meter:first', receiverContainer).width(),
-                labelWidth = $('.meter .label:first', receiverContainer).width(),
-                margin = (containerWidth / 2) - (labelWidth / 2);
-
-            for (var i = 0; i < receiverLabelArray.length; i++) {
-                receiverLabelArray[i].css('margin-left', margin);
-            }
+        	$(".meter-bar .label, .meter-bar .fill .label").each(function(index) {
+        		$(this).css("margin-left",  ($(this).closest(".meter-bar").width() / 2) - ($(this).width() / 2));
+        	});
         };
-
+        
         $(window).on('resize', self.barResize).resize(); // trigger so labels
         // get correctly
         // aligned on
@@ -163,6 +159,7 @@ CONTENT.rates.initialize = function (callback) {
                 // redraw charts if needed
                 $(chartDivSelectors[i]).kissRatesChart('updateRcInput', (telem['RXcommands'][channel] - 1500) / 500);
             }
+            self.barResize();
             self.hasInput = true;
 
             var sampleBlock = [];

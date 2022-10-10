@@ -87,30 +87,37 @@ a.reset_model {
 }
 
 .bars {
+
+		margin-right: 20px;
 	  
+	    .bar-row {
+	    	display: flex;
+	    }
+	    
 		ul {
 	    	margin-bottom: 5px;
 	    	clear: left;
 		}
 	
 		li {
-	    	float: left;
+	    	//float: left;
 	    	height: 22px;
 	    	line-height: 20px;
+	    	display: flex;
 		}
 	
 		.name {
 	    	padding: 0 10px 0 0;
-	    	width: 40px;
+	    	width: 60px;
 	    	text-align: right;
 		}
 	
 		.meter {
-	    	width: calc(100% - 80px);
+	    	width: calc(100%);
 		}
 	
 		.motor {
-	    	width: calc(100% - 80px);
+	    	width: calc(100%);
 		}
 	
 		.meter-bar {
@@ -124,10 +131,8 @@ a.reset_model {
 	
 		.meter-bar .label {
 	    	position: absolute;
-	    	width: 50px;
 	    	height: 15px;
 	    	line-height: 15px;
-	    	text-align: center;
 	    	color:  $bar_color2;
 		}
 	
