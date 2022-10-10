@@ -63,6 +63,7 @@
     }
   },
   "dependencies": {
-    "appdmg": "^0.6.0"
+    "appdmg": "^0.6.0",
+    "mustache": "^4.2.0"
   }
 }

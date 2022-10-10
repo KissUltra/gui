@@ -113,6 +113,8 @@ $(document).ready(function () {
     	}
     }
 
+    $.Mustache.load("./content/templates.html").done(function () {
+    	
     PortHandler.initialize();
     CONTENT.welcome.initialize();
     
@@ -144,8 +146,17 @@ $(document).ready(function () {
     $(".update-download").on("click", function() {
     	hideModal();
     });
+
+    
+    });
+    
 });
 
 Number.prototype.clamp = function (min, max) {
     return Math.min(Math.max(this, min), max);
 };
+
+
+
+
+

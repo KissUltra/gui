@@ -270,8 +270,10 @@ function dist_src() {
     './js/port_handler.js',
     './js/protocol.js',
     './js/serial.js',
+    './js/libraries/mustache.min.js',
+    './js/libraries/jquery-mustache.js',
     './js/startup.js',
-
+    
     // Tabs
     './start.js',
     './main.js',

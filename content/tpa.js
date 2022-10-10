@@ -91,21 +91,7 @@ CONTENT.tpa.initialize = function (callback) {
         }
 
         for (var i = 0; i < receiverNames.length; i++) {
-            var name = receiverNames[i];
-
-            receiverContainer.append('\
-                <div class="bar-row">\
-                    <div class="name">' + name + '</div>\
-                    <div class="meter">\
-                        <div class="meter-bar">\
-                            <div class="label"></div>\
-                            <div class="fill">\
-                                <div class="label"></div>\
-                            </div>\
-                        </div>\
-                    </div>\
-                </div>\
-            ');
+        	receiverContainer.append($.Mustache.render("receiver-bar-template", {'name':receiverNames[i]}));
         }
 
         $('.meter .fill', receiverContainer).each(function () {

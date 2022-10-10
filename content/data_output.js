@@ -116,21 +116,7 @@ CONTENT.data_output.initialize = function (callback) {
 
 
         for (var i = 0; i < receiverNames.length; i++) {
-            var name = receiverNames[i];
-
-            receiverContainer.append('\
-                <div class="bar-row">\
-                    <div class="name">' + name + '</div>\
-                    <div class="meter">\
-                        <div class="meter-bar">\
-                            <div class="label"></div>\
-                            <div class="fill">\
-                                <div class="label"></div>\
-                            </div>\
-                        </div>\
-                    </div>\
-                </div>\
-            ');
+        	receiverContainer.append($.Mustache.render("receiver-bar-template", {'name':receiverNames[i]}));
         }
 
         $('.meter .fill', receiverContainer).each(function () {
@@ -153,23 +139,9 @@ CONTENT.data_output.initialize = function (callback) {
         var motorFillArray = [];
         var motorLabelArray = [];
 
+        
         for (var i = 0; i < motorNames.length; i++) {
-            var name = motorNames[i];
-
-            motorContainer.append('\
-                <div class="bar-row">\
-                    <div class="name">' + name + '</div>\
-                    <div class="motor">\
-                        <div class="meter-bar">\
-                            <div class="label"></div>\
-                            <div class="fill">\
-                                <div class="label"></div>\
-                            </div>\
-                        </div>\
-                    </div>\
-                    <div class="test"><input style="display:none" type="checkbox" class="motor-test" value="'+ i + '"></div> \
-                </div>\
-            ');
+            motorContainer.append($.Mustache.render("motor-bar-template", {'id':i, 'name':motorNames[i]}));
         }
         
  
