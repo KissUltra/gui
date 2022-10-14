@@ -13,7 +13,10 @@ CONTENT.configuration.initialize = function (callback) {
     var self = this;
     
     self.hwTimeout = 0;
-   
+    self.requestTelemetry = false;
+    self.telemetry = {};
+    self.telemetryTimer = undefined;
+    
     function updateMixers() {
     	console.log("Update mixers");
     	var is4Motors = false;
@@ -300,6 +303,314 @@ CONTENT.configuration.initialize = function (callback) {
     	}
     };
     
+    
+    self.images = [];
+    
+    self.barResize = function () {
+    	$(".meter-bar .label, .meter-bar .fill .label").each(function(index) {
+    		$(this).css("margin-left",  ($(this).closest(".meter-bar").width() / 2) - ($(this).width() / 2));
+    	});
+    };
+    
+    $(window).on('resize', self.barResize).resize(); // trigger so labels
+    
+    function updateWizard() {
+    	var data = self.telemetry;
+    	// do label
+    	$(".meter-bar .label, .meter-bar .fill .label").each(function(index) {
+    		 $(this).text(data['RXcommands'][0]);
+    	});
+    	// do bar
+    	$(".meter-bar .fill").each(function(index) {
+    		$(this).css('width', ((data['RXcommands'][0] - 1000) / 10).clamp(0, 100) + '%');
+    	});
+       
+        self.barResize(); 
+        
+        if (data['RXcommands'][0] > 1024) {
+        	$(".motor-wizard .wizard-button").addClass("wizard-button-disabled");
+        	$(".motor-wizard-motor-indicator").addClass("active");
+        } else {
+        	$(".motor-wizard .wizard-button").removeClass("wizard-button-disabled");
+        	$(".motor-wizard-motor-indicator").removeClass("active");
+        }
+    }
+    
+    function fastDataPoll() {
+        if (self.requestTelemetry) {
+            kissProtocol.send(kissProtocol.GET_TELEMETRY, [kissProtocol.GET_TELEMETRY], function () {
+                if (GUI.activeContent == 'configuration') {
+                    self.telemetry = kissProtocol.data[kissProtocol.GET_TELEMETRY];
+                    self.updateTimeout = window.setTimeout(function () { updateWizard(); }, 20);
+                }
+            });
+            
+            self.telemetryTimeout =  self.updateTimeout = window.setTimeout(function () { fastDataPoll(); }, 10);
+        }
+    }
+    
+    function preloadImages() {
+        for (var i = 0; i < arguments.length; i++) {
+            images[i] = new Image();
+            images[i].src = preload.arguments[i];
+        }
+    }
+
+    
+    // wizard
+    function openMotorWizard(motor, stage) {
+    	var iid = 0;
+    	// preload images
+    	for (var i = 0; i < 4; i++) {
+    		self.images[iid] = new Image();
+    		self.images[iid].src = "images/wizard/"+(i+1)+"cw.png";
+    		iid++;
+    		self.images[iid] = new Image();
+    		self.images[iid].src = "images/wizard/"+(i+1)+"ccw.png";
+        }
+    	iid++;
+    	self.images[iid] = new Image();
+		self.images[iid].src = "images/wizard/0.png";
+    	
+    	var config = kissProtocol.data[kissProtocol.GET_SETTINGS];
+   	 	var ct = config.CopterType;
+   	 	if (ct == 0) {
+   	 		self.motors = 3;
+   	 	} else if (ct >=1 && ct<=3 ) {
+   	 		self.motors = 4;
+   	 	} else if (ct >=4 && ct<=6 ) {
+   	 		self.motors = 6;
+   	 	} else if (ct >=7 && ct<=8 ) {
+   	 		self.motors = 5;
+   	 	} else {
+   	 		self.motors = 8;
+   	 	}    	
+   	 	
+   	 	self.wizardMotor = motor;
+    	self.wizardStage = stage; // 0 - intro; 1 - spin the motor
+    	
+    	var steps = [{ 
+			'template' : 'motor-wizard-welcome-template',
+			'type': 'welcome',
+			'dataProvider' : {
+				'motors': self.motors
+			},
+			'postload' : function(plugin, step) {
+				  	var tmp = {
+		                    'buffer': new ArrayBuffer(9),
+		                    'motorTestEnabled': 0,
+		                    'motorTest': [0, 0, 0, 0, 0, 0, 0, 0]
+		            };
+				  	kissProtocol.send(kissProtocol.MOTOR_TEST, kissProtocol.preparePacket(kissProtocol.MOTOR_TEST, tmp));
+			}
+		}];
+    	
+    	for (var i = 1; i <= self.motors; i++) {
+    		var m1 = { 
+    				'template' : 'motor-wizard-motor-spin-template',
+    				'type' : 'motor',
+    				'dataProvider' : {
+    					'motor': i,
+    					'mixerImage':  "images/wizard/0.png"
+    				},
+    				'postload': function(plugin, step) {
+    					
+    					  	var tmp = {
+    			                    'buffer': new ArrayBuffer(9),
+    			                    'motorTestEnabled': 2,
+    			                    'motorTest': [0, 0, 0, 0, 0, 0, 0, 0]
+    			            };
+    			            
+    					  	tmp.motorTest[+step.dataProvider.motor - 1] = 1;
+    					  	
+    					  	console.log(tmp);
+    					  	
+    					  	kissProtocol.send(kissProtocol.MOTOR_TEST, kissProtocol.preparePacket(kissProtocol.MOTOR_TEST, tmp));
+
+    						$("#wizard-image", plugin).click(function(e) {
+    						  var posX = $(this).offset().left, posY = $(this).offset().top;
+    						  var x = e.pageX - posX;
+    						  var y = e.pageY - posY;
+    						  var m = 0;
+    						  if ((x < 150) && y < 100) {
+    							  m = 1;
+    						  } else if ((x > 150) && y < 100) {
+    							  m = 2;
+    						  } else if ((x > 150) && y > 100) {
+    							  m = 3;
+    						  } else if ((x < 150) && y > 100) {
+    							  m = 4;
+    						  }
+    						  
+    						  step.dataProvider.newMotor = m;
+    						  if (step.dataProvider.newDirection === undefined) {
+    							  step.dataProvider.newDirection = "cw";
+    						  } else {
+    							  step.dataProvider.newDirection = step.dataProvider.newDirection == "cw" ? "ccw" : "cw";
+    						  }
+    						  
+    						  var pic = "images/wizard/0.png";
+    						  if (step.dataProvider.newDirection !== undefined) {
+    							  var pic = "images/wizard/" + step.dataProvider.newMotor + step.dataProvider.newDirection+".png";
+    						  }
+    						  $(this).attr("src", pic);
+    						});
+    					
+     						var pic = "images/wizard/0.png";
+    						if (step.dataProvider.newDirection !== undefined) {
+							  pic = "images/wizard/" + step.dataProvider.newMotor + step.dataProvider.newDirection+".png";
+    						}
+    		
+						  $("#wizard-image", plugin).attr("src", pic);
+    				
+    				}
+    		}
+
+    		steps.push(m1);
+    	};
+    	
+    	
+    	var m1 = { 
+				'template' : 'motor-wizard-motor-layout-template',
+				'type': 'layout',
+				'dataProvider' : {
+					'motors': self.motors
+				},
+				'preload': function(plugin, step) {
+					var steps = $(plugin).kissWizard("steps");
+					var map = "";
+					$.each(steps, function(key, value) { 
+						if (value.type == "motor") {
+							map = map + value.dataProvider.newMotor;
+						}
+					});
+					
+					console.log("Found motor layout: " + map);
+					
+					var motorLayouts = [
+			    		// kiss
+			    		"1234",
+			    		"2341",
+			    		"4123",
+			    		"3412",
+			    		"2143",
+			    		"3214",
+			    		"1432",
+			    		"4321",
+			    		// bf
+			    		"3241",
+			    		"4312",
+			    		"2134",
+			    		"1423",
+			    		"4132",
+			    		"1243",
+			    		"3421",
+			    		"2314"
+			    	];
+					
+					step.dataProvider.complete = false;
+					
+					$.each(motorLayouts, function(key, value) { 
+						if (value == map) {
+							step.dataProvider.layout = key;
+							step.dataProvider.brand = key < 8 ? "KISS" : "BetaFlight";
+							step.dataProvider.layoutName = $("#ESCOutputLayout option[value=" + key + "]").text();
+							var pic = "images/mixer/";
+							if (key == 0) pic += "2"; else pic += "2_" + key;
+							pic+=".png";
+							step.dataProvider.mixerImage = pic;
+							step.dataProvider.reverseAll = false;
+							step.dataProvider.complete = true;
+						
+						}
+					});
+					
+					if (!step.dataProvider.complete) {
+						step.dataProvider.mixerImage = "images/mixer/unknown.png";
+					}
+				},
+				
+				'postload': function(plugin, step) {
+					
+				 	var tmp = {
+		                    'buffer': new ArrayBuffer(9),
+		                    'motorTestEnabled': 0,
+		                    'motorTest': [0, 0, 0, 0, 0, 0, 0, 0]
+		            };
+				  	
+				 	kissProtocol.send(kissProtocol.MOTOR_TEST, kissProtocol.preparePacket(kissProtocol.MOTOR_TEST, tmp));
+				  	
+
+					$("#wizard-image-layout", plugin).click(function(e) {
+					 
+					  if (step.dataProvider.complete) {
+						  step.dataProvider.reverseAll = !step.dataProvider.reverseAll;
+						  var pic = "images/mixer/";
+						  if (step.dataProvider.layout == 0) pic += "2"; else pic += "2_" + step.dataProvider.layout;
+						  if (step.dataProvider.reverseAll) pic += "_inv";
+						  pic+=".png";
+					  } else {
+						  pic = "images/mixer/unknown.png";
+					  }
+					
+					  $(this).attr("src", pic);
+					});
+				
+					var pic = "images/mixer/";
+					if (step.dataProvider.complete) {
+						if (step.dataProvider.layout == 0) pic += "2"; else pic += "2_" + step.dataProvider.layout;
+						if (step.dataProvider.reverseAll) pic += "_inv";
+						pic+=".png";
+					} else {
+						pic += "unknown.png";
+					}
+					
+					$("#wizard-image-layout", plugin).attr("src", pic);
+					
+					if (step.dataProvider.complete) {
+						$(".wizard-button-save").show();
+					} else {
+						$(".wizard-button-save").hide();
+					}
+					
+					$(".wizard-button-save").off("click").click(function() {
+						if (!$(this).hasClass("wizard-button-disabled")) {
+							alert("Save");
+						}
+					});
+			
+				},
+				
+				"unload": function(plugin, step) {
+					$(".wizard-button-save").hide();
+				}
+    	}
+		
+		steps.push(m1);
+    	
+    	
+    
+    	$(".motor-wizard-inner").kissWizard({
+    		'buttonsTemplate': 'motor-wizard-buttons-template',
+    		'headerTemplate': 'motor-wizard-header-template',
+    		steps: steps,
+    		name: "Motor Wizard",
+    		currentStep: 0
+    	});
+    	
+    	
+    	
+    	
+    	$(".modal-overlay").show();
+    	$(".motor-wizard").show();
+    	
+    	self.barResize();
+    	
+    	self.requestTelemetry = true;
+    	 if (GUI.activeContent == 'configuration') self.telemetryTimeout = window.setTimeout(function () { fastDataPoll(); }, 10);
+    }
+    
+    
     function isLegacyDefaults(data) {
     	
     	if ((+data['G_P'][0] == 3) &&
@@ -447,7 +758,7 @@ CONTENT.configuration.initialize = function (callback) {
         mixer_list_e.on('change', function () {
             var val = parseInt($(this).val());
             contentChange();
-            if (val == 0) $(".tricopter").show(); else $(".tricopter").hide();
+            //if (val == 0) $(".tricopter").show(); else $(".tricopter").hide();
             UpdateMixerImage(val, data['ESCOutputLayout'], data['reverseMotors']);
         });
 
@@ -1058,7 +1369,7 @@ CONTENT.configuration.initialize = function (callback) {
             if (typeof ESCOrientation == 'undefined') ESCOrientation = 0;
             console.log("Updating mixer image: Type=" + Type + " ESCOrientation=" + ESCOrientation + " Reverse=" + Reverse);
 
-            $('.mixerPreview img').attr('src', './images/mixer/' + Type + (ESCOrientation > 0 && (Type == 1 || Type == 2) ? '_' + ESCOrientation : '') + (Reverse == 0 ? '' : '_inv') + ".png");
+            $('.mixerPreview img.main-mixer').attr('src', './images/mixer/' + Type + (ESCOrientation > 0 && (Type == 1 || Type == 2) ? '_' + ESCOrientation : '') + (Reverse == 0 ? '' : '_inv') + ".png");
         }
 
         function contentChange() {
@@ -1296,6 +1607,11 @@ CONTENT.configuration.initialize = function (callback) {
             document.getElementById('files').addEventListener('change', handleFileSelect, false);
         }
         
+        $("#motor-wizard-button").click(function() {
+            openMotorWizard(1, 0);
+        });
+        
+    
         scrollTop();
     }
 };

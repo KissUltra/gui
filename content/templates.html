@@ -10,10 +10,11 @@
                      </div>
                 </div>
             </div>
-       	<div class="test"><input style="display:none" type="checkbox" class="motor-test" value="{{id}}"></div>
+       	<div class="test" style="display:none; margin-left:5px"><input style="display:none" type="checkbox" class="motor-test" value="{{id}}"></div>
     </div>
 </div>
 </script>
+
 
 <script id="receiver-bar-template" type="text/html">
   <div class="bar-row">
@@ -29,3 +30,92 @@
       </div>
   </div>
 </script>
+
+
+<script id="motor-wizard-welcome-template" type="text/html">
+		<div class="block block-h-100">
+ 		<!--	<div class="title" data-i18n="title.motor.wizard">Motor Wizard</div> -->
+			<div class="body">
+<br><br>
+  You are about to start motor wizard. <br><br>
+  Please </b>REMOVE PROPELLERS</b> and follow the on-screen instructions.<br>For safety reasons, motor output will be limited to 10%<br><br> 
+ULTRA is about to learn its motor positions and directions for {{motors}} motors.<br><br>
+			</div>
+		</div>
+</script>
+
+<script id="motor-wizard-buttons-template" type="text/html">
+		<div class="block" style="margin-bottom:2px">
+			<div class="body" style="height:26px; padding:0px">
+<a class="wizard-button-prev wizard-button wizard-button-disabled" href="#" data-i18n="button.wizard.prev">Back</a>
+<a class="wizard-button-next wizard-button wizard-button-disabled" href="#" data-i18n="button.wizard.next">Next</a>
+<a class="wizard-button-save wizard-button wizard-button-disabled" style="display:none" href="#" data-i18n="button.wizard.save">Save</a>
+</div>
+		</div>
+</script>
+
+<script id="motor-wizard-motor-spin-template" type="text/html">
+	<div class="block block-h-100">
+		<div class="body" style="display:flex">
+			<div>
+				<br>
+				Please spin up motor on output {{motor}} using throttle stick of your radio and then click on currently spinning motor on the picture. <br><br>
+				Click again on the same motor if picture shows opposite rotation of the motor.<br><br>
+			</div>
+			<div>
+				<div class="motor-wizard-motor-indicator">{{motor}}</div>
+				<img id="wizard-image" class="mixer-image wizard-image" src="{{mixerImage}}" width="300" height="200"/>
+			</div>
+	</div>
+</div>
+</script>
+
+<script id="motor-wizard-header-template" type="text/html">
+		<div class="block">
+ 			<div class="title" data-i18n="title.motor.wizard">Motor Wizard</div>
+			<div class="body" style="padding-bottom:5px; height:30px">
+				<div id="rbars" class="bars">
+					<div class="bar-row">
+     					<div class="name">Throttle</div>
+        				<div class="meter">
+           					<div class="meter-bar">
+               					<div class="label" style="margin-left: 0px;">1000</div>
+               					<div class="fill" style="width: 0%;">
+                    				<div class="label" style="margin-left: 0px;">1000</div>
+               					</div>
+        					</div>
+      					</div>
+					</div>
+ 				</div>
+			</div>
+		</div>
+ </script>
+ 
+ <script id="motor-wizard-motor-layout-template" type="text/html">
+	<div class="block block-h-100">
+		<div class="body" style="display:flex">
+			<div style="flex-grow:5">
+				<br>
+				{{#complete}}
+					<br>
+					Based on your information, looks like<br>you are using {{brand}} ESC in {{layoutName}} orientation.<br><br>
+					Do you want to fly your ULTRA prop-in or prop-out?<br>Click on the image to change it.<br><br>
+				{{/complete}}
+				{{^complete}}
+					Unfortunatelly ULTRA is unable to recognise your ESC.<br><br>
+					This may happen if you selected wrong motors, or did not wire your ESC correctly.<br><br>
+					Please try again, check your wiring or use DSHOT Router for custom configuration.
+				{{/complete}}
+			</div>
+			<div>
+				<img id="wizard-image-layout" class="mixer-image wizard-image" src="{{mixerImage}}" width="300" height="200"/>
+			</div>
+		</div>
+	</div>
+</script>
+ 
+ 
+ 
+ 
+ 
+		

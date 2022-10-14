@@ -124,6 +124,7 @@
 			}
 			return '';
 		}
+
 		return getMustache().render(templateMap[templateName], templateData, templateMap);
 	}
 

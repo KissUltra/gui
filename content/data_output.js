@@ -16,11 +16,15 @@ CONTENT.data_output.initialize = function (callback) {
     self.gps = {};
     self.homeinfo = {};
     self.telemCount = 0;
-
+    self.config = {};
     self.motors = 4;
     
+    self.curMapping = "";
+
+       
     GUI.switchContent('data_output', function () {
     	 kissProtocol.send(kissProtocol.GET_SETTINGS, [kissProtocol.GET_SETTINGS], function () {
+    		 self.config = kissProtocol.data[kissProtocol.GET_SETTINGS];
     		 // how many motors we have?
     		 var ct = kissProtocol.data[kissProtocol.GET_SETTINGS].CopterType;
     		 if (ct == 0) {
@@ -94,6 +98,8 @@ CONTENT.data_output.initialize = function (callback) {
             }
         }
     }
+    
+    
 
 
     function htmlLoaded() {
@@ -138,14 +144,24 @@ CONTENT.data_output.initialize = function (callback) {
         var motorContainer = $('#mbars');
         var motorFillArray = [];
         var motorLabelArray = [];
-
-        
+  
         for (var i = 0; i < motorNames.length; i++) {
-            motorContainer.append($.Mustache.render("motor-bar-template", {'id':i, 'name':motorNames[i]}));
+            motorContainer.append($.Mustache.render("motor-bar-template", {'id':i, 'name':motorNames[i], 'outputs':self.config.ver >= 137}));
+            // set default routes and remap handlers
+            if (self.config.ver >= 137) {
+            	$("select[name='mapping_m" + i + "']").val(self.config.dshotMapping[i]).change(function() {
+            		var tmp = $(this).val();
+            		$("select.motor-mapping").not(this).each(function(index) {
+            			if ($(this).val() == tmp) {
+            				$(this).val(self.curMapping);
+            			}
+            		});
+            	}).click(function() {
+            		self.curMapping = $(this).val();
+            	});
+            }
         }
         
- 
-
         $('.motor .fill', motorContainer).each(function () {
             motorFillArray.push($(this));
         });
@@ -153,13 +169,14 @@ CONTENT.data_output.initialize = function (callback) {
         $('.motor', motorContainer).each(function () {
             motorLabelArray.push($('.label', this));
         });
-
+        
         $(".motor-test").on('change', function () {
             if (self.motorTestEnabled) {
                 var motorTest = [0, 0, 0, 0, 0, 0, 0, 0];
                 $(".motor-test").each(function (motor, elm) {
                     motorTest[motor] = $(elm).is(':checked') ? 1 : 0;
                 });
+                                
                 var tmp = {
                     'buffer': new ArrayBuffer(9),
                     'motorTestEnabled': 1,
@@ -169,6 +186,7 @@ CONTENT.data_output.initialize = function (callback) {
             }
         });
 
+        
         $('.motor-test-enabled').on('change', function () {
             $(".motor-test").prop('checked', false);
             self.motorTestEnabled = this.checked;
@@ -186,12 +204,13 @@ CONTENT.data_output.initialize = function (callback) {
         });
 
         $(".motor-test-button").on("click", function () {
+        	$(".test").show();
             $("#motor-test-disclaimer").show();
         });
 
         $(".warning-button").on("click", function () {
             $(".motor-test-button").hide();
-            $(".motor-test").show();
+            $(".motor-test, .motor-reverse, .motor-mapping").show();
             $(".motor-test-enabled").show();
             $("#motorTestTitle span").first().text($.i18n('text.enable-motor-test'));
             $("#motor-test-disclaimer").hide();
@@ -249,9 +268,9 @@ CONTENT.data_output.initialize = function (callback) {
             }
 
             if (data['RXcommands'][0] < 1020 && self.motorTestEnabled) {
-                $(".motor-test").prop("disabled", false);
+                $(".motor-test, .motor-reverse, .motor-mapping").prop("disabled", false);
             } else {
-                $(".motor-test").prop("disabled", true);
+                $(".motor-test, .motor-reverse, .motor-mapping").prop("disabled", true);
             }
             
             // set to empty

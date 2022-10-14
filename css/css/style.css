@@ -111,6 +111,20 @@
   height: 160px;
   display: inline-block; }
 
+.noselect {
+  -webkit-touch-callout: none;
+  /* iOS Safari */
+  -webkit-user-select: none;
+  /* Safari */
+  -khtml-user-select: none;
+  /* Konqueror HTML */
+  -moz-user-select: none;
+  /* Old versions of Firefox */
+  -ms-user-select: none;
+  /* Internet Explorer/Edge */
+  user-select: none;
+  /* Non-prefixed version, currently  supported by Chrome, Edge, Opera and Firefox */ }
+
 .configuration {
   padding-bottom: 50px; }
 .configuration .mixer {
@@ -200,6 +214,72 @@
 
 .tricopter {
   display: none; }
+
+.motor-wizard {
+  position: absolute;
+  top: 100px;
+  left: 100px;
+  background-color: green;
+  width: 50%;
+  height: 360px;
+  z-index: 2021;
+  min-width: 600px; }
+
+.motor-wizard-body {
+  padding: 5px; }
+
+.motor-wizard-motor-indicator {
+  font-size: 40px;
+  position: absolute;
+  right: 30px;
+  top: 80px;
+  color: #444; }
+
+.motor-wizard-motor-indicator.active {
+  color: #fff; }
+
+.motor-wizard-inner {
+  width: calc(100% - 25px);
+  height: calc(100% - 30px);
+  margin: 10px;
+  padding: 5px;
+  padding-right: 0px; }
+
+.motor-wizard-inner .body {
+  font-size: 14px; }
+
+.wizard-content {
+  margin-bottom: 8px;
+  height: 100%; }
+
+.wizard-button {
+  margin: 3px;
+  color: white;
+  padding: 0 10px 0 10px;
+  height: 20px;
+  line-height: 20px;
+  background-color: #9C241B;
+  text-align: center;
+  min-width: 50px; }
+
+.wizard-button-disabled {
+  background-color: #666;
+  cursor: wait; }
+
+.wizard-button-prev {
+  float: left; }
+
+.wizard-button-next, .wizard-button-save {
+  float: right; }
+
+.wizard-container {
+  display: flex;
+  flex-direction: column;
+  width: calc(100% - 8px);
+  height: 100%; }
+
+.wizard-image {
+  margin-top: 7px; }
 
 .esc_flasher .flash {
   position: absolute;
@@ -985,8 +1065,13 @@ ul.osd-backgrounds-thimbnails li img.active {
   background-color: white;
   margin-left: 10px; }
 
-.motor-test {
-  margin-left: 10px; }
+.motor-test, .motor-reverse {
+  margin-left: 5px; }
+
+select.motor-mapping {
+  font-size: 12px;
+  height: 18px;
+  width: 50px; }
 
 .otherValues {
   width: 98%; }

@@ -36,8 +36,14 @@
 	    margin-bottom: 50px;
 	}
 	
-	.motor-test {
-	    margin-left: 10px;
+	.motor-test, .motor-reverse {
+	    margin-left: 5px;
+	}
+	
+	select.motor-mapping {
+		font-size: 12px;
+		height: 18px;
+		width: 50px;
 	}
 	
 
@@ -212,4 +218,4 @@ a.reset_model {
 			text-align: center;
 		}
 		
-	
+		

@@ -8,17 +8,7 @@
                     <div class="body">
 
 				<div class="mixerPreview" style="float: right">
-					<img class="mixer-image" src="./images/mixer/0.png" />
-					<div id="pentaNoteFC"
-						style="display: none; margin-left: 60px; margin-top: -40px; position: absolute; color: #FF4444;">
-						NOTE: <br />On the KISSFC v1 PWM5 is mapped <br />on PWM6 when
-						Dshot is active!
-					</div>
-					<div id="pentaNoteCC"
-						style="display: none; margin-left: 60px; margin-top: -40px; position: absolute; color: #FF4444;">
-						NOTE: <br />On the KISSCC PWM5 is on SPI Pin MO if Dshot is used
-						<br />else its on SPI MI
-					</div>
+					<img class="mixer-image main-mixer" src="./images/mixer/0.png" />
 				</div>
 
 				<select class="mixer unsafe" name="mixer" />
@@ -42,7 +32,7 @@
                         <option value="13" data-i18n="escOrientation.13">BF Upside-Down 90° CW</option>
                         <option value="14" data-i18n="escOrientation.14">BF Upside-Down 90° CCW</option>
                         <option value="15" data-i18n="escOrientation.15">BF Upside-Down 180° CW/CCW</option>
-                    </select>
+                    </select> <a href="#" id="motor-wizard-button">Wizard</a>
 			</div>
 		</div>
 
@@ -288,7 +278,8 @@
 			</div>
 		</div>
 		
-		
+
+
 		
 	</div>
 
@@ -460,3 +451,9 @@
 
 	<div id="gui_version_mismatch" style="display:none"></div>
     <input style="display:none" type="file" id="files" name="files[]" />
+    
+    
+       	<div class="kiss-warning motor-wizard noselect">
+    		<div class="kiss-warning-inner motor-wizard-inner"></div>
+    	</div>
+ 
