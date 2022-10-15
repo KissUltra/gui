@@ -62,6 +62,7 @@ var kissProtocol = {
 	GET_HARDWARE_INFO: 0x75,
 	GET_OSD_CONFIG: 0x76, // chunked
 	SET_OSD_CONFIG: 0x77, // chunked
+	SET_MOTOR_WIZARD: 0x78,
 
     block: false,
     ready: false,
@@ -1210,6 +1211,20 @@ kissProtocol.preparePacket = function (code, obj) {
                 blen = 8;
             }
             break;
+            
+        case this.SET_MOTOR_WIZARD:
+        	data.setUint8(0, obj.motorLayout, 0);
+            data.setUint8(1, obj.escSettings[0], 0);
+            data.setUint8(2, obj.escSettings[1], 0);
+            data.setUint8(3, obj.escSettings[2], 0);
+            data.setUint8(4, obj.escSettings[3], 0);
+            data.setUint8(5, obj.escSettings[4], 0);
+            data.setUint8(6, obj.escSettings[5], 0);
+            data.setUint8(7, obj.escSettings[6], 0);
+            data.setUint8(8, obj.escSettings[7], 0);
+            blen = 9;
+            
+            break;    
 
         case this.ESC_INFO:
 

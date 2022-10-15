@@ -281,6 +281,19 @@
 .wizard-image {
   margin-top: 7px; }
 
+.motor-wizard-button {
+  display: inline-block;
+  color: white;
+  padding: 0 10px 0 10px;
+  height: 22px;
+  line-height: 24px;
+  background-color: #9C241B;
+  text-align: center;
+  min-width: 40px; }
+
+.motor-wizard-button-disabled {
+  background-color: #444; }
+
 .esc_flasher .flash {
   position: absolute;
   bottom: 10px;

@@ -475,7 +475,13 @@
 	"column.softarm-mode": "Soft",
 	
 	"column.inflight.action": "Tuning selector",
-	"column.inflight.value": "Tuning knob"
+	"column.inflight.value": "Tuning knob",
+	
+	"button.motor.wizard": "Wizard",
+	"title.motor.wizard": "Motor Wizard",
+	"button.wizard.next": "Next",
+	"button.wizard.prev": "Back",
+	"button.wizard.save": "Save"
     
     
 }

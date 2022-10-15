@@ -77,7 +77,13 @@
             	}
             });
          
-           privateMethods.reloadContent(self);
+        	if (data.steps[data.currentStep].preload !== undefined) {
+    			data.steps[data.currentStep].preload(self, data.steps[data.currentStep]);
+    		}
+            privateMethods.reloadContent(self);
+       		if (data.steps[data.currentStep].postload !== undefined) {
+       			data.steps[data.currentStep].postload(self, data.steps[data.currentStep]);
+       		}
         },
 
         updateButtons: function(self) {

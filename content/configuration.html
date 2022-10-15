@@ -13,7 +13,6 @@
 
 				<select class="mixer unsafe" name="mixer" />
 					
-
                     <div class="groupTitle" data-i18n="title.custom-esc-orientation">ESC orientation</div>
                     <select class="unsafe" disabled="disabled" name="ESCOutputLayout" id="ESCOutputLayout">
                         <option value="0" data-i18n="escOrientation.0">Default</option>
@@ -32,8 +31,10 @@
                         <option value="13" data-i18n="escOrientation.13">BF Upside-Down 90° CW</option>
                         <option value="14" data-i18n="escOrientation.14">BF Upside-Down 90° CCW</option>
                         <option value="15" data-i18n="escOrientation.15">BF Upside-Down 180° CW/CCW</option>
-                    </select> <a href="#" id="motor-wizard-button">Wizard</a>
-			</div>
+                    </select> <a href="#" id="motor-wizard-button" class="motor-wizard-button motor-wizard-button-disabled" style="display:none" data-i18n="button.motor.wizard">Wizard</a><br>
+                   <span style="color:#999; font-size:13px">If you want to use the wizard, please set <br>motor output mapping to Default.<br>ESC configuration requires LIPO!</span>
+                    
+                   </div>
 		</div>
 
 

@@ -512,6 +512,7 @@
 	"column.inflight.action": "Tuning selector",
 	"column.inflight.value": "Tuning knob",
 	
+	"button.motor.wizard": "Wizard",
 	"title.motor.wizard": "Motor Wizard",
 	"button.wizard.next": "Next",
 	"button.wizard.prev": "Back",
