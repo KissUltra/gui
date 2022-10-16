@@ -1223,9 +1223,11 @@ CONTENT.configuration.initialize = function (callback) {
        $(".unsafe_active").prop('disabled', true);
        
        if (data['ver'] >= 137) { 
+    	    $("#wizard-intro").show();
        		$("#motor-wizard-button").show();
        		self.checkMotorWizard();
        } else {
+    	    $("#wizard-intro").hide();
        		$("#motor-wizard-button").hide();
        }
 
