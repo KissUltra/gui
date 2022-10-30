@@ -451,6 +451,7 @@
     "serial.11": "VTX",
     "column.debug-fields": "Debug fields",
     "title.analog-current": "Camera control / Current sensor",
+    "title.analog-current2": "Current sensor",
 	"column.cc-mode": "CC pad mode",
 	"cc-mode.0": "Camera control",
 	"cc-mode.1": "Current sensor",

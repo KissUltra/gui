@@ -496,6 +496,7 @@
 	"serial.11": "VTX",
 	"column.debug-fields": "Campi di Debug",
 	"title.analog-current": "Controllo Telecamera / Sensore di Corrente",
+	"title.analog-current2": "Sensore di Corrente",
 	"column.cc-mode": "Modalità del pad CC",
 	"cc-mode.0": "Controllo Telecamera",
 	"cc-mode.1": "Sensore di Corrente",

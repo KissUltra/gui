@@ -18,6 +18,17 @@ CONTENT.advanced.initialize = function (callback) {
         });
     });
 
+    self.isUltra2 = function() {
+    	if (kissProtocol.data[kissProtocol.GET_HARDWARE_INFO] != undefined) {
+        	  var info = kissProtocol.data[kissProtocol.GET_HARDWARE_INFO];
+        	  var hw = info.hardwareVersion & 0xFF00;
+        	  if (hw >= 0x0300) {
+        		  return true;
+        	  }
+    	} 
+    	return false;
+    } 
+    
     function htmlLoaded(data) {
         validateBounds('#content input[type="number"]');
 
@@ -100,10 +111,18 @@ CONTENT.advanced.initialize = function (callback) {
         	
         	$('input[name="currentSensorDivider"]').val(+data['currentSensorDivider']);
         	
-        	if (data['ccPadMode'] == 0) {
-        	    $("#currentSensorDivider").hide();
-        	} else {
+        	if (self.isUltra2()) {
         		$("#currentSensorDivider").show();
+        		$('select[name="ccPadMode"]').val(0).hide();
+        		$("#ccpadmodediv").hide();
+        		$("#analogCurrent > .title").attr('data-i18n', 'title.analog-current2');
+        		changeLanguage();
+        	} else {
+        		if (data['ccPadMode'] == 0) {
+        			$("#currentSensorDivider").hide();
+        		} else {
+        			$("#currentSensorDivider").show();
+        		}
         	}
         	$("#mspCanvas").show();
         	
@@ -306,8 +325,6 @@ CONTENT.advanced.initialize = function (callback) {
         	});
         }
         
-        
-
         if (data.CopterType > 3) {
             if (data.lapTimerTypeAndInterface == 18 || data.lapTimerTypeAndInterface == 19) {
                 data.lapTimerTypeAndInterface = 0;
